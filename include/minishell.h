@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/15 11:48:00 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/16 14:25:23 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 //Library for environment
 # include <readline/readline.h>
 # include <readline/history.h>
+//boolean
+# include <stdbool.h>
 
 # define TRUE 0
 # define FALSE 1
@@ -38,6 +40,7 @@ typedef struct s_data
 	t_env	*env;
 	char	**path;
 	char	*input;
+	t_lexer	*lexer;
 }			t_data;
 
 void	get_pwd(t_data *data);

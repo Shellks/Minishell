@@ -6,7 +6,7 @@
 #    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:01:55 by nibernar          #+#    #+#              #
-#    Updated: 2023/06/13 15:42:54 by nibernar         ###   ########.fr        #
+#    Updated: 2023/06/16 14:19:09 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS		=	ft_bzero.c		\
 				ft_atoi.c		\
 				ft_calloc.c		\
 				ft_strdup.c		\
+				ft_strndup.c		\
 				ft_substr.c		\
 				ft_strjoin.c	\
 				ft_strtrim.c	\

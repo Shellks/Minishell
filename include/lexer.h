@@ -6,12 +6,18 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/14 18:10:19 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:20:44 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
+
+# define PRINT_PIPE					"PIPE"
+# define PRINT_INFILE				"INFILE"
+# define PRINT_HERE_DOC				"HERE_DOC"
+# define PRINT_OUTFILE				"OUTFILE"
+# define PRINT_OUTFILE_APPEND		"OUTFILE_APPEND"
 
 typedef enum	s_token
 {
