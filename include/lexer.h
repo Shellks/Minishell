@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/16 14:20:44 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:42:01 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef enum	s_token
 	HERE_DOC,
 	OUTFILE,
 	OUTFILE_APPEND,
+	WORD,
 }				e_token;
 
 typedef struct s_lexer

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/16 14:25:23 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:10:23 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_data
 void	get_pwd(t_data *data);
 void	ft_free_split(t_data *data);
 void	set_env(t_data *data, char **env);
+int		build_cmd(int i, char *str, t_data *data);
 void	ft_free(t_data	*data, int	error, char *msg);
 void	parsing(t_data	*data, char **argv, char **envp);
 

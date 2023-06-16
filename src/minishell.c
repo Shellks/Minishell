@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/16 14:26:49 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:01:43 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	print_lexer(t_lexer **lexer)
 	tmp = *lexer;
 	while (tmp)
 	{
-		printf("char : %s|\n", tmp->word);
 		debugToken(tmp->token);
 		tmp = tmp->next;
 	}
@@ -118,19 +117,6 @@ int	skipe_space(int	i, char *str)
 	return (i);
 }
 
-int	build_cmd(int i, char *str, t_data *data)
-{
-	int	j;
-	t_lexer *tmp;
-
-	(void) data;
-	j = 0;
-	while (str[i + j] && str[i + j] != ' ')
-		j++;
-	tmp = ft_lexer_new(ft_strndup(&str[i], j), 0, 0);
-	return (i + j);
-}
-
 void	lexer(t_data *data)
 {
 	int	i;
@@ -146,6 +132,7 @@ void	lexer(t_data *data)
 			i = build_cmd(i, data->input, data);
 	}
 	print_lexer(&data->lexer);
+//	ft_lexer_clear(&data->lexer);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -154,22 +141,14 @@ int	main(int argc, char **argv, char **env)
 	t_env	*tmp;
 	int	i;
 
-	//env[0] = NULL;
-	if (argc != 2)
+//	env[0] = NULL;
+	if (argc != 1)
 	{
 		//printf("error\n");
 		return (0);
 	}
 	
 	parsing(&data, argv, env);
-	while (1)
-	{
-		data.input = readline("Minishell > ");
-		add_history(data.input);
-		lexer(&data);
-		//dprintf(2, "|%s|\n", data.input);
-		free (data.input);
-	}
 	tmp = data.env;
 	while (tmp)
 	{
@@ -181,7 +160,15 @@ int	main(int argc, char **argv, char **env)
 	{
 		while (data.path[++i])
 			printf("path_line[%d] : %s\n", i, data.path[i]);
-		ft_free_split(&data);
+//		ft_free_split(&data);
+	}
+	while (1)
+	{
+		data.input = readline("Minishell > ");
+		add_history(data.input);
+		lexer(&data);
+		//dprintf(2, "|%s|\n", data.input);
+		free (data.input);
 	}
 	ft_env_clear(&data.env);
 }
