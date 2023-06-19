@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/06/15 11:47:30 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/06/19 15:31:22 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,14 @@ CFLAGS = -Wall -Wextra -Werror -o2 -g3
 CC = cc
 HEADER = ./include
 
-SRCS =	src/minishell.c \
-		src/parsing.c \
-		src/get_pwd.c \
-		src/get_env.c \
-		utils/ft_free.c \
+SRCS =	src/minishell.c 					\
+		src/parsing.c 						\
+		src/get_pwd.c 						\
+		src/get_env.c 						\
+		src/lexer.c							\
+		src/lexer_bis.c							\
+		src/print_lexer.c 					\
+		utils/ft_free.c 					\
 		list/lexer/ft_lexer_add_back.c		\
 		list/lexer/ft_lexer_add_front.c		\
 		list/lexer/ft_lexer_clear.c			\

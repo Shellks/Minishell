@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/15 10:31:04 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/19 16:39:06 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static	int		get_path(t_data *data)
+static	int	get_path(t_data *data)
 {
 	t_env	*tmp;
 
@@ -39,7 +39,7 @@ static t_env	*get_env(char *env)
 	int		len;
 	int		i;
 	int		j;
-	
+
 	len = 0;
 	i = -1;
 	while (env[len] != '=')
@@ -54,7 +54,7 @@ static t_env	*get_env(char *env)
 		len++;
 	content = (char *)ft_calloc(sizeof(char *), (len - i));
 	if (!content)
-		return (free(name) , NULL);
+		return (free(name), NULL);
 	j = -1;
 	while (++i < len)
 		content[++j] = env[i];
@@ -64,7 +64,7 @@ static t_env	*get_env(char *env)
 void	set_env(t_data *data, char **env)
 {
 	t_env	*new;
-	int	i;
+	int		i;
 
 	i = 0;
 	data->env = NULL;

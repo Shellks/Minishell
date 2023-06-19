@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:05:05 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/15 10:07:07 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/19 16:39:42 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	create_old_pwd(t_data *data)
 	char	*name;
 	char	*content;
 	t_env	*new;
-	
+
 	name = ft_strdup("OLDPWD");
 	if (!name)
 		return (FALSE);
@@ -34,7 +34,7 @@ static int	create_pwd(t_data *data)
 	char	*name;
 	char	*content;
 	t_env	*new;
-	
+
 	name = ft_strdup("PWD");
 	if (!name)
 		return (FALSE);
