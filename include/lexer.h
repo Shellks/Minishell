@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/16 19:42:01 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/19 14:34:37 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef enum	s_token
 	OUTFILE,
 	OUTFILE_APPEND,
 	WORD,
+	EXPAND,
+	
 }				e_token;
 
 typedef struct s_lexer

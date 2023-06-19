@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/16 20:01:43 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/19 16:59:14 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,13 @@ void	lexer(t_data *data)
 	{
 		if (data->input[i] == ' ')
 			i = skipe_space(i, data->input);
+//		printf("%c\n", data->input[i]);
+		if (data->input[i] == 34 || data->input[i] == 39)
+		{
+			i = check_quote(data, i);
+			if (i == FALSE)
+				return ;
+		}
 		if (check_token(i, data->input) == true)
 			i = build_token(i, data->input, data);
 		else
@@ -165,6 +172,12 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		data.input = readline("Minishell > ");
+		if (!data.input)
+		{
+			ft_env_clear(&data.env);
+			printf("exit\n");
+			return (0);
+		}
 		add_history(data.input);
 		lexer(&data);
 		//dprintf(2, "|%s|\n", data.input);

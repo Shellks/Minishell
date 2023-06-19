@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lexer_new.c                                     :+:      :+:    :+:   */
+/*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 17:57:28 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/19 10:32:09 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
+/*   Updated: 2023/06/19 16:35:52 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
-t_lexer	*ft_lexer_new(char *word, e_token token, int index)
+void	ft_expand(t_data *data, int i)
 {
-	t_lexer	*new;
-
-	new = malloc(sizeof(t_lexer));
-	if (!new)
-		return (0);
-	new->word = word;
-	new->token = token;
-	new->index = index;
-	new->next = NULL;
-	new->previous = NULL;
-	return (new);
+	(void)data;
+	(void)i;
 }

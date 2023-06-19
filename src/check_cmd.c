@@ -6,107 +6,108 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:35:41 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/16 20:03:30 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/19 17:23:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int is_builtin_command(char *cmd) 
-{
-	char	**builtin_command;
-	char 	*str_builtin;
-	int		i;
-	int		len;
+// int is_builtin_command(char *cmd) 
+// {
+// 	char	**builtin_command;
+// 	char 	*str_builtin;
+// 	int		i;
+// 	int		len;
 
-	str_builtin = (char *)malloc(sizeof(char) * 93);
-	if (!str_builtin)
-		return (false);
-	str_builtin = "alias|history|source|.|type|jobs|fg|bg|kill|umask|exec|\
-	readonly|set|shift|test|[|true|false";
-	builtin_command = ft_split(str_builtin, '|');
-	if (!builtin_command)
-		return (false);
-	len = ft_strlen(cmd);
-	i = -1;
-	while(builtin_command[++i])
-	{
-		if (ft_strncmp(builtin_command[i], cmd, len) == 0)
-		{
-			printf("minishell: %s is a builtin command\n", cmd);
-			return (true);
-		}
-	}
-	return (false);
-}
+// 	str_builtin = (char *)malloc(sizeof(char) * 93);
+// 	if (!str_builtin)
+// 		return (FALSE);
+// 	str_builtin = "alias|history|source|.|type|jobs|fg|bg|kill|umask|exec|\
+// 	readonly|set|shift|test|[|TRUE|FALSE";
+// 	builtin_command = ft_split(str_builtin, '|');
+// 	if (!builtin_command)
+// 		return (FALSE);
+// 	len = ft_strlen(cmd);
+// 	i = -1;
+// 	while(builtin_command[++i])
+// 	{
+// 		if (ft_strncmp(builtin_command[i], cmd, len) == 0)
+// 		{
+// 			printf("minishell: %s is a builtin command\n", cmd);
+// 			return (TRUE);
+// 		}
+// 	}
+// 	return (FALSE);
+// }
 
-int	get_cmd(t_data *data, char *cmd)
-{
-	char	*temp;
-	char	*cmd2;
-	int		i;
+// int	get_cmd(t_data *data, char *cmd)
+// {
+// 	char	*temp;
+// 	int		i;
 
-	i = -1;
-	if (access(cmd, 0) == 0)
-		return	(true);
-	if (cmd[0] == '/')
-		return (true);
-	while (data->path[++i])
-	{
-		temp = ft_strjoin(data->path[i], "/");
-		if (temp == NULL)
-			return (false);
-		cmd2 = ft_strjoin(temp, cmd);
-		if (cmd2 == NULL)
-			return(free(temp), false);
-		free (temp);
-		if (access(cmd2, 0) == 0)
-			return (true);
-		free (cmd2);
-	}
-	return (false);
-}
+// 	data->cmd_path = NULL;
+// 	if (access(cmd, 0) == 0)
+// 		return	(TRUE);
+// 	if (cmd[0] == '/')
+// 		return (TRUE);
+// 	i = -1;
+// 	while (data->path[++i])
+// 	{
+// 		temp = ft_strjoin(data->path[i], "/");
+// 		if (temp == NULL)
+// 			return (FALSE);
+// 		data->cmd_path = ft_strjoin(temp, cmd);
+// 		if (data->cmd_path == NULL)
+// 			return(free(temp), FALSE);
+// 		free (temp);
+// 		if (access(data->cmd_path, 0) == 0)
+// 			return (TRUE);
+// 		free(data->cmd_path);
+// 	}
+// 	return (FALSE);
+// }
 
-int	check_cmd(t_data *data, char *cmd)
-{	
-//	ft_lexer_last(data->lexer);
-//	printf("%s\n", data->lexer[1].word);
-	if (is_builtin_command(cmd) == true)
-		return (false);
-	else if (ft_strncmp(cmd, "cd", 2) == 0)
-		return (true);
-	else if (ft_strncmp(cmd, "export", 6) == 0)
-		return (true);
-	else if (ft_strncmp(cmd, "unset", 5) == 0)
-		return (true);
-	else if (ft_strncmp(cmd, "exit", 5) == 0)
-		return (true);
-	if (!data->path)
-		return (false);
-	else
-		if (get_cmd(data, cmd) == true)
-			return (true);
-	return (false);
-}
+// int	check_cmd(t_data *data, char *cmd)
+// {	
+// //	ft_lexer_last(data->lexer);
+// //	printf("%s\n", data->lexer[1].word);
+// 	// if (is_builtin_command(cmd) == TRUE)
+// 	// 	return (FALSE);
+// 	// if (ft_env_size(data->env) == 2)
+// 	// 	return (FALSE);
+// 	if (ft_strncmp(cmd, "cd", 2) == 0)
+// 		return (TRUE);
+// 	else if (ft_strncmp(cmd, "export", 6) == 0)
+// 		return (TRUE);
+// 	else if (ft_strncmp(cmd, "unset", 5) == 0)
+// 		return (TRUE);
+// 	else if (ft_strncmp(cmd, "exit", 5) == 0)
+// 		return (TRUE);
+// 	if (!data->path)
+// 		return (FALSE);
+// 	else
+// 		if (get_cmd(data, cmd) == TRUE)
+// 			return (TRUE);
+// 	return (FALSE);
+// }
 
 int	build_cmd(int i, char *str, t_data *data)
 {
 	int	j;
 	t_lexer *tmp;
+	char	*temp;
 
-	(void) data;
+	data->lexer = NULL;
 	j = 0;
-	while (str[i + j] && str[i + j] != ' ')
+	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34 && str[i + j] != 39)
 		j++;
-	printf("%d\n", j);
-	tmp = ft_lexer_new(ft_strndup(&str[i], j), WORD, 0);
-	if (tmp == 0)
-		return (false);
-	if (check_cmd(data, tmp->word) == false)
-	{
-		printf("minishell: command not found: %s\n", tmp->word);
-		return (i + j);
-	}
+	temp = ft_strndup(&str[i], j);
+	while(temp[j])
+		if (temp[j] == '$')
+			ft_expand(data, j);
+	tmp = ft_lexer_new(temp, WORD, 0);
+	if (!tmp)
+		ft_free(data, ERR_MALLOC, "Malloc error", 2);
 	ft_lexer_add_back(&data->lexer, tmp);
 	printf("char : %s|\n", tmp->word);
 	return (i + j);
