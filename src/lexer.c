@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/06/20 16:50:05 by nibernar         ###   ########.fr       */
+=======
+/*   Updated: 2023/06/20 16:47:32 by acarlott         ###   ########lyon.fr   */
+>>>>>>> Prod
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,18 +119,23 @@ void	lexer(t_data *data)
 	data->quote_error = 0;
 	while (data->input[i] != '\0')
 	{
-		// if (data->input[i] == 34 || data->input[i] == 39)
-		// {
-		// 	i = check_quote(data, i);
-		// 	if (data->quote_error == FALSE)
-		// 		return ;
-		// }
-		if (data->input[i] == ' ')
+//		printf("input : %c\n", data->input[i]);
+		if (data->input[i] == 34 || data->input[i] == 39)
+		{
+			i = check_quote(data, i);
+			if (data->quote_error == FALSE)
+			{
+				printf("Syntax error\n");
+				return ;
+			}
+		}
+		else if (data->input[i] == ' ')
 			i = skipe_space(i, data->input, data);
-		if (check_token(i, data->input) == true)
+		else if (check_token(i, data->input) == true)
 			i = build_token(i, data->input, data);
 		else if (data->input[i] != ' ' && data->input[i] != 0)
 			i = build_cmd(i, data->input, data);
+//		printf("valeur de i : %d\n", i);
 		data->index++;
 	}
 	print_lexer(&data->lexer);
