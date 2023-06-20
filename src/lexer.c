@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/20 16:03:14 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:44:20 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,38 +36,12 @@ static int	skipe_space(int i, char *str, t_data *data)
 	{
 		tmp = ft_lexer_new(NULL, DELIMITER, data->index);
 		ft_lexer_add_back(&data->lexer, tmp);
+		data->index++;
 	}
 	while (str[i] && str[i] == ' ')
 		i++;
 	return (i);
 }
-// void	expand(t_lexer *lexer)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (lexer->word[i])
-// 	{
-// 		if (lexer->word[i] != '$')
-// 			i++;
-// 		if (lexer->word[i] == '$')
-// 			i = check_expand_env
-// 		i++;
-// 	}
-	// if (lexer->word[0] == '$')
-	// {
-	// 	if (lexer->word[1] == '?')
-	// 		lexer->expand = EXPAND_CODE;
-	// 	else
-	// 		lexer->expand = EXPAND;
-
-	// }
-	// else
-	// 	lexer->expand = NOT_EXPAND;
-}
-
-
-
 
 static int	build_cmd(int i, char *str, t_data *data)
 {
@@ -82,10 +56,10 @@ static int	build_cmd(int i, char *str, t_data *data)
 	temp = ft_strndup(&str[i], j);
 	// while(temp[j])
 	// 	if (temp[j] == '$')
+	// 		ft_expand(data, j);
 	tmp = ft_lexer_new(temp, WORD, data->index);
 	if (!tmp)
 		ft_free(data, ERR_MALLOC, "Malloc error", 2);
-	expand(tmp);
 	ft_lexer_add_back(&data->lexer, tmp);
 	return (i + j);
 }
@@ -115,18 +89,23 @@ void	lexer(t_data *data)
 	data->quote_error = 0;
 	while (data->input[i] != '\0')
 	{
-		// if (data->input[i] == 34 || data->input[i] == 39)
-		// {
-		// 	i = check_quote(data, i);
-		// 	if (data->quote_error == FALSE)
-		// 		return ;
-		// }
-		if (data->input[i] == ' ')
+//		printf("input : %c\n", data->input[i]);
+		if (data->input[i] == 34 || data->input[i] == 39)
+		{
+			i = check_quote(data, i);
+			if (data->quote_error == FALSE)
+			{
+				printf("Syntax error\n");
+				return ;
+			}
+		}
+		else if (data->input[i] == ' ')
 			i = skipe_space(i, data->input, data);
-		if (check_token(i, data->input) == true)
+		else if (check_token(i, data->input) == true)
 			i = build_token(i, data->input, data);
 		else if (data->input[i] != ' ' && data->input[i] != 0)
 			i = build_cmd(i, data->input, data);
+//		printf("valeur de i : %d\n", i);
 		data->index++;
 	}
 	print_lexer(&data->lexer);
