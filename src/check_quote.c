@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/20 13:18:50 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:35:01 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ int	check_quote(t_data *data, int i)
 
 	quote = data->input[i];
 	j = i;
-	if (i > 1)
-		i++;
+	i++;
 	while (data->input[i] && data->input[i] != quote)
 	{
 		i++;
@@ -53,11 +52,10 @@ int	check_quote(t_data *data, int i)
 	if (data->input[i] == quote)
 	{
 		get_string_quote(data, j, quote);
-		return (i + j);
+		return (i + 1);
 	}
-	if (!data->input[i])
-		return(printf("Syntax error\n"), FALSE);
-	printf("Test\n");
-	data->quote_error = 1;
-	return (i + j + 1);
+	else
+		data->quote_error = 1;
+//	printf("le dernier input : %c\n", data->input[i]);
+	return (i + 1);
 }
