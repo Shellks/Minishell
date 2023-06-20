@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:12:58 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/19 16:07:05 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:37:46 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ static void	debug_token_2(int tokenType)
 			dprintf(2, "token: %s\n", PRINT_DELIMITER);
 			break ;
 		}
+		case 7:
+		{
+			dprintf(2, "token: %s\n", PRINT_WORD);
+			break ;
+		}
 		default :
 			break ;
 	}
@@ -77,6 +82,7 @@ void	print_lexer(t_lexer **lexer)
 {
 	t_lexer	*tmp;
 
+	tmp = NULL;
 	tmp = *lexer;
 	while (tmp)
 	{

@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 14:15:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/19 18:11:00 by nibernar         ###   ########.fr       */
+/*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
+/*   Updated: 2023/06/19 16:35:52 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-char	*ft_strndup(const char *s, int len)
+void	ft_expand(t_data *data, int i)
 {
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = (char *)ft_calloc(sizeof(char), (len + 1));
-	if (!str)
-		return (0);
-	while (i < len)
-	{
-		str[i] = s[i];
-		i++;
-	}
-	return (str);
+	(void)data;
+	(void)i;
 }

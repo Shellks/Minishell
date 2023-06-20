@@ -6,7 +6,7 @@
 #    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/06/19 15:31:22 by nibernar         ###   ########.fr        #
+#    Updated: 2023/06/19 18:18:05 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,12 @@ SRCS =	src/minishell.c 					\
 		src/get_pwd.c 						\
 		src/get_env.c 						\
 		src/lexer.c							\
-		src/lexer_bis.c							\
+		src/lexer_bis.c						\
 		src/print_lexer.c 					\
 		utils/ft_free.c 					\
+		src/check_cmd.c 					\
+		src/check_quote.c 					\
+		src/ft_expand.c 					\
 		list/lexer/ft_lexer_add_back.c		\
 		list/lexer/ft_lexer_add_front.c		\
 		list/lexer/ft_lexer_clear.c			\
@@ -65,7 +68,7 @@ lib: force
 ${NAME} : lib ${OBJS} ${LIBFT_LIB}
 	echo "\033[1;34m\nCreate: \033[1;33mMinishell"
 	${CC} ${CFLAGS} ${OBJS} ${LIBFT_LIB} -o ${NAME} -lreadline
-	echo "\033[1;32mSucces !\n"
+	echo "\033[1;32mSucces !\n\033[0m"
 
 
 	

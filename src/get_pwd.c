@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:05:05 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/19 16:39:42 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/19 18:11:29 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,5 @@ void	get_pwd(t_data *data)
 	}
 	if (flag != 3)
 		if (set_pwd(data, flag) == FALSE)
-			ft_free(data, ERR_MALLOC, "Malloc_error");
+			ft_free(data, ERR_MALLOC, "Malloc_error", 1);
 }

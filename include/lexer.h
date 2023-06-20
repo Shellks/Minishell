@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/19 17:08:08 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:37:20 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define PRINT_OUTFILE				"OUTFILE"
 # define PRINT_OUTFILE_APPEND		"OUTFILE_APPEND"
 # define PRINT_DELIMITER			"SPACE"
+# define PRINT_WORD					"WORD"
+# define PRINT_EXPAND				"EXPAND"
 
 typedef enum e_token
 {
@@ -30,7 +32,10 @@ typedef enum e_token
 	OUTFILE,
 	OUTFILE_APPEND,
 	DELIMITER,
-}	t_token;
+	WORD,
+	EXPAND,
+	
+}				t_token;
 
 typedef struct s_lexer
 {

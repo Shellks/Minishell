@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/19 16:36:12 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/20 10:55:24 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	parser(t_data *data)
 {
 	t_lexer	*tmp;
-	int		i;
+	int	i;
 
 	i = 0;
 	tmp = data->lexer;
@@ -28,6 +28,7 @@ void	parser(t_data *data)
 	}
 	dprintf(2, "pipe : %d\n", data->pipe);
 }
+//du coup j'ai la fonction lexer. j'arrive a creer une liste chainee. j'arrive a rentrer le token et la string de l commende mais je fait 0 check si l'argument que je rentre dans ma liste chainee est valide
 
 int	main(int argc, char **argv, char **env)
 {
@@ -41,26 +42,32 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	}
 	parsing(&data, argv, env);
+	tmp = data.env;
+	// while (tmp)
+	// {
+	// 	printf("%s : %s\n", tmp->name, tmp->content);
+	// 	tmp = tmp->next;
+	// }
+	i = -1;
+// 	if (data.path)
+// 	{
+// 		while (data.path[++i])
+// 			printf("path_line[%d] : %s\n", i, data.path[i]);
+// //		ft_free_split(&data);
+// 	}
 	while (1)
 	{
 		data.input = readline("Minishell > ");
+		if (!data.input)
+		{
+			ft_env_clear(&data.env);
+			printf("exit\n");
+			return (0);
+		}
 		add_history(data.input);
 		lexer(&data);
-		parser(&data);
+		//dprintf(2, "|%s|\n", data.input);
 		free (data.input);
-	}
-	tmp = data.env;
-	while (tmp)
-	{
-		printf("%s : %s\n", tmp->name, tmp->content);
-		tmp = tmp->next;
-	}
-	i = -1;
-	if (data.path)
-	{
-		while (data.path[++i])
-			printf("path_line[%d] : %s\n", i, data.path[i]);
-		ft_free_split(&data);
 	}
 	ft_env_clear(&data.env);
 }

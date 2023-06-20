@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/19 16:41:36 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:51:35 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define TRUE 0
 # define FALSE 1
 # define ERR_MALLOC 2
+# define ERR_SYNTAX 3
 
 typedef struct s_data
 {
@@ -39,7 +40,9 @@ typedef struct s_data
 	t_env	*old_pwd;
 	t_env	*env;
 	char	**path;
+	char	*cmd_path;
 	char	*input;
+	int		quote_error;
 	int		index;
 	t_lexer	*lexer;
 	int		pipe;
@@ -47,12 +50,13 @@ typedef struct s_data
 
 void	get_pwd(t_data *data);
 void	ft_free_split(t_data *data);
+void	ft_expand(t_data *data, int i);
+int		check_quote(t_data *data, int i);
 void	set_env(t_data *data, char **env);
-void	ft_free(t_data *data, int error, char *msg);
+void	ft_free(t_data	*data, int	error, char *msg, int nb);
 void	parsing(t_data	*data, char **argv, char **envp);
 void	lexer(t_data *data);
 int		build_token(int i, char *str, t_data *data);
-//printf lexer
 void	print_lexer(t_lexer **lexer);
 
 #endif

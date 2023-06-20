@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/19 16:39:06 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/19 18:11:21 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	set_env(t_data *data, char **env)
 	{
 		new = get_env(env[i++]);
 		if (!new)
-			ft_free(data, ERR_MALLOC, "Malloc_error");
+			ft_free(data, ERR_MALLOC, "Malloc_error", 1);
 		ft_env_add_back(&data->env, new);
 	}
 	get_pwd(data);
 	if (get_path(data) == ERR_MALLOC)
-		ft_free(data, ERR_MALLOC, "Malloc_error");
+		ft_free(data, ERR_MALLOC, "Malloc_error", 1);
 }
