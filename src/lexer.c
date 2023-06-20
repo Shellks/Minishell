@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/20 16:03:14 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:27:58 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	skipe_space(int i, char *str, t_data *data)
 	// }
 	// else
 	// 	lexer->expand = NOT_EXPAND;
-}
+//}
 
 
 
@@ -85,7 +85,7 @@ static int	build_cmd(int i, char *str, t_data *data)
 	tmp = ft_lexer_new(temp, WORD, data->index);
 	if (!tmp)
 		ft_free(data, ERR_MALLOC, "Malloc error", 2);
-	expand(tmp);
+	//expand(tmp);
 	ft_lexer_add_back(&data->lexer, tmp);
 	return (i + j);
 }
