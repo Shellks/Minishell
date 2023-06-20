@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/20 16:44:20 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/20 16:47:32 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	skipe_space(int i, char *str, t_data *data)
 	{
 		tmp = ft_lexer_new(NULL, DELIMITER, data->index);
 		ft_lexer_add_back(&data->lexer, tmp);
-		data->index++;
 	}
 	while (str[i] && str[i] == ' ')
 		i++;
