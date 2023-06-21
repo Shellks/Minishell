@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 12:56:02 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/21 18:09:01 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **env)
 // 	}
 	while (1)
 	{
-		data.input = readline(GREEN"Minishell > "RESET);
+		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{
 			ft_env_clear(&data.env);

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand.c                                        :+:      :+:    :+:   */
+/*   ft_expand_in_quote.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/21 18:34:44 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
+/*   Updated: 2023/06/21 18:04:53 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	create_expand(t_data *data, t_env *env, char *str)
+static void	create_expand_quote(t_data *data, t_env *env, char *str)
 {
 	char	*tmp1;
 	char	*tmp2;
@@ -42,11 +42,11 @@ static void	create_expand(t_data *data, t_env *env, char *str)
 		if (!tmp2)
 			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
 	}
-	ft_lexer_last(data->lexer)->word = tmp2;
+	data->lexer->word = tmp2;
 //	printf("new_tmp = %s\n", data->lexer->word);
 }
 
-static bool	check_expand(t_data *data, t_env *env, char *s1)
+static bool	check_expand_quote(t_data *data, t_env *env, char *s1)
 {
 	int	i;
 
@@ -67,34 +67,30 @@ static bool	check_expand(t_data *data, t_env *env, char *s1)
 	return (false);
 }
 
-static void	get_expand(t_data *data, char *s1)
+static void	get_expand_quote(t_data *data, char *s1)
 {
-	t_lexer	*end;
 	t_env	*env;
 	char	*tmp;
 	int		i;
 
 	env = data->env;
 	i = 0;
-	end = ft_lexer_last(data->lexer);
 	while (env)
 	{
-		if (check_expand(data, env, s1) == true)
-			create_expand(data, env, end->word);
+		if (check_expand_quote(data, env, s1) == true)
+			create_expand_quote(data, env, data->lexer->word);
 		else
 		{
-			while (end->word[i] && end->word[i] != '$')
+			while (data->lexer->word[i] && data->lexer->word[i] != '$')
 				i++;
-			tmp = ft_strndup(end->word, i);
-			end->word = tmp;
+			tmp = ft_strndup(data->lexer->word, i);
+			data->lexer->word = tmp;
 		}
 		env = env->next;
 	}
 }
-// si num apres $ skip le num et aff le rest ex : $12345 = 2345
 
-
-void	expand(t_data *data, char *str)
+void	expand_in_quote(t_data *data, char *str)
 {
 	int		i;
 	char	*tmp;
@@ -108,7 +104,7 @@ void	expand(t_data *data, char *str)
 			while (str[i] == '$' && str[i + 1] == '$')
 				i++;
 			if (str[i] == '$' && str[i + 1] != '\0')
-				get_expand(data, &str[i + 1]);
+				get_expand_quote(data, &str[i + 1]);
 			i++;
 		}
 	}

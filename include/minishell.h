@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 14:35:23 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:08:54 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <stdbool.h>
 
 
-# define GREEN "\x1b[36;1m"
+# define COLOR "\x1b[36;1m"
 # define RESET "\x1b[0m"
 # define TRUE 0
 # define FALSE 1
@@ -52,16 +52,18 @@ typedef struct s_data
 	int		pipe;
 }			t_data;
 
+void	lexer(t_data *data);
 void	get_pwd(t_data *data);
+bool	find_dollar(char *str);
 void	ft_fusion(t_data *data);
 void	ft_free_split(t_data *data);
-int		check_quote(t_data *data, int i);
-void	set_env(t_data *data, char **env);
-void	ft_free(t_data	*data, int	error, char *msg, int nb);
-void	parsing(t_data	*data, char **argv, char **envp);
-void	lexer(t_data *data);
-int		build_token(int i, char *str, t_data *data);
 void	print_lexer(t_lexer **lexer);
 void	expand(t_data *data, char *str);
+int		check_quote(t_data *data, int i);
+void	set_env(t_data *data, char **env);
+void	expand_in_quote(t_data *data, char *str);
+int		build_token(int i, char *str, t_data *data);
+void	parsing(t_data	*data, char **argv, char **envp);
+void	ft_free(t_data	*data, int	error, char *msg, int nb);
 
 #endif
