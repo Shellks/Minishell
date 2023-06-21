@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
 /*   Updated: 2023/06/21 14:35:23 by nibernar         ###   ########.fr       */
@@ -29,10 +29,14 @@
 //boolean
 # include <stdbool.h>
 
+
+# define GREEN "\x1b[36;1m"
+# define RESET "\x1b[0m"
 # define TRUE 0
 # define FALSE 1
 # define ERR_MALLOC 2
 # define ERR_SYNTAX 3
+
 
 typedef struct s_data
 {
@@ -49,6 +53,7 @@ typedef struct s_data
 }			t_data;
 
 void	get_pwd(t_data *data);
+void	ft_fusion(t_data *data);
 void	ft_free_split(t_data *data);
 int		check_quote(t_data *data, int i);
 void	set_env(t_data *data, char **env);
