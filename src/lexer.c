@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/20 16:50:05 by nibernar         ###   ########.fr       */
-=======
-/*   Updated: 2023/06/20 16:47:32 by acarlott         ###   ########lyon.fr   */
->>>>>>> Prod
+/*   Updated: 2023/06/21 15:36:12 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +41,6 @@ static int	skipe_space(int i, char *str, t_data *data)
 		i++;
 	return (i);
 }
-// void	expand(t_lexer *lexer)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (lexer->word[i])
-// 	{
-// 		if (lexer->word[i] != '$')
-// 			i++;
-// 		if (lexer->word[i] == '$')
-// 			i = check_expand_env
-// 		i++;
-// 	}
-	// if (lexer->word[0] == '$')
-	// {
-	// 	if (lexer->word[1] == '?')
-	// 		lexer->expand = EXPAND_CODE;
-	// 	else
-	// 		lexer->expand = EXPAND;
-
-	// }
-	// else
-	// 	lexer->expand = NOT_EXPAND;
-//}
-
-
-
 
 static int	build_cmd(int i, char *str, t_data *data)
 {
@@ -84,13 +53,11 @@ static int	build_cmd(int i, char *str, t_data *data)
 	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34 && str[i + j] != 39)
 		j++;
 	temp = ft_strndup(&str[i], j);
-	// while(temp[j])
-	// 	if (temp[j] == '$')
 	tmp = ft_lexer_new(temp, WORD, data->index);
 	if (!tmp)
 		ft_free(data, ERR_MALLOC, "Malloc error", 2);
-	//expand(tmp);
 	ft_lexer_add_back(&data->lexer, tmp);
+	expand(data, temp);
 	return (i + j);
 }
 
@@ -125,7 +92,7 @@ void	lexer(t_data *data)
 			i = check_quote(data, i);
 			if (data->quote_error == FALSE)
 			{
-				printf("Syntax error\n");
+				printf("Syntax error : odd number of quotes\n");
 				return ;
 			}
 		}

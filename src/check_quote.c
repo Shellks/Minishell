@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/20 15:35:01 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/21 14:37:30 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ static void	get_string_quote(t_data *data, int j, char quote)
 	while (data->input[j] && data->input[j] != quote)
 		str[i++] = data->input[j++];
 	i = 0;
-	// while (data->input[j] && data->input[j] != '$')
-	// 	if (data->input[j] == '$' && quote != 39)
-	// 		ft_expand(data, j);
+	expand(data, str);
 	tmp = ft_lexer_new(str, WORD, data->index);
 	if (!tmp)
 		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
