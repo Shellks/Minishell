@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lexer_delone.c                                  :+:      :+:    :+:   */
+/*   ft_fusion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 17:51:50 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 12:39:51 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
+/*   Updated: 2023/06/21 12:41:59 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
-void	ft_lexer_delone(t_lexer *lst)
+void	ft_fusion(t_data *data)
 {
-	if (lst)
+	t_lexer	*cur;
+	char	*str;
+	int		i;
+
+	cur = data->lexer;
+	i = 0;
+	while(cur && cur->next)
 	{
-		if (lst->previous)
-			lst->previous->next = lst->next;
-		if (lst->next)
-			lst->next->previous = lst->previous;
-		free(lst->word);
-		free(lst);
+		if (cur->token == 7 && cur->next->token == 7)
+		{
+			str = ft_strjoin(cur->word, cur->next->word);
+			if (!str)
+				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+			free(cur->word);
+			cur->word = str;
+			ft_lexer_delone(cur->next);
+		}
+		cur = cur->next;
 	}
 }

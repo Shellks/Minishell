@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/20 16:47:32 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/21 12:19:14 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,6 @@ static int	build_cmd(int i, char *str, t_data *data)
 	return (i + j);
 }
 
-
-// static int	build_cmd(int i, char *str, t_data *data)
-// {
-// 	int		j;
-// 	t_lexer	*tmp;
-
-// 	tmp = NULL;
-// 	j = 0;
-// 	while (str[i + j] && str[i + j] != ' ' && check_token(i + j, str) == false)
-// 		j++;
-// 	tmp = ft_lexer_new(ft_strndup(&str[i], j), 0, data->index);
-// 	ft_lexer_add_back(&data->lexer, tmp);
-// 	return (i + j);
-// }
-
 void	lexer(t_data *data)
 {
 	int	i;
@@ -88,7 +73,6 @@ void	lexer(t_data *data)
 	data->quote_error = 0;
 	while (data->input[i] != '\0')
 	{
-//		printf("input : %c\n", data->input[i]);
 		if (data->input[i] == 34 || data->input[i] == 39)
 		{
 			i = check_quote(data, i);
@@ -104,8 +88,8 @@ void	lexer(t_data *data)
 			i = build_token(i, data->input, data);
 		else if (data->input[i] != ' ' && data->input[i] != 0)
 			i = build_cmd(i, data->input, data);
-//		printf("valeur de i : %d\n", i);
 		data->index++;
 	}
+	ft_fusion(data);
 	print_lexer(&data->lexer);
 }

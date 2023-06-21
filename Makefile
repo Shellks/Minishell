@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/06/19 18:18:05 by nibernar         ###   ########.fr        #
+#    Updated: 2023/06/21 12:20:40 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,17 +16,18 @@ CFLAGS = -Wall -Wextra -Werror -o2 -g3
 CC = cc
 HEADER = ./include
 
-SRCS =	src/minishell.c 					\
-		src/parsing.c 						\
-		src/get_pwd.c 						\
-		src/get_env.c 						\
+SRCS =	src/minishell.c						\
+		src/parsing.c						\
+		src/get_pwd.c						\
+		src/get_env.c						\
 		src/lexer.c							\
+		src/ft_fusion.c						\
 		src/lexer_bis.c						\
-		src/print_lexer.c 					\
-		utils/ft_free.c 					\
-		src/check_cmd.c 					\
+		src/print_lexer.c					\
+		utils/ft_free.c						\
+		src/check_cmd.c						\
 		src/check_quote.c 					\
-		src/ft_expand.c 					\
+		src/ft_expand.c						\
 		list/lexer/ft_lexer_add_back.c		\
 		list/lexer/ft_lexer_add_front.c		\
 		list/lexer/ft_lexer_clear.c			\
@@ -36,9 +37,9 @@ SRCS =	src/minishell.c 					\
 		list/lexer/ft_lexer_new.c			\
 		list/lexer/ft_lexer_size.c			\
 		list/env/ft_env_add_back.c			\
-		list/env/ft_env_add_front.c 		\
-		list/env/ft_env_clear.c 			\
-		list/env/ft_env_delone.c 			\
+		list/env/ft_env_add_front.c			\
+		list/env/ft_env_clear.c				\
+		list/env/ft_env_delone.c			\
 		list/env/ft_env_first.c				\
 		list/env/ft_env_last.c				\
 		list/env/ft_env_new.c				\
