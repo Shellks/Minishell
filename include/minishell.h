@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 12:55:57 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/21 14:35:23 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_data
 void	get_pwd(t_data *data);
 void	ft_fusion(t_data *data);
 void	ft_free_split(t_data *data);
-void	ft_expand(t_data *data, int i);
 int		check_quote(t_data *data, int i);
 void	set_env(t_data *data, char **env);
 void	ft_free(t_data	*data, int	error, char *msg, int nb);
@@ -63,5 +62,6 @@ void	parsing(t_data	*data, char **argv, char **envp);
 void	lexer(t_data *data);
 int		build_token(int i, char *str, t_data *data);
 void	print_lexer(t_lexer **lexer);
+void	expand(t_data *data, char *str);
 
 #endif

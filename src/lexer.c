@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 12:19:14 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/21 15:36:12 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,11 @@ static int	build_cmd(int i, char *str, t_data *data)
 	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34 && str[i + j] != 39)
 		j++;
 	temp = ft_strndup(&str[i], j);
-	// while(temp[j])
-	// 	if (temp[j] == '$')
-	// 		ft_expand(data, j);
 	tmp = ft_lexer_new(temp, WORD, data->index);
 	if (!tmp)
 		ft_free(data, ERR_MALLOC, "Malloc error", 2);
 	ft_lexer_add_back(&data->lexer, tmp);
+	expand(data, temp);
 	return (i + j);
 }
 
@@ -78,7 +76,7 @@ void	lexer(t_data *data)
 			i = check_quote(data, i);
 			if (data->quote_error == FALSE)
 			{
-				printf("Syntax error\n");
+				printf("Syntax error : odd number of quotes\n");
 				return ;
 			}
 		}
