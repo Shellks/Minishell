@@ -6,11 +6,45 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/22 12:28:27 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/22 16:50:44 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static void	check_env_expand(t_data *data, t_env *env, char *str)
+{
+	int	i;
+	int	j;
+	int	start;
+	int	end;
+	char	*tmp1;
+	char	*tmp2;
+
+	i = 0;
+	start = 0;
+	end = 0;
+	while(env->content[i])
+	{
+		while (env->content[i] == ' ')
+			i++;
+		while (env->content && env->content[i + j] != ' ')
+			j++;
+		end = j;
+		printf("End : %d\n", end);
+		tmp1 = (char *)malloc(sizeof(char) * end);
+		if (!tmp1)
+			return ;
+		j = 0;
+		while (j < (end - i))
+		{
+			tmp[j++] = env->content[i++];
+		}
+		if (env->content)
+			start = i + j;
+		while (env->content)
+	}
+}
 
 static void	create_expand_quote(t_data *data, t_env *env, char *str)
 {
@@ -20,7 +54,6 @@ static void	create_expand_quote(t_data *data, t_env *env, char *str)
 	int		i;
 //	printf("old_tmp = %s\n", str);
 	i = 0;
-	(void)env;
 	while (str[i] && str[i] != '$')
 		i++;
 	tmp1 = ft_strndup(str, i);
