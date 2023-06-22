@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 18:35:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/22 12:27:45 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	build_cmd(int i, char *str, t_data *data)
 	if (!tmp)
 		ft_free(data, ERR_MALLOC, "Malloc error", 2);
 	ft_lexer_add_back(&data->lexer, tmp);
-	printf("i + j = %d\n", i + j);
+//	printf("i + j = %d\n", i + j);
 	expand(data, temp);
 	return (i + j);
 }

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/21 18:05:49 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/22 12:27:12 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ static void	get_string_quote(t_data *data, int j, char quote)
 	while (data->input[j] && data->input[j] != quote)
 		str[i++] = data->input[j++];
 	i = 0;
-	expand_in_quote(data, str);
+	printf("str : %s\n", str);
 	tmp = ft_lexer_new(str, WORD, data->index);
 	if (!tmp)
 		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
 	ft_lexer_add_back(&data->lexer, tmp);
+	expand_in_quote(data, str);
 }
 
 //boucle 
