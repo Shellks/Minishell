@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 18:08:54 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/23 11:37:32 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	set_env(t_data *data, char **env);
 void	expand_in_quote(t_data *data, char *str);
 int		build_token(int i, char *str, t_data *data);
 void	parsing(t_data	*data, char **argv, char **envp);
+bool	check_env_expand(t_data *data, t_env *env, char *str);
 void	ft_free(t_data	*data, int	error, char *msg, int nb);
 
 #endif

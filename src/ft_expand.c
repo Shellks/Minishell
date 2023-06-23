@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/22 12:24:36 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/23 10:58:28 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ static void	get_expand(t_data *data, char *s1)
 void	expand(t_data *data, char *str)
 {
 	int		i;
-	char	*tmp;
+	// char	*tmp;
 
-	tmp = NULL;
+	// tmp = NULL;
 	i = 0;
 	if (find_dollar(str) == true)
 	{

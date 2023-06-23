@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/22 12:05:35 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/23 10:55:51 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ void	ft_fusion(t_data *data)
 {
 	t_lexer	*cur;
 	char	*str;
-	int		i;
 
 	cur = data->lexer;
-	i = 0;
 	while(cur && cur->next)
 	{
 		if (cur->token == WORD && cur->next->token == WORD)
