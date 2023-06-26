@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/23 10:58:28 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/26 20:47:25 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,18 @@ static void	create_expand(t_data *data, t_env *env, char *str)
 	char	*tmp2;
 	int		start;
 	int		i;
-//	printf("old_tmp = %s\n", str);
+	
+	printf("old_tmp = %s\n", str);
 	i = 0;
-	(void)env;
+	printf("str[i] = %c\n", str[i]);
 	while (str[i] && str[i] != '$')
 		i++;
 	tmp1 = ft_strndup(str, i);
 	if (!tmp1)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+	printf("tmp1 = %s\n", tmp1);
+	if (check_env_expand(data, env, &str[i]) == true)
+	  	return ;
 	tmp2 = ft_strjoin(tmp1, env->content);
 	free(tmp1);
 	if (str[i])
@@ -37,13 +41,12 @@ static void	create_expand(t_data *data, t_env *env, char *str)
 		while (str[i])
 			i++;
 		tmp1 = ft_strndup(&str[start], (i - start));
-		printf("tmp1 = %s\n", tmp1);
 		tmp2 = ft_strjoin(tmp2, tmp1);
 		if (!tmp2)
 			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
 	}
 	ft_lexer_last(data->lexer)->word = tmp2;
-//	printf("new_tmp = %s\n", data->lexer->word);
+	printf("new_tmp = %s\n", data->lexer->word);
 }
 
 static bool	check_expand(t_data *data, t_env *env, char *s1)
@@ -81,7 +84,7 @@ static void	get_expand(t_data *data, char *s1)
 	{
 		if (check_expand(data, env, s1) == true)
 			create_expand(data, env, end->word);
-		else
+		else if (env->next == NULL)
 		{
 			while (end->word[i] && end->word[i] != '$')
 				i++;

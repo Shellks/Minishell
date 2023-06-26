@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:07:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/23 15:27:18 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/26 20:04:36 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	manage_space_quote(t_data *data, t_env *env, int *start)
 	int		i;
 
 	i = *start;
+	printf("env->content : |%s|\n", env->content);
 	while (env->content[i] && env->content[i] == ' ')
 		i++;
 	if (!env->content[i])
@@ -53,8 +54,9 @@ static char	*get_word_quote(t_data *data, t_env *env, int *start)
 	while (env->content[*start] && env->content[*start] != ' ')
 		*start += 1;
 //	printf("len of path : %ld\n", ft_strlen(env->content));
-	if (!env->content)
+	if (!env->content[*start])
 		return (NULL);
+	printf("Test\n");
 	end = *start - i;
 	tmp = (char *)ft_calloc(sizeof(char), end + 1);
 	if (!tmp)
@@ -68,6 +70,7 @@ static char	*get_word_quote(t_data *data, t_env *env, int *start)
 		j++;
 	}
 	tmp[j] = '\0';
+//	printf("New-Word : %s\n", tmp);
 	return (tmp);
 }
 

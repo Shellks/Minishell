@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/23 15:12:52 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/26 20:27:23 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static int	skipe_space(int i, char *str, t_data *data)
 	if (str[j] == '\0')
 		return (j);
 	tmp = NULL;
-	if (str[i] == ' ')
+	if (data->lexer == NULL)
+		return (j);
+	else
 	{
 		tmp = ft_lexer_new(NULL, DELIMITER, data->index);
 		ft_lexer_add_back(&data->lexer, tmp);
@@ -72,7 +74,9 @@ void	lexer(t_data *data)
 	data->quote_error = 0;
 	while (data->input[i] != '\0')
 	{
-		if (data->input[i] == 34 || data->input[i] == 39)
+		if (data->input[i] == ' ')
+			i = skipe_space(i, data->input, data);
+		else if (data->input[i] == 34 || data->input[i] == 39)
 		{
 			i = check_quote(data, i);
 			if (data->quote_error == FALSE)
@@ -81,12 +85,11 @@ void	lexer(t_data *data)
 				return ;
 			}
 		}
-		else if (data->input[i] == ' ')
-			i = skipe_space(i, data->input, data);
 		else if (check_token(i, data->input) == true)
 			i = build_token(i, data->input, data);
 		else if (data->input[i] != ' ' && data->input[i] != 0)
 			i = build_cmd(i, data->input, data);
+//		printf("data->input[%d] : %c\n", i, data->input[1]);
 		data->index++;
 	}
 	ft_fusion(data);

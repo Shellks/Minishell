@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/23 10:55:51 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/26 11:31:44 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_fusion(t_data *data)
 			cur->word = str;
 			ft_lexer_delone(cur->next);
 		}
-		if (cur->next == NULL || cur->next->token != WORD)
+		if (!cur || !cur->next || cur->next->token != WORD)
 			break ;
 	}
 }
