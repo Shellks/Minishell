@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/24 17:56:05 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/27 18:01:59 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,13 @@ static int	skipe_space(int i, char *str, t_data *data)
 	if (str[j] == '\0')
 		return (j);
 	tmp = NULL;
-	if (str[i] == ' ')
+	if (data->lexer == NULL)
+		return (j);
+	else
 	{
 		tmp = ft_lexer_new(NULL, DELIMITER, data->index);
+		if (!tmp)
+			ft_free(data, ERR_MALLOC, "Malloc_error", 2);
 		ft_lexer_add_back(&data->lexer, tmp);
 		data->index++;
 	}
@@ -68,11 +72,14 @@ static int	build_cmd(int i, char *str, t_data *data)
 	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34 && str[i + j] != 39)
 		j++;
 	temp = ft_strndup(&str[i], j);
+	if (!temp)
+		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
 	tmp = ft_lexer_new(temp, WORD, data->index);
 	if (!tmp)
 		ft_free(data, ERR_MALLOC, "Malloc error", 2);
 	ft_lexer_add_back(&data->lexer, tmp);
-	expand(data, temp);
+//	printf("i + j = %d\n", i + j);
+	expand(data, temp, tmp);
 	return (i + j);
 }
 
@@ -86,7 +93,9 @@ void	lexer(t_data *data)
 	data->quote_error = 0;
 	while (data->input[i] != '\0')
 	{
-		if (data->input[i] == 34 || data->input[i] == 39)
+		if (data->input[i] == ' ')
+			i = skipe_space(i, data->input, data);
+		else if (data->input[i] == 34 || data->input[i] == 39)
 		{
 			i = check_quote(data, i);
 			if (data->quote_error == FALSE)
@@ -95,12 +104,11 @@ void	lexer(t_data *data)
 				return ;
 			}
 		}
-		else if (data->input[i] == ' ')
-			i = skipe_space(i, data->input, data);
 		else if (check_token(i, data->input) == true)
 			i = build_token(i, data->input, data);
 		else if (data->input[i] != ' ' && data->input[i] != 0)
 			i = build_cmd(i, data->input, data);
+//		printf("data->input[%d] : %c\n", i, data->input[1]);
 		data->index++;
 	}
 	//ft_fusion(&data->lexer, data);

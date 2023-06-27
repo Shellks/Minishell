@@ -6,7 +6,7 @@
 #    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/06/24 14:38:25 by nibernar         ###   ########.fr        #
+#    Updated: 2023/06/27 15:16:32 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS =	src/minishell.c						\
 		src/ft_expand.c						\
 		src/ft_expand_in_quote.c			\
 		src/ft_expand_utils.c				\
+		src/ft_expand_quote_utils.c			\
 		src/lexer_bis.c						\
 		src/print_lexer.c					\
 		utils/ft_free.c						\

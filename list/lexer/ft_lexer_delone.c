@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer_delone.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:51:50 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 12:39:51 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/27 18:37:53 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

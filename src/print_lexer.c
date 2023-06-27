@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_lexer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:12:58 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/20 11:37:46 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/26 13:50:38 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	print_lexer(t_lexer **lexer)
 	tmp = *lexer;
 	while (tmp)
 	{
-		printf("char : %s\n", tmp->word);
+		printf("char : |%s|\n", tmp->word);
 		debug_token(tmp->token);
 		printf("index : %d\n", tmp->index);
 		dprintf(2, "\n\n");

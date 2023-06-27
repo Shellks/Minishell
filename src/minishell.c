@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 12:56:02 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/23 15:21:44 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	parser(t_data *data)
 {
 	t_lexer	*tmp;
-	int	i;
 
-	i = 0;
 	tmp = data->lexer;
 	data->pipe = 0;
 	while (tmp->next)
@@ -34,7 +32,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 	t_env	*tmp;
-	int		i;
+//	int		i;
 
 	if (argc != 1)
 	{
@@ -43,12 +41,12 @@ int	main(int argc, char **argv, char **env)
 	}
 	parsing(&data, argv, env);
 	tmp = data.env;
-	// while (tmp)
-	// {
-	// 	printf("%s : %s\n", tmp->name, tmp->content);
-	// 	tmp = tmp->next;
-	// }
-	i = -1;
+	while (tmp)
+	{
+		printf("%s : %s\n", tmp->name, tmp->content);
+		tmp = tmp->next;
+	}
+// 	i = -1;
 // 	if (data.path)
 // 	{
 // 		while (data.path[++i])
@@ -57,11 +55,11 @@ int	main(int argc, char **argv, char **env)
 // 	}
 	while (1)
 	{
-		data.input = readline(GREEN"Minishell > "RESET);
+		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{
-			ft_env_clear(&data.env);
 			printf("exit\n");
+			ft_env_clear(&data.env);
 			return (0);
 		}
 		add_history(data.input);

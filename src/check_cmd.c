@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 17:35:41 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/19 18:17:32 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:16:41 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // 	str_builtin = (char *)malloc(sizeof(char) * 93);
 // 	if (!str_builtin)
 // 		return (FALSE);
-// 	str_builtin = "alias|history|source|.|type|jobs|fg|bg|kill|umask|exec|\
+// 	str_builtin = "alias|history|source|.|type|jobs|fg|bg|kill|umask|exec|
 // 	readonly|set|shift|test|[|TRUE|FALSE";
 // 	builtin_command = ft_split(str_builtin, '|');
 // 	if (!builtin_command)
