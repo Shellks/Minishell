@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/27 07:13:36 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/27 12:06:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	create_expand_quote(t_data *data, t_env *env, char *str)
 	tmp2 = ft_strjoin(tmp1, env->content);
 	free(tmp1);
 	if (str[i])
-		get_next_expand_quote(data, str, tmp2, i);
+		get_next_expand(data, str, tmp2, i);
 //	printf("new_tmp = |%s|\n", data->lexer->word);
 }
 
@@ -67,7 +67,7 @@ static void	get_expand_quote(t_data *data, char *str)
 			create_expand_quote(data, env, end->word);
 			break ;
 		}
-		printf("End->word = %s\n", end->word);
+//		printf("End->word = %s\n", end->word);
 		env = env->next;
 	}
 	if (env == NULL)
@@ -87,7 +87,7 @@ void	expand_in_quote(t_data *data, char *str)
 				i++;
 			if (str[i] == '$' && str[i + 1] != '\0')
 				get_expand_quote(data, &str[i + 1]);
-			printf("str[%d] = %c\n", i, str[i]);
+//			printf("str[%d] = %c\n", i, str[i]);
 			i++;
 		}
 	}

@@ -6,13 +6,13 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/27 07:14:26 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/27 15:01:21 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	get_next_expand_quote(t_data *data, char *str, char *tmp2, int i)
+void	get_next_expand(t_data *data, char *str, char *tmp2, int i)
 {
 	char	*tmp1;
 	int		start;
@@ -43,8 +43,10 @@ void	replace_false_expand_quote(t_lexer *end)
 	if (end->word[i] == '$')
 	{
 		tmp1 = ft_strndup(end->word, i);
-		while (end->word[i] && end->word[i] != ' ')
+		i++;
+		while (end->word[i] && end->word[i] != ' ' && end->word[i] != '$')
 			i++;
+//		printf("end->word[i] = %s\n", &end->word[i]);
 		start = i;
 		while (end->word[i])
 			i++;
@@ -65,11 +67,22 @@ int	manage_space_quote(t_data *data, t_env *env, int *start)
 	while (env->content[i] && env->content[i] == ' ')
 		i++;
 	if (!env->content[i])
+	{
+		if (env->content[i - 1] == ' ')
+		{
+			new = ft_lexer_new(NULL, DELIMITER, data->index);
+			if (!new)
+				ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+			ft_lexer_add_back(&data->lexer, new);
+			data->index++;
+			*start = i; // Mettre à jour *start
+		}
 		return (FALSE);
+	}
 	else
 	{
 //		printf("Start in space : %d\n", *start);
-		if (*start != 0 && env->content[*start] == ' ')
+		if (env->content[*start] == ' ')
 		{
 			new = ft_lexer_new(NULL, DELIMITER, data->index);
 			if (!new)
@@ -134,6 +147,7 @@ bool	check_env_expand(t_data *data, t_env *env, char *str)
 		tmp = get_word_quote(data, env, &start);
 		if (!tmp)
 			return (false);
+		printf("Test\n");
 		new = ft_lexer_new(tmp, WORD, data->index);
 		if(!new)
 			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
