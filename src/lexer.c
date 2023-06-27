@@ -6,11 +6,23 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/24 14:11:28 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:56:05 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/*
+	TODO	
+			- ft_fusion probleme d'epace au debut et a la fin = SEGFAULT
+			-"$PATH $HOME $PWD" => creation d'une node suplementaire avec char :()  token : WORD  | seulemt la node du dernier est creer 
+			-'$PATH $HOME $PWD' => creation d'une node suplementaire avec char :()  token : WORD  | seulemt la node du dernier est creer 
+			-"$PATH$HOME$PWD" => creation d'une node suplementaire avec char :()  token : WORD
+			-'$PATH$HOME$PWD' => creation d'une node suplementaire avec char :()  token : WORD   | recup $PATH et non /nfs/...
+
+			
+*/
+
 
 static bool	check_token(int i, char *str)
 {
@@ -36,9 +48,12 @@ static int	skipe_space(int i, char *str, t_data *data)
 	{
 		tmp = ft_lexer_new(NULL, DELIMITER, data->index);
 		ft_lexer_add_back(&data->lexer, tmp);
+		data->index++;
 	}
 	while (str[i] && str[i] == ' ')
+	{
 		i++;
+	}
 	return (i);
 }
 
@@ -88,6 +103,7 @@ void	lexer(t_data *data)
 			i = build_cmd(i, data->input, data);
 		data->index++;
 	}
-	ft_fusion(data);
+	//ft_fusion(&data->lexer, data);
+	//ft_fusion(data);
 	print_lexer(&data->lexer);
 }

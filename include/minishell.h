@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/21 14:35:23 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:50:17 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ typedef struct s_data
 }			t_data;
 
 void	get_pwd(t_data *data);
-void	ft_fusion(t_data *data);
+// void	ft_fusion(t_data *data);
+void	ft_fusion(t_lexer **lexer, t_data *data);
 void	ft_free_split(t_data *data);
 int		check_quote(t_data *data, int i);
 void	set_env(t_data *data, char **env);
@@ -63,5 +64,8 @@ void	lexer(t_data *data);
 int		build_token(int i, char *str, t_data *data);
 void	print_lexer(t_lexer **lexer);
 void	expand(t_data *data, char *str);
+void	expand_in_quote(t_data *data, char *str);
+bool	check_env_expand(t_data *data, t_env *env, char *str);
+bool	find_dollar(char *str);
 
 #endif
