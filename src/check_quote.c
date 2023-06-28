@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/28 18:36:51 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/28 19:18:11 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_quote(t_data *data, int i)
 	}
 	if (data->input[i] == quote && quote == 34)
 	{
-		expand_in_quote(data, &data->input[j], (i - 1));
+		expand_in_quote(data, &data->input[j], (i - j));
 		return (i + 1);
 	}
 	else if (data->input[i] == quote && quote == 39)
