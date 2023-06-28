@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:07:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/27 15:36:21 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/28 18:37:57 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,51 @@
 // 	}
 // 	return (true);
 // }
+
+void	create_expand_digit(t_data *data, char *str)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	while (str[i] && str[i] != '$')
+		i++;
+	if (i == 1)
+	{
+		tmp = ft_strdup("");
+		if (!tmp)
+			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+	}
+	else
+	{
+		str++;
+		tmp = ft_strndup(str, i - 1);
+		if (!tmp)
+			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+	}
+	ft_lexer_last(data->lexer)->word = tmp;
+}
+
+int	get_word(t_data *data, char *str, int start, int stop)
+{
+	t_lexer	*new;
+	int		i;
+	char	*tmp;
+
+	i = start;
+	tmp = NULL;
+	i++;
+	while(str[i] && str[i] != '$' && str[i] != ' ' && i < stop)
+		i++;
+	i -= start;
+	tmp = ft_strndup(&str[start], i);
+	new = ft_lexer_new(tmp, WORD, data->index);
+	if (!new)
+		ft_free(data, ERR_MALLOC, "Malloc_error\n", 1);
+	ft_lexer_add_back(&data->lexer, new);
+	i += start;
+	return (i);
+}
 
 bool	find_dollar(char *str)
 {

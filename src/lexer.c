@@ -6,23 +6,11 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/27 18:01:59 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/28 18:15:08 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*
-	TODO	
-			- ft_fusion probleme d'epace au debut et a la fin = SEGFAULT
-			-"$PATH $HOME $PWD" => creation d'une node suplementaire avec char :()  token : WORD  | seulemt la node du dernier est creer 
-			-'$PATH $HOME $PWD' => creation d'une node suplementaire avec char :()  token : WORD  | seulemt la node du dernier est creer 
-			-"$PATH$HOME$PWD" => creation d'une node suplementaire avec char :()  token : WORD
-			-'$PATH$HOME$PWD' => creation d'une node suplementaire avec char :()  token : WORD   | recup $PATH et non /nfs/...
-
-			
-*/
-
 
 static bool	check_token(int i, char *str)
 {
@@ -61,25 +49,16 @@ static int	skipe_space(int i, char *str, t_data *data)
 	return (i);
 }
 
+
 static int	build_cmd(int i, char *str, t_data *data)
 {
 	int	j;
-	t_lexer *tmp;
-	char	*temp;
 
 	j = 0;
-	temp = NULL;
-	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34 && str[i + j] != 39)
+	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34 \
+			&& str[i + j] != 39 && check_token((i + j), str) == false)
 		j++;
-	temp = ft_strndup(&str[i], j);
-	if (!temp)
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
-	tmp = ft_lexer_new(temp, WORD, data->index);
-	if (!tmp)
-		ft_free(data, ERR_MALLOC, "Malloc error", 2);
-	ft_lexer_add_back(&data->lexer, tmp);
-//	printf("i + j = %d\n", i + j);
-	expand(data, temp, tmp);
+	expand(data, &str[i], j);
 	return (i + j);
 }
 
@@ -108,10 +87,8 @@ void	lexer(t_data *data)
 			i = build_token(i, data->input, data);
 		else if (data->input[i] != ' ' && data->input[i] != 0)
 			i = build_cmd(i, data->input, data);
-//		printf("data->input[%d] : %c\n", i, data->input[1]);
 		data->index++;
 	}
-	//ft_fusion(&data->lexer, data);
-	//ft_fusion(data);
+	ft_fusion(data);
 	print_lexer(&data->lexer);
 }

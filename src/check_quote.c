@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/27 15:18:44 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/28 18:36:51 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static void	get_string_quote(t_data *data, int j, int len, char quote)
 		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
 	ft_lexer_add_back(&data->lexer, tmp);
 //	printf("STR == %s\n", str);
-	if (quote == 34)
-		expand_in_quote(data, str);
 }
 
 int	check_quote(t_data *data, int i)
@@ -45,17 +43,19 @@ int	check_quote(t_data *data, int i)
 	int		j;
 
 	quote = data->input[i];
-	j = i;
+	j = (i + 1);
 	i++;
 	while (data->input[i] && data->input[i] != quote)
 	{
 		i++;
 	}
-	if (data->input[i] == quote)
+	if (data->input[i] == quote && quote == 34)
 	{
-		get_string_quote(data, j, (i - j), quote);
+		expand_in_quote(data, &data->input[j], (i - 1));
 		return (i + 1);
 	}
+	else if (data->input[i] == quote && quote == 39)
+		get_string_quote(data, j, (i - j), quote);
 	else
 		data->quote_error = 1;
 	return (i + 1);

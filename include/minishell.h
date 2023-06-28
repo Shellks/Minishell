@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/27 18:03:19 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/28 18:38:37 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,19 @@ typedef struct s_data
 void	lexer(t_data *data);
 void	get_pwd(t_data *data);
 bool	find_dollar(char *str);
-void	ft_fusion(t_data *data);
 void	ft_free_split(t_data *data);
 void	print_lexer(t_lexer **lexer);
 int		check_quote(t_data *data, int i);
 void	set_env(t_data *data, char **env);
+void	ft_fusion(t_data *data);
 void	replace_false_expand_quote(t_lexer *end);
-void	expand_in_quote(t_data *data, char *str);
+void	create_expand_digit(t_data *data, char *str);
 int		build_token(int i, char *str, t_data *data);
 void	print_lexer(t_lexer **lexer);
-void	expand(t_data *data, char *str, t_lexer *old);
-void	expand_in_quote(t_data *data, char *str);
+int		expand(t_data *data, char *str, int i);
+int		expand_in_quote(t_data *data, char *str, int i);
 void	check_env_expand(t_data *data, t_env *env, char *str);
+int		get_word(t_data *data, char *str, int start, int stop);
 bool	find_dollar(char *str);
 void	parsing(t_data	*data, char **argv, char **envp);
 void	ft_free(t_data	*data, int	error, char *msg, int nb);

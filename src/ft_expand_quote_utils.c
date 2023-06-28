@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/27 15:54:16 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:11:40 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	manage_space_quote(t_data *data, t_env *env, int *start)
 	int		i;
 
 	i = *start;
-	printf("env->content : |%s|\n", env->content);
+//	printf("env->content : |%s|\n", env->content);
 	while (env->content[i] && env->content[i] == ' ')
 		i++;
 	if (!env->content[i])
