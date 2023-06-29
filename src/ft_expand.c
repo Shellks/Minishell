@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/28 19:11:12 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/29 14:54:48 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ static void	get_expand(t_data *data, char *str)
 {
 	t_lexer	*end;
 	t_env	*env;
-	int		i;
 
 	env = data->env;
 	end = ft_lexer_last(data->lexer);
-	i = 0;
 	while (env)
 	{
 		if (check_expand(data, env, str) == true)
@@ -73,6 +71,37 @@ static void	get_expand(t_data *data, char *str)
 	}
 	if (env == NULL)
 		replace_false_expand_quote(end);
+}
+
+void	expand_status(t_data *data, char *str)
+{
+	(void)data;
+	char	*err_code;
+	char	*tmp;
+	int		start;
+	int		i;
+
+	i = 0;
+	if (str[i] == '?')
+		i++;
+	start = i;
+	while (str[i])
+		i++;
+	tmp = ft_strndup(&str[start], i);
+	if (!tmp)
+		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
+	err_code = ft_itoa(g_status);
+	if (!err_code)
+		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
+	tmp = ft_strjoin(err_code, tmp);
+	printf("tmp : %s\n", tmp);
+	if (!tmp)
+	{
+		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
+		free(err_code);
+	}
+	ft_lexer_last(data->lexer)->word = tmp;
+	printf("lexer : %s\n", str);
 }
 
 int		expand(t_data *data, char *str, int i)
@@ -93,7 +122,7 @@ int		expand(t_data *data, char *str, int i)
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
 			get_expand(data, &cur->word[1]);
 		if (cur->word[0] == '$' && cur->word[1] == '?')
-			dprintf(2, "aff du code err %s\n", &cur->word[i]);
+			expand_status(data, &cur->word[1]);
 		if (cur->word[0] == '$' && ft_isdigit(cur->word[1]) == 1)
 			create_expand_digit(data, &cur->word[1]);
 	}

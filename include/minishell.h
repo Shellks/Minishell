@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/28 18:38:37 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:45:18 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <readline/history.h>
 //boolean
 # include <stdbool.h>
+# include "parser.h"
 
 
 # define COLOR "\x1b[36;1m"
@@ -37,19 +38,21 @@
 # define ERR_MALLOC 2
 # define ERR_SYNTAX 3
 
+extern int g_status;
 
 typedef struct s_data
 {
-	t_env	*pwd;
-	t_env	*old_pwd;
-	t_env	*env;
-	char	**path;
-	char	*cmd_path;
-	char	*input;
-	int		quote_error;
-	int		index;
-	t_lexer	*lexer;
-	int		pipe;
+	t_env		*pwd;
+	t_env		*old_pwd;
+	t_env		*env;
+	char		**path;
+	char		*cmd_path;
+	char		*input;
+	int			quote_error;
+	int			index;
+	t_lexer		*lexer;
+	t_parser	*parser;
+	int			pipe;
 }			t_data;
 
 void	lexer(t_data *data);

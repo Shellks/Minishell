@@ -6,7 +6,7 @@
 #    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/06/27 15:16:32 by nibernar         ###   ########.fr        #
+#    Updated: 2023/06/29 18:47:57 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,11 @@ SRCS =	src/minishell.c						\
 		utils/ft_free.c						\
 		src/check_cmd.c						\
 		src/check_quote.c 					\
+		list/parser/ft_parser_add_back.c	\
+		list/parser/ft_parser_clear.c		\
+		list/parser/ft_parser_delone.c		\
+		list/parser/ft_parser_last.c		\
+		list/parser/ft_parser_new.c			\
 		list/lexer/ft_lexer_add_back.c		\
 		list/lexer/ft_lexer_add_front.c		\
 		list/lexer/ft_lexer_clear.c			\

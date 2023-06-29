@@ -3,37 +3,110 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/23 15:21:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/06/29 18:51:01 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	parser(t_data *data)
-{
-	t_lexer	*tmp;
+int	g_status;
 
-	tmp = data->lexer;
-	data->pipe = 0;
-	while (tmp->next)
+void	create_chained_parsing(t_data *data, t_lexer *lexer, t_parser *lst, int i)
+{
+	int		len;
+	char	*tmp;
+
+	len = 0;
+	lst->cmd = (char **)ft_calloc(sizeof(char *), i);
+	if (!lst->cmd)
+		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+	while(lexer && len < i)
 	{
-		if (tmp->token == PIPE)
-			data->pipe++;
-		tmp = tmp->next;
+		if (lexer->token != SPACE && lexer->token != WORD)
+		{
+			lst->redir->token = lexer->token;
+			if (lexer->next->next)
+			{
+				lst->redir->redirec = ft_strdup(lexer->next->next->word);
+				lexer = lexer->next->next;
+				len += 2;
+			}
+			else
+			{
+				printf("syntax error near unexpected token `newline'\n");
+				return ;
+			}
+		}
+		else if (lexer->token == WORD)
+		{
+			tmp = ft_strdup(lexer->word);
+			if (!tmp)
+				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+			lst->cmd[len] = ft_strjoin(lst->cmd[len], tmp);
+			lexer = lexer->next->next;
+		}
+		lexer = lexer->next;
+		len++;
 	}
-	dprintf(2, "pipe : %d\n", data->pipe);
+	
 }
-//du coup j'ai la fonction lexer. j'arrive a creer une liste chainee. j'arrive a rentrer le token et la string de l commende mais je fait 0 check si l'argument que je rentre dans ma liste chainee est valide
+
+int		count_node(t_lexer	*lexer)
+{
+	int	i;
+
+	i = 0;
+	while(lexer && lexer->token != PIPE)
+	{
+		i++;
+		lexer = lexer->next;
+	}
+	return (i);
+}
+
+void	ft_parser(t_data *data)
+{
+	int			i;
+	t_lexer		*tmp_lexer;
+	t_parser	*tmp_parser;
+	t_parser	*new;
+
+	i = 0;
+	tmp_lexer = ft_lexer_first(data->lexer);
+	new = ft_parser_new();
+	if (!new)
+		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+	ft_parser_add_back(&data->parser, new);
+	tmp_parser = ft_parser_last(data->parser);
+	if (tmp_lexer->token == PIPE)
+	{
+		printf("minishell: syntax error near unexpected token `|'\n");
+		return ;
+	}
+	i = count_node(tmp_lexer);
+	tmp_lexer = ft_lexer_first(data->lexer);
+		if (tmp_lexer->token != PIPE)
+			create_chained_parsing(data, tmp_lexer, tmp_parser, i);
+		if (tmp_lexer->token == PIPE && tmp_lexer->next)
+		{
+			new = ft_parser_new();
+			if (!new)
+				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+			ft_parser_add_back(&data->parser, new);
+			i = count_node(tmp_lexer);
+			tmp_parser = tmp_parser->next;
+		}
+}
 
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 	t_env	*tmp;
-//	int		i;
 
+	g_status = 0;
 	if (argc != 1)
 	{
 		//printf("error\n");
@@ -46,13 +119,6 @@ int	main(int argc, char **argv, char **env)
 		printf("%s : %s\n", tmp->name, tmp->content);
 		tmp = tmp->next;
 	}
-// 	i = -1;
-// 	if (data.path)
-// 	{
-// 		while (data.path[++i])
-// 			printf("path_line[%d] : %s\n", i, data.path[i]);
-// //		ft_free_split(&data);
-// 	}
 	while (1)
 	{
 		data.input = readline(COLOR"Minishell > "RESET);
@@ -64,7 +130,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		add_history(data.input);
 		lexer(&data);
-		//dprintf(2, "|%s|\n", data.input);
+		ft_parser(&data);
 		free (data.input);
 	}
 	ft_env_clear(&data.env);
