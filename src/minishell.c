@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/29 18:51:01 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/30 14:16:45 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,60 @@
 
 int	g_status;
 
+void	del_node_space(t_data *data)
+{
+	t_lexer	*tmp;
+
+	tmp = ft_lexer_first(data->lexer);
+	while (tmp)
+	{
+		if (tmp->token == 6)
+			ft_lexer_delone(tmp);
+		tmp = tmp->next;
+	}
+}
+// egfault ici !
 void	create_chained_parsing(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 {
 	int		len;
 	char	*tmp;
+	t_redir	*tmp_redir;
 
+	tmp_redir = ft_redir_new();
+	if (!tmp_redir)
+		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
 	len = 0;
 	lst->cmd = (char **)ft_calloc(sizeof(char *), i);
 	if (!lst->cmd)
 		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
 	while(lexer && len < i)
 	{
-		if (lexer->token != SPACE && lexer->token != WORD)
+		if (lexer->token != WORD)
 		{
-			lst->redir->token = lexer->token;
-			if (lexer->next->next)
+			if (lexer->next)
 			{
-				lst->redir->redirec = ft_strdup(lexer->next->next->word);
-				lexer = lexer->next->next;
-				len += 2;
+				lst->redir->redirec = ft_strdup(lexer->next->word);
+				printf("tok == %s\n", lst->redir->redirec);
 			}
 			else
 			{
 				printf("syntax error near unexpected token `newline'\n");
 				return ;
 			}
+			//lst->redir = lst->redir->next;
 		}
-		else if (lexer->token == WORD)
+		else
 		{
 			tmp = ft_strdup(lexer->word);
 			if (!tmp)
 				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
-			lst->cmd[len] = ft_strjoin(lst->cmd[len], tmp);
-			lexer = lexer->next->next;
+			printf("LEN == %d\n", len);
+			printf("TMP == %s\n", tmp);
+			lst->cmd[len] = tmp;
 		}
 		lexer = lexer->next;
 		len++;
 	}
-	
 }
 
 int		count_node(t_lexer	*lexer)
@@ -70,35 +86,37 @@ int		count_node(t_lexer	*lexer)
 void	ft_parser(t_data *data)
 {
 	int			i;
-	t_lexer		*tmp_lexer;
-	t_parser	*tmp_parser;
+	t_lexer		*lexer;
+	t_parser	*parser;
 	t_parser	*new;
 
+	data->parser = NULL;
 	i = 0;
-	tmp_lexer = ft_lexer_first(data->lexer);
+	del_node_space(data);
+	lexer = ft_lexer_first(data->lexer);
 	new = ft_parser_new();
 	if (!new)
 		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
 	ft_parser_add_back(&data->parser, new);
-	tmp_parser = ft_parser_last(data->parser);
-	if (tmp_lexer->token == PIPE)
+	parser = ft_parser_last(data->parser);
+	if (lexer->token == PIPE)
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return ;
 	}
-	i = count_node(tmp_lexer);
-	tmp_lexer = ft_lexer_first(data->lexer);
-		if (tmp_lexer->token != PIPE)
-			create_chained_parsing(data, tmp_lexer, tmp_parser, i);
-		if (tmp_lexer->token == PIPE && tmp_lexer->next)
+	i = count_node(lexer);
+	lexer = ft_lexer_first(data->lexer);
+		if (lexer->token != PIPE)
+			create_chained_parsing(data, lexer, parser, i);
+		if (lexer->token == PIPE && lexer->next)
 		{
 			new = ft_parser_new();
 			if (!new)
 				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
 			ft_parser_add_back(&data->parser, new);
-			i = count_node(tmp_lexer);
-			tmp_parser = tmp_parser->next;
+			i = count_node(lexer);
 		}
+		parser = parser->next;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -130,7 +148,6 @@ int	main(int argc, char **argv, char **env)
 		}
 		add_history(data.input);
 		lexer(&data);
-		ft_parser(&data);
 		free (data.input);
 	}
 	ft_env_clear(&data.env);

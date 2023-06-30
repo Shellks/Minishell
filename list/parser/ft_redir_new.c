@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lexer_delone.c                                  :+:      :+:    :+:   */
+/*   ft_redir_new.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 17:51:50 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/30 13:07:31 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/06/30 14:02:09 by acarlott          #+#    #+#             */
+/*   Updated: 2023/06/30 14:11:40 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_lexer_delone(t_lexer *lst)
+t_redir	*ft_redir_new()
 {
-	if (lst)
-	{
-		if (lst->previous)
-			lst->previous->next = lst->next;
-		if (lst->next)
-			lst->next->previous = lst->previous;
-		free(lst->word);
-		free(lst);
-	}
+	t_redir	*new;
+
+	new = malloc(sizeof(t_redir));
+	if (!new)
+		return (0);
+	new->redirec = NULL;
+	new->token = 0;
+	new->next = NULL;
+	return (new);
 }

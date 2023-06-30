@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/06/29 18:47:57 by nibernar         ###   ########.fr        #
+#    Updated: 2023/06/30 14:07:26 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,9 @@ SRCS =	src/minishell.c						\
 		list/parser/ft_parser_delone.c		\
 		list/parser/ft_parser_last.c		\
 		list/parser/ft_parser_new.c			\
+		list/parser/ft_redir_new.c			\
+		list/parser/ft_redir_add_back.c		\
+		list/parser/ft_redir_last.c			\
 		list/lexer/ft_lexer_add_back.c		\
 		list/lexer/ft_lexer_add_front.c		\
 		list/lexer/ft_lexer_clear.c			\

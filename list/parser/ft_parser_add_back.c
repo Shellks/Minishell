@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser_add_back.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:48:31 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/29 18:44:09 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:33:10 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
