@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:12:58 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/30 13:49:50 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/03 18:06:37 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,24 +96,35 @@ void	print_lexer(t_lexer **lexer)
 
 void	print_parser(t_parser **parser)
 {
-	int		i;
-	t_parser	*tmp;
+	t_parser *tmp = *parser;
+	t_redir	*tmp_redir;
+	int	len;
+	int	i;
 
-	tmp = NULL;
-	tmp = *parser;
-	printf("token : %d\n", tmp->redir->token);
-	while (tmp)
-	{
-		i = 0;
-		while (tmp->cmd[i])
-		{
-			printf("char[%d] : |%s|\n", i, tmp->cmd[i]);
-			i++;
-		}
-		printf("Test\n");
-		printf("token : %d\n", tmp->redir->token);
-		printf("word-token : %s\n", tmp->redir->redirec);
-		dprintf(2, "\n\n");
-		tmp = tmp->next;
-	}
+	len = 0;
+    while (tmp)
+    {
+        printf("\nRedirections[%d]:\n\n", len);
+        tmp_redir = tmp->redir;
+        while (tmp_redir)
+        {
+            printf("token : |%d|\n", tmp_redir->token);
+            printf("word-token : |%s|\n", tmp_redir->redirec);
+            tmp_redir = tmp_redir->next;
+        }
+        
+        printf("___________________\n\n");
+        printf("Command[%d]:\n\n", len);
+        i = 0;
+        while (tmp->cmd[i])
+        {
+            printf("char[%d] : |%s|\n", i, tmp->cmd[i]);
+            i++;
+        }
+        
+        printf("___________________\n");
+        
+        tmp = tmp->next;
+		len++;
+    }
 }

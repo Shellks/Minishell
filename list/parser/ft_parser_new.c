@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser_new.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:57:28 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/29 18:50:40 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:28:17 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ t_parser	*ft_parser_new()
 		return (0);
 	new->cmd = NULL;
 	new->next = NULL;
+	new->redir = NULL;
 	return (new);
 }

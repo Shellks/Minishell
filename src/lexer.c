@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/30 14:13:42 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/03 18:09:29 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ void	lexer(t_data *data)
 	}
 	ft_fusion(data);
 //	print_lexer(&data->lexer);
-	ft_parser(data);
-//	print_parser(&data->parser);
+	if (!data->lexer)
+		return ;
+	if (ft_parser(data) == FALSE)
+		return ;
+	print_parser(&data->parser);
 }
