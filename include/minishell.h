@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 18:11:20 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/03 19:15:35 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,12 @@ void	print_lexer(t_lexer **lexer);
 int		check_quote(t_data *data, int i);
 void	set_env(t_data *data, char **env);
 void	ft_fusion(t_data *data);
+void	del_node_space(t_data *data);
 void	replace_false_expand_quote(t_lexer *end);
 void	create_expand_digit(t_data *data, char *str);
 int		build_token(int i, char *str, t_data *data);
 void	print_lexer(t_lexer **lexer);
+int		count_node(t_lexer	*lexer);
 int		expand(t_data *data, char *str, int i);
 int		expand_in_quote(t_data *data, char *str, int i);
 void	check_env_expand(t_data *data, t_env *env, char *str);

@@ -6,24 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 18:16:14 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/03 19:16:32 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	del_node_space(t_data *data)
-{
-	t_lexer	*tmp;
-
-	tmp = ft_lexer_first(data->lexer);
-	while (tmp)
-	{
-		if (tmp->token == 6)
-			ft_lexer_delone(tmp);
-		tmp = tmp->next;
-	}
-}
 
 static t_lexer	*create_chained_parsing(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 {
@@ -73,21 +60,6 @@ static t_lexer	*create_chained_parsing(t_data *data, t_lexer *lexer, t_parser *l
 		}
 	}
 	return (lexer);
-}
-
-static int		count_node(t_lexer	*lexer)
-{
-	t_lexer	*tmp;
-	int	i;
-
-	i = 0;
-	tmp = lexer;
-	while(tmp && tmp->token != PIPE)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	return (i);
 }
 
 bool	ft_parser(t_data *data)
