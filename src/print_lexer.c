@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:12:58 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 19:11:40 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/03 20:52:26 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	print_parser(t_parser **parser)
         {
             debug_token(tmp_redir->token);
             printf("word-token : |%s|\n", tmp_redir->redirec);
+			if (tmp_redir->next)
+				printf("---\n");
             tmp_redir = tmp_redir->next;
         }
         
