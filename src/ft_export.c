@@ -6,21 +6,42 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/04 15:46:12 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 22:16:18 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void    create_new_env(t_data *data, t_parser *parser, int end, int i)
+static void	ft_print_id_error(char *word)
 {
+	printf("minishell: export: « %s »: invalid identifier\n", word);
+}
+
+static  bool    is_valid_char(char *name, int i)
+{
+    if (name[i] < 48 || (name[i] > 57 && name[i] < 65))
+        return (false);
+    if ((name[i] > 90 && name[i] < 97) || name[i] > 122)
+        return (false);
+    return (true);
+}
+
+static bool    create_new_env(t_data *data, t_parser *parser, int end, int i)
+{
+    int     j;
     t_env   *new;
     char    *name;
     char    *content;
 
+    j = -1;
     name = ft_strndup(parser->cmd[1], i);
     if (!name)
         ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+    if (name[0] >= 48 && name[0] <= 57)
+        return (ft_print_id_error(parser->cmd[1]), false);
+    while (name[++j])
+        if (is_valid_char(name, j) == false)
+            return (ft_print_id_error(parser->cmd[1]), false);
     content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
      if (!content)
          ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
@@ -28,6 +49,7 @@ static void    create_new_env(t_data *data, t_parser *parser, int end, int i)
     if (!new)
         ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
     ft_env_add_back(&data->env, new);
+    return (true);
 }
 
 static int export_is_exist(t_env *env, t_parser *parser, int end, int i)
@@ -35,7 +57,6 @@ static int export_is_exist(t_env *env, t_parser *parser, int end, int i)
     if (ft_strncmp(env->name, parser->cmd[1], i) == 0)
     {
         free(env->content);
-        printf("parser = %c\n", parser->cmd[1][i]);
         env->content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
         if (!env->content)
             return (ERR_MALLOC);
@@ -69,6 +90,7 @@ bool    ft_export(t_data *data, t_parser *parser)
             ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
         tmp_env = tmp_env->next;
     }
-    create_new_env(data, tmp_parser, end, i);
+    if (create_new_env(data, tmp_parser, end, i) == false)
+        return (false);
     return (true);
 }

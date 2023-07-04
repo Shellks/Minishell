@@ -6,14 +6,14 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/04 19:20:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 22:43:21 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-static void	create_expand(t_data *data, t_env *env, char *str)
+static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 {
 	char	*tmp1;
 	char	*tmp2;
@@ -25,7 +25,7 @@ static void	create_expand(t_data *data, t_env *env, char *str)
 	tmp1 = ft_strndup(str, i);
 	if (!tmp1)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-	check_env_expand(data, env, &str[i]);
+	check_env_expand(data, env, &str[i], src);
 	tmp2 = ft_strjoin(tmp1, env->content);
 	free(tmp1);
 	if (str[i])
@@ -53,7 +53,7 @@ static bool	check_expand(t_data *data, t_env *env, char *s1)
 	return (false);
 }
 
-static void	get_expand(t_data *data, char *str)
+static void	get_expand(t_data *data, char *str, t_lexer *src)
 {
 	t_lexer	*end;
 	t_env	*env;
@@ -64,7 +64,7 @@ static void	get_expand(t_data *data, char *str)
 	{
 		if (check_expand(data, env, str) == true)
 		{
-			create_expand(data, env, end->word);
+			create_expand(data, env, end->word, src);
 			break ;
 		}
 		env = env->next;
@@ -118,7 +118,7 @@ int		expand(t_data *data, char *str, int i)
 		j = get_word(data, str, j, i);
 		cur = ft_lexer_last(data->lexer);
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
-			get_expand(data, &cur->word[1]);
+			get_expand(data, &cur->word[1], cur);
 		if (cur->word[0] == '$' && cur->word[1] == '?')
 			expand_status(data, &cur->word[1]);
 		if (cur->word[0] == '$' && ft_isdigit(cur->word[1]) == 1)

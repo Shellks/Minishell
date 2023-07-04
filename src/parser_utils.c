@@ -6,13 +6,13 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:14:11 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/03 20:09:02 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 22:02:34 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_print_syntax_error(char * word)
+void	ft_print_syntax_error(char *word)
 {
 	printf("minishell: syntax error near unexpected token `%s'\n", word);
 }

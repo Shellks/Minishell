@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/04 20:18:47 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 22:46:15 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ static char	*get_word_quote(t_data *data, t_env *env, int *start)
 	return (tmp);
 }
 
-void	check_env_expand(t_data *data, t_env *env, char *str)
+void	check_env_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 {
 	t_lexer	*new;
 	char	*tmp;
@@ -171,7 +171,7 @@ void	check_env_expand(t_data *data, t_env *env, char *str)
 	while(env->content[start])
 	{
 		if (manage_space_quote(data, env, &start) == FALSE)
-			break ;
+			return ;
 		while (env->content[start] && env->content[start] == ' ')
 			start++;
 		tmp = get_word_quote(data, env, &start);
@@ -184,5 +184,7 @@ void	check_env_expand(t_data *data, t_env *env, char *str)
 		ft_lexer_add_back(&data->lexer, new);
 		data->index++;
 		start++;
+		printf("Coucou\n");
 	}
+	ft_lexer_delone(src);
 }
