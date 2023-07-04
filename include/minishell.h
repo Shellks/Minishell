@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 20:05:00 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 14:17:35 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int		get_word(t_data *data, char *str, int start, int stop);
 bool	find_dollar(char *str);
 bool	ft_parser(t_data *data);
 void	print_parser(t_parser **parser);
+bool    ft_export(t_data *data, t_parser *parser);
 void	ft_free(t_data	*data, int	error, char *msg, int nb);
 void	get_next_expand(t_data *data, char *str, char *tmp2, int i);
 

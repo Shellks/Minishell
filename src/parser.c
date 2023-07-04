@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 20:54:10 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 13:16:57 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_lexer	*parse_cmd(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 	}
 	return (lexer);
 }
-int	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
+bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 {
 	t_parser *new;
 
@@ -74,11 +74,11 @@ int	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 	{
 		lexer = parse_cmd(data, lexer, parser, i);
 		if (data->flag == 1)
-			return (ft_print_syntax_error("newline"), FALSE);
+			return (ft_print_syntax_error("newline"), false);
 		if (lexer && lexer->token == PIPE && lexer->next)
 		{
 			if (lexer->next && lexer->next->token == PIPE)
-				return (ft_print_syntax_error("|"), FALSE);
+				return (ft_print_syntax_error("|"), false);
 			new = ft_parser_new();
 			if (!new)
 				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
@@ -91,7 +91,7 @@ int	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 		else
 			break ;
 	}
-	return (TRUE);
+	return (true);
 }
 
 bool	ft_parser(t_data *data)
@@ -112,9 +112,9 @@ bool	ft_parser(t_data *data)
 	ft_parser_add_back(&data->parser, new);
 	parser = data->parser;
 	if (lexer->token == PIPE)
-		return (ft_print_syntax_error("newline"), FALSE);
+		return (ft_print_syntax_error("newline"),false);
 	i = count_node(lexer);
-	if (parser_loop(data, lexer, parser, i) == FALSE)
-		return (FALSE);
-	return (TRUE);
+	if (parser_loop(data, lexer, parser, i) == false)
+		return (false);
+	return (true);
 }

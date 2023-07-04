@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 18:09:29 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 12:21:55 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,10 @@ static int	skipe_space(int i, char *str, t_data *data)
 		return (j);
 	else
 	{
-		tmp = ft_lexer_new(NULL, DELIMITER, data->index);
+		tmp = ft_lexer_new(NULL, DELIMITER, data->index++);
 		if (!tmp)
 			ft_free(data, ERR_MALLOC, "Malloc_error", 2);
 		ft_lexer_add_back(&data->lexer, tmp);
-		data->index++;
 	}
 	while (str[i] && str[i] == ' ')
 	{
@@ -89,11 +88,4 @@ void	lexer(t_data *data)
 			i = build_cmd(i, data->input, data);
 		data->index++;
 	}
-	ft_fusion(data);
-//	print_lexer(&data->lexer);
-	if (!data->lexer)
-		return ;
-	if (ft_parser(data) == FALSE)
-		return ;
-	print_parser(&data->parser);
 }

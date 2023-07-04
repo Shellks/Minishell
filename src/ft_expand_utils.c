@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:07:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/28 18:37:57 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:44:10 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	get_word(t_data *data, char *str, int start, int stop)
 	i = start;
 	tmp = NULL;
 	i++;
-	while(str[i] && str[i] != '$' && str[i] != ' ' && i < stop)
+	while(str[i] && str[i] != '=' && str[i] != '$' && str[i] != ' ' && i < stop)
 		i++;
 	i -= start;
 	tmp = ft_strndup(&str[start], i);
