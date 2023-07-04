@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/04 12:06:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 19:20:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,8 @@ int		expand(t_data *data, char *str, int i)
 	while (str[j] && j < i)
 	{
 		if (find_dollar(&str[j]) == true)
-		{
 			while (str[j] == '$' && str[j + 1] == '$')
 				j++;
-		}
 		j = get_word(data, str, j, i);
 		cur = ft_lexer_last(data->lexer);
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)

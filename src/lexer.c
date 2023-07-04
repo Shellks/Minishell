@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/04 12:21:55 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 20:22:51 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,13 @@ static int	build_cmd(int i, char *str, t_data *data)
 	int	j;
 
 	j = 0;
-	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34 \
-			&& str[i + j] != 39 && check_token((i + j), str) == false)
+	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34
+	&& str[i + j] != 39 && str[i] != '\\' && check_token((i + j), str) == false)
+	{
+		if (str[i + j] == '\\')
+			break ;
 		j++;
+	}
 	expand(data, &str[i], j);
 	return (i + j);
 }
@@ -71,6 +75,10 @@ void	lexer(t_data *data)
 	data->quote_error = 0;
 	while (data->input[i] != '\0')
 	{
+		if (data->input[i] == '\\')
+			i = get_anti_slash(i, data->input, data);
+		if (i == -1)
+			return ;
 		if (data->input[i] == ' ')
 			i = skipe_space(i, data->input, data);
 		else if (data->input[i] == 34 || data->input[i] == 39)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_quote_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/28 17:11:40 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/04 20:18:47 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,36 @@ int	manage_space_quote(t_data *data, t_env *env, int *start)
 		}
 	}
 	return(-1);
+}
+
+int	get_word_in_quote(t_data *data, char *str, int start, int stop)
+{
+	t_lexer	*new;
+	int		i;
+	char	*tmp;
+
+	i = start;
+	tmp = NULL;
+	if (str[i] == '\\' && str[i + 1] && str[i + 1] == '$')
+	{
+		tmp = ft_strndup(&str[i + 1], 1);
+		new = ft_lexer_new(tmp, WORD, data->index);
+	//	printf("TMP === %s\n", tmp);
+		ft_lexer_add_back(&data->lexer, new);
+		return (i + 2);
+	}
+	else
+		i++;
+	while(str[i] && str[i] != '=' && str[i] != '$' && str[i] != ' ' \
+	&& str[i] != 28 && str[i] != '\\' &&i < stop)
+		i++;
+	i -= start;
+	tmp = ft_strndup(&str[start], i);
+	new = ft_lexer_new(tmp, WORD, data->index);
+	if (!new)
+		ft_free(data, ERR_MALLOC, "Malloc_error\n", 1);
+	ft_lexer_add_back(&data->lexer, new);
+	return (i += start);
 }
 
 static char	*get_word_quote(t_data *data, t_env *env, int *start)

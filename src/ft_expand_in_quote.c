@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/28 19:22:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/04 20:17:50 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,16 @@ int	expand_in_quote(t_data *data, char *str, int i)
 	j = 0;
 	while (str[j] && j < i)
 	{
+		// printf("STR == %s\n", &str[j]);
+		// if (str[j - 1] && str[j - 1] == '\\' && str[j] == '$')
+		// {
+		// 	printf("str = %c\n", str[j]);
+		// 	j = get_anti_slash((j - 1), str, data);
+		// }
 		if (find_dollar(&str[j]) == true)
-		{
 			while (str[j] == '$' && str[j + 1] == '$')
 				j++;
-		}
-		j = get_word(data, str, j, i);
+		j = get_word_in_quote(data, str, j, i);
 		cur = ft_lexer_last(data->lexer);
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
 			get_expand_quote(data, &cur->word[1]);
