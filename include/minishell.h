@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/04 22:40:34 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/05 16:43:30 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ void	ft_free(t_data	*data, int	error, char *msg, int nb);
 void	get_next_expand(t_data *data, char *str, char *tmp2, int i);
 int		get_anti_slash(int i, char *str, t_data *data);
 int		get_word_in_quote(t_data *data, char *str, int start, int stop);
+void    ft_unset(t_data *data, t_parser *parser);
 
 #endif

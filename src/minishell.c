@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/04 22:26:56 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/05 17:56:12 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ bool	exec_built_in(t_data *data)
 		printf("%s\n", data->pwd->content);
 		return (false);
 	}
+	else if (ft_strncmp(data->parser->cmd[0], "unset", 5) == 0)
+	{
+		ft_unset(data, data->parser);
+	}
 	else if (ft_strncmp(data->parser->cmd[0], "export", 6) == 0)
 		if (ft_export(data, data->parser) == false)
 			return (false);
-	// else if (ft_strncmp(data->parser->cmd[0], "unset", 6) == 0)
 	return (true);
 }
 
@@ -32,7 +35,7 @@ bool	ft_mini_loop(t_data *data)
 {
 	add_history(data->input);
 	lexer(data);
-	ft_fusion(data);
+//	ft_fusion(data);
 	print_lexer(&data->lexer);
 	if (!data->lexer)
 		return (true);
@@ -68,12 +71,12 @@ int	main(int argc, char **argv, char **env)
 	}
 	while (1)
 	{
-		tmp = data.env;
-		while (tmp)
-		{
-			printf("%s=%s\n", tmp->name, tmp->content);
-			tmp = tmp->next;
-		}
+		// tmp = data.env;
+		// while (tmp)
+		// {
+		// 	printf("%s=%s\n", tmp->name, tmp->content);
+		// 	tmp = tmp->next;
+		// }
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{

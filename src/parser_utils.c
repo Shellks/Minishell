@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:14:11 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/04 22:02:34 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/05 17:40:24 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ void	del_node_space(t_data *data)
 	while (tmp)
 	{
 		if (tmp->token == 6)
+		{
+			if (!tmp->previous)
+				data->lexer = data->lexer->next;
 			ft_lexer_delone(tmp);
+		}
 		tmp = tmp->next;
 	}
 }

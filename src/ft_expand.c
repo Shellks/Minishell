@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/04 22:43:21 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/05 18:03:58 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 	if (!tmp1)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
 	check_env_expand(data, env, &str[i], src);
+	if (!src->previous)
+		data->lexer = data->lexer->next;
+	//printf("data->lexer = %s\n", data->lexer->next->word);
+	ft_lexer_delone(src);
+	return ;
 	tmp2 = ft_strjoin(tmp1, env->content);
 	free(tmp1);
 	if (str[i])
@@ -118,10 +123,13 @@ int		expand(t_data *data, char *str, int i)
 		j = get_word(data, str, j, i);
 		cur = ft_lexer_last(data->lexer);
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
-			get_expand(data, &cur->word[1], cur);
-		if (cur->word[0] == '$' && cur->word[1] == '?')
+			{
+				get_expand(data, &cur->word[1], cur);
+				cur = cur->next;
+			}
+		else if (cur->word[0] == '$' && cur->word[1] == '?')
 			expand_status(data, &cur->word[1]);
-		if (cur->word[0] == '$' && ft_isdigit(cur->word[1]) == 1)
+		else if (cur->word[0] == '$' && ft_isdigit(cur->word[1]) == 1)
 			create_expand_digit(data, &cur->word[1]);
 	}
 	return (j);
