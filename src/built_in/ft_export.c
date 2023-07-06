@@ -6,11 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/04 22:16:18 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 13:21:59 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static void	ft_print_id_error(char *word)
 {

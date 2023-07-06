@@ -6,7 +6,7 @@
 #    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/06 10:31:59 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/06 14:12:38 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,9 @@ SRCS =	src/minishell.c						\
 		src/lexer_bis.c						\
 		src/print_lexer.c					\
 		src/ft_expand_space.c				\
-		src/ft_unset.c						\
-		src/ft_export.c						\
+		src/built_in/ft_exit.c				\
+		src/built_in/ft_unset.c				\
+		src/built_in/ft_export.c			\
 		utils/ft_free.c						\
 		src/check_cmd.c						\
 		src/check_quote.c 					\
@@ -40,6 +41,8 @@ SRCS =	src/minishell.c						\
 		list/parser/ft_parser_delone.c		\
 		list/parser/ft_parser_last.c		\
 		list/parser/ft_parser_new.c			\
+		list/parser/ft_redir_clear.c		\
+		list/parser/ft_redir_delone.c		\
 		list/parser/ft_redir_new.c			\
 		list/parser/ft_redir_add_back.c		\
 		list/parser/ft_redir_last.c			\

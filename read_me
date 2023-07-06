@@ -44,3 +44,14 @@ ca marche vraiment niquel, a voir si il faut que je l'enleve
 ou si on peut le laisser, cest quand meme stylé ce que ça gere^^
 
 ---------------------------------------------
+
+dans unset verifier comment on le gere quand il est censé pas  avoir d'env
+voir à l'exec : 
+
+neyks in ~/Bureau/42/cercle_4/Minishell on alex λ env -i unset lol
+env: «unset»: Aucun fichier ou dossier de ce type
+
+---------------------------------------------
+
+surement gerer le cas des variables 
+en lecture seul dans le parsing de env, a voir

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/06 12:27:57 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 14:30:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,16 @@ bool	exec_built_in(t_data *data)
 	}
 	else if (ft_strncmp(data->parser->cmd[0], "unset", 5) == 0)
 	{
-		ft_unset(data, data->parser);
+		if (ft_unset(data, data->parser) == false)
+			return (false);
 	}
 	else if (ft_strncmp(data->parser->cmd[0], "export", 6) == 0)
+	{
 		if (ft_export(data, data->parser) == false)
 			return (false);
+	}
+	else if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
+		ft_exit(data);
 	return (true);
 }
 
@@ -71,7 +76,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	while (1)
 	{
-		// deuxieme boucle d'env pour faire des checks si besoin
+	//	deuxieme boucle d'env pour faire des checks si besoin
 		// tmp = data.env;
 		// while (tmp)
 		// {

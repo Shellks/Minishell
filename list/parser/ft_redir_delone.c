@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parser_clear.c                                  :+:      :+:    :+:   */
+/*   ft_redir_delone.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 17:51:01 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/06 14:29:27 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/07/06 13:27:25 by acarlott          #+#    #+#             */
+/*   Updated: 2023/07/06 14:13:48 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_parser_clear(t_parser **lst)
+void	ft_redir_delone(t_redir *lst)
 {
-	t_parser	*tmp;
-
-	if (!lst)
-		return ;
-	while (*lst)
+	if (lst)
 	{
-		tmp = (*lst)->next;
-		ft_parser_delone(*lst);
-		ft_redir_clear(&(*lst)->redir);
-		*lst = tmp;
+		free(lst->redirec);
+		free(lst);
 	}
-	*lst = 0;
 }

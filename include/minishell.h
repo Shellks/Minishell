@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/06 11:24:07 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 13:50:37 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,11 @@ bool	find_dollar(char *str);
 bool	ft_parser(t_data *data);
 void	print_parser(t_parser **parser);
 bool    ft_export(t_data *data, t_parser *parser);
+void    ft_exit(t_data *data);
 void	ft_free(t_data	*data, int	error, char *msg, int nb);
 void	get_next_expand(t_data *data, char *str, char *tmp2, int i);
 int		get_anti_slash(int i, char *str, t_data *data);
 int		get_word_in_quote(t_data *data, char *str, int start, int stop);
-void    ft_unset(t_data *data, t_parser *parser);
+bool    ft_unset(t_data *data, t_parser *parser);
 
 #endif
