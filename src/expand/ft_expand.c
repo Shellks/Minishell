@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:09:25 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 20:21:52 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 {
 	char	*tmp1;
-	//char	*tmp2;
+	char	*tmp2;
 	int		i;
 	
 	i = 0;
@@ -25,24 +25,17 @@ static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 	tmp1 = ft_strndup(str, i);
 	if (!tmp1)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-	check_env_expand(data, env);
-	if (!src->previous)
+	if (check_space_env_content(data, env, src) == true)
 	{
-		//data->lexer->previous = NULL;
-		data->lexer = data->lexer->next;
-		//data->lexer->previous->next = NULL;
+		free(tmp1);
+		return ;
 	}
-	//data->lexer->previous = NULL;
-	//printf("src->word = %s\n", src->word);
-	//le del_one ici autant cest horrible mais pas rencontrer de cas encore
-	//faudra le mettre dans un retour d'erreur propre de check_env_expand)
-	ft_lexer_delone(src);
-	return ;
-	// !!!Ca l'air de bien marché sans les lignes suivantes, chelou, a voir!!!
-	// tmp2 = ft_strjoin(tmp1, env->content);
-	// free(tmp1);
-	// if (str[i])
-	// 	get_next_expand(data, str, tmp2, i);
+	else
+	{
+		tmp2 = ft_strjoin(tmp1, env->content);
+		free(tmp1);
+		get_next_expand(data, str, tmp2, i);
+	}
 }
 
 static bool	check_expand(t_data *data, t_env *env, char *s1)
@@ -83,7 +76,7 @@ static void	get_expand(t_data *data, char *str, t_lexer *src)
 		env = env->next;
 	}
 	if (env == NULL)
-		replace_false_expand_quote(end);
+		replace_false_expand_quote(data, end);
 }
 
 void	expand_status(t_data *data, char *str)
@@ -130,10 +123,15 @@ int		expand(t_data *data, char *str, int i)
 				j++;
 		j = get_word(data, str, j, i);
 		cur = ft_lexer_last(data->lexer);
+		// if (!cur || !cur->word)
+		// 	break ;
+		printf("cur->word = %s\n", cur->word);
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
 			{
 				get_expand(data, &cur->word[1], cur);
-				cur = cur->next;
+				cur = ft_lexer_last(data->lexer);
+				// if (cur && cur->next)
+				// 	cur = cur->next;
 			}
 		else if (cur->word[0] == '$' && cur->word[1] == '?')
 			expand_status(data, &cur->word[1]);

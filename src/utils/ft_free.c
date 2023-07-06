@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 09:52:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:19:43 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 21:03:45 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,3 +36,22 @@ void	ft_free(t_data	*data, int	error, char *msg, int nb)
 	printf("%s\n", msg);
 	exit (error);
 }
+
+void	ft_free_env(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	if (data->path)
+	{
+		while (data->path[++i])
+			free(data->path[i]);
+		free(data->path);
+	}
+	ft_env_clear(&data->env);
+	ft_lexer_clear(&data->lexer);
+}
+// void	ft_free_lexer(t_data *data)
+// {
+	
+// }

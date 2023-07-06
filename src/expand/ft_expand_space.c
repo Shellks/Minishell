@@ -6,18 +6,18 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 10:19:03 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:09:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 20:54:36 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void manage_end_space(t_data *data, t_env *env, int *i, int *start)
+static bool manage_end_space(t_data *data, t_env *env, int *i, int *start)
 {
     t_lexer *new;
 
     if (*start == 0)
-			return ;
+			return (false);
 	if (env->content[*i - 1] == ' ')
 	{
 		new = ft_lexer_new(NULL, DELIMITER, data->index);
@@ -27,9 +27,10 @@ static void manage_end_space(t_data *data, t_env *env, int *i, int *start)
 		data->index++;
 		*start += *i;
 	}
+	return (true);
 }
 
-static int	manage_space_quote(t_data *data, t_env *env, int *start)
+static int	manage_space_content(t_data *data, t_env *env, int *start)
 {
 	t_lexer	*new;
 	int		i;
@@ -39,7 +40,8 @@ static int	manage_space_quote(t_data *data, t_env *env, int *start)
 		i++;
 	if (!env->content[i])
 	{
-        manage_end_space(data, env, &i, start);
+        if (manage_end_space(data, env, &i, start) == false)
+			return(-2);
 		return (FALSE);
 	}
 	else
@@ -57,7 +59,7 @@ static int	manage_space_quote(t_data *data, t_env *env, int *start)
 	return(-1);
 }
 
-static char	*get_word_quote(t_data *data, t_env *env, int *start)
+static char	*get_word_in_content(t_data *data, t_env *env, int *start)
 {
 	char	*tmp;
 	int		j;
@@ -86,27 +88,52 @@ static char	*get_word_quote(t_data *data, t_env *env, int *start)
 	return (tmp);
 }
 
-void	check_env_expand(t_data *data, t_env *env)
+static int	space_env_loop(t_data *data, t_env *env, int *start, int *i)
 {
 	t_lexer	*new;
 	char	*tmp;
-	int		start;
 
+	*i = manage_space_content(data, env, start);
+	if (*i == FALSE)
+		return (BREAK);
+	if (*i == -2)
+		return (FALSE);
+	while (env->content[*start] && env->content[*start] == ' ')
+		*start += 1;
+	tmp = get_word_in_content(data, env, start);
+	if (!tmp)
+		return (BREAK); ;
+	new = ft_lexer_new(tmp, WORD, data->index);
+	if(!new)
+		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+	ft_lexer_add_back(&data->lexer, new);
+	return (TRUE);
+}
+
+bool	check_space_env_content(t_data *data, t_env *env, t_lexer *src)
+{
+	int		check;
+	int		start;
+	int		i;
+
+	i = 0;
+	start = 0;
+	while (env->content[start] && env->content[start] != ' ')
+		start++;
+	if (!env->content[start])
+		return (false);
 	start = 0;
 	while(env->content[start])
 	{
-		if (manage_space_quote(data, env, &start) == FALSE)
-			return ;
-		while (env->content[start] && env->content[start] == ' ')
-			start++;
-		tmp = get_word_quote(data, env, &start);
-		if (!tmp)
-			return ;
-		new = ft_lexer_new(tmp, WORD, data->index);
-		if(!new)
-			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-		ft_lexer_add_back(&data->lexer, new);
-		data->index++;
+		check = space_env_loop(data, env, &start, &i);
+		if (check == BREAK)
+			break ;
+		else if (check == FALSE)
+			return (false);
 		start++;
 	}
+	if (!src->previous)
+		data->lexer = data->lexer->next;
+	ft_lexer_delone(src);
+	return (true);
 }

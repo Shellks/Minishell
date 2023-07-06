@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:09:54 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 20:39:24 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	get_next_expand(t_data *data, char *str, char *tmp2, int i)
 {
 	char	*tmp1;
+	char	*final_tmp;
 	int		start;
 
 	i++;
@@ -24,16 +25,46 @@ void	get_next_expand(t_data *data, char *str, char *tmp2, int i)
 	while (str[i])
 		i++;
 	tmp1 = ft_strndup(&str[start], (i - start));
-	tmp2 = ft_strjoin(tmp2, tmp1);
-	if (!tmp2)
-		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-	ft_lexer_last(data->lexer)->word = tmp2;
+	if (!tmp1)
+		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+	final_tmp = ft_strjoin(tmp2, tmp1);
+	if (!final_tmp)
+		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+	free(tmp1);
+	free(tmp2);
+	ft_lexer_last(data->lexer)->word = final_tmp;
 }
 
-void	replace_false_expand_quote(t_lexer *end)
+static char	*rm_false_expand_word(t_data *data, t_lexer *end, int *start, int *i)
 {
+	char	*final_tmp;
 	char	*tmp1;
 	char	*tmp2;
+
+	tmp1 = ft_strndup(end->word, *i);
+	if (!tmp1)
+		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+	*i += 1;
+	while (end->word[*i] && end->word[*i] != ' ' && end->word[*i] != '$')
+		*i += 1;
+//		printf("end->word[i] = %s\n", &end->word[i]);
+	*start = *i;
+	while (end->word[*i])
+		*i += 1;
+	tmp2 = ft_strndup(&end->word[*start], (*i - *start));
+	if (!tmp2)
+		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+	final_tmp = ft_strjoin(tmp1, tmp2);
+	if (!final_tmp)
+		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+	free(tmp1);
+	free(tmp2);
+	return (final_tmp);
+}
+
+void	replace_false_expand_quote(t_data *data, t_lexer *end)
+{
+	char	*tmp;
 	int		i;
 	int		start;
 
@@ -42,18 +73,8 @@ void	replace_false_expand_quote(t_lexer *end)
 			i++;
 	if (end->word[i] == '$')
 	{
-		tmp1 = ft_strndup(end->word, i);
-		i++;
-		while (end->word[i] && end->word[i] != ' ' && end->word[i] != '$')
-			i++;
-//		printf("end->word[i] = %s\n", &end->word[i]);
-		start = i;
-		while (end->word[i])
-			i++;
-		tmp2 = ft_strndup(&end->word[start], (i - start));
-		tmp1 = ft_strjoin(tmp1, tmp2);
-		end->word = tmp1;
-		free(tmp2);
+		tmp = rm_false_expand_word(data, end, &start, &i);
+		end->word = tmp;
 	}
 }
 

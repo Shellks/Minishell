@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:10:00 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 20:22:34 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	get_expand_quote(t_data *data, char *str)
 		env = env->next;
 	}
 	if (env == NULL)
-		replace_false_expand_quote(end);
+		replace_false_expand_quote(data, end);
 }
 
 int	expand_in_quote(t_data *data, char *str, int i)

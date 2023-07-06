@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:07:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:09:33 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 20:51:46 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	get_word(t_data *data, char *str, int start, int stop)
 		i++;
 	i -= start;
 	tmp = ft_strndup(&str[start], i);
+	if (!tmp)
+		ft_free(data, ERR_MALLOC, "Malloc_error\n", 1);
 	new = ft_lexer_new(tmp, WORD, data->index);
 	if (!new)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 1);
