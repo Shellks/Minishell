@@ -1,4 +1,15 @@
 06/07/2023 :
+
+---------------------------------------------
+
+attention au del_one dans create expand l39. il ma pas posé de probleme
+pour le moment, mais si yen a ca peut surement venir de lui
+il est important faudra pas l'enlever mais le remettre dans une sortie d'erreur
+propre pour check_env_expand
+
+les 3lignes du dessous en commentaires a la fin, je vois pas la diff
+avec et sans ducoup jles laisse en com pour l'instant aussi
+
 ---------------------------------------------
 
 -verifier si ca pose probleme plus tard(les nodes vides)
