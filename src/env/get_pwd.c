@@ -6,11 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:05:05 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/04 14:20:52 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 16:05:26 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int	create_old_pwd(t_data *data)
 {

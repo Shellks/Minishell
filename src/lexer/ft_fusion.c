@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fusion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/28 18:07:10 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/06 16:11:53 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	ft_fusion(t_data *data)
 {

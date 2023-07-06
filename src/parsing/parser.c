@@ -6,11 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/06 12:21:05 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 16:13:56 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static bool	parse_redir(t_data *data, t_lexer **lex, t_parser *lst, int *i)
 {

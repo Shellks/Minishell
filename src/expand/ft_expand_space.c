@@ -6,13 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 10:19:03 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 11:59:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 16:09:44 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-//STOOOOOOOOOOOOOOOOOOOOOOOOOP!!!!!!!
-
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static void manage_end_space(t_data *data, t_env *env, int *i, int *start)
 {

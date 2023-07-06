@@ -6,11 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:31:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/27 11:54:26 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 16:07:46 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int	build_token_in(int i, char *str, t_data *data)
 {
