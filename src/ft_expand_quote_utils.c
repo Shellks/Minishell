@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/05 18:04:53 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 11:22:50 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,51 +57,6 @@ void	replace_false_expand_quote(t_lexer *end)
 	}
 }
 
-int	manage_space_quote(t_data *data, t_env *env, int *start, t_lexer *src)
-{
-	t_lexer	*new;
-	int		i;
-
-	i = *start;
-	(void)src;
-	//printf("env->content : |%s|\n", env->content);
-	printf ("ENV == |%s|\n", &env->content[i]);
-	while (env->content[i] && env->content[i] == ' ')
-		i++;
-	if (!env->content[i])
-	{
-		if (env->content[i - 1] == ' ')
-		{
-			new = ft_lexer_new(NULL, DELIMITER, data->index);
-			if (!new)
-				ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-			ft_lexer_add_back(&data->lexer, new);
-			data->index++;
-			*start += i; // Mettre à jour *start
-		}
-		// ca il faut lui trouver ca place optimal
-		if (!src->previous)
-			data->lexer = data->lexer->next;
-		printf("data->lexer = %s\n", data->lexer->next->word);
-		ft_lexer_delone(src);
-		return (FALSE);
-	}
-	else
-	{
-	//	printf("Start in space : %d\n", *start);
-		if (env->content[*start] == ' ')
-		{
-			new = ft_lexer_new(NULL, DELIMITER, data->index);
-			if (!new)
-				ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-			ft_lexer_add_back(&data->lexer, new);
-			data->index++;
-			return (TRUE);
-		}
-	}
-	return(-1);
-}
-
 int	get_word_in_quote(t_data *data, char *str, int start, int stop)
 {
 	t_lexer	*new;
@@ -114,7 +69,6 @@ int	get_word_in_quote(t_data *data, char *str, int start, int stop)
 	{
 		tmp = ft_strndup(&str[i + 1], 1);
 		new = ft_lexer_new(tmp, WORD, data->index);
-	//	printf("TMP === %s\n", tmp);
 		ft_lexer_add_back(&data->lexer, new);
 		return (i + 2);
 	}
@@ -130,68 +84,4 @@ int	get_word_in_quote(t_data *data, char *str, int start, int stop)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 1);
 	ft_lexer_add_back(&data->lexer, new);
 	return (i += start);
-}
-
-static char	*get_word_quote(t_data *data, t_env *env, int *start)
-{
-	char	*tmp;
-	int		j;
-	int		i;
-	int		end;
-
-	end = 0;
-	j = 0;
-	i = *start;
-	while (env->content[*start] && env->content[*start] != ' ')
-		*start += 1;
-//	printf("len of path : %ld\n", ft_strlen(env->content));
-	if (!env->content[*start] && env->content[*start - 1] == ' ')
-		return (NULL);
-//	printf("Test\n");
-	end = *start - i;
-//	printf("env-content : %s\n", &env->content[i]);
-	tmp = (char *)ft_calloc(sizeof(char), end + 1);
-	if (!tmp)
-		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-//	printf("env->contet : %s\n", &env->content[i]);
-	while(env->content[i] && j < end)
-	{
-		tmp[j] = env->content[i];
-		printf("tmp[%d] = %c\n", j, tmp[j]);
-		i++;
-		j++;
-	}
-	tmp[j] = '\0';
-//	printf("New-Word : %s\n", tmp);
-	return (tmp);
-}
-
-void	check_env_expand(t_data *data, t_env *env, char *str, t_lexer *src)
-{
-	t_lexer	*new;
-	char	*tmp;
-	int		start;
-
-	(void)str;
-	start = 0;
-	while(env->content[start])
-	{
-	//	printf("env->start = %s\n", &env->content[start]);
-		if (manage_space_quote(data, env, &start, src) == FALSE)
-			return ;
-		while (env->content[start] && env->content[start] == ' ')
-			start++;
-		tmp = get_word_quote(data, env, &start);
-		if (!tmp)
-			return ;
-	//	printf("Start = %d\n", start);
-	//	printf("Test\n");
-		new = ft_lexer_new(tmp, WORD, data->index);
-		if(!new)
-			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-		ft_lexer_add_back(&data->lexer, new);
-		data->index++;
-		start++;
-	}
-//	printf("Coucou\n");
 }

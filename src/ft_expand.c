@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/05 18:03:58 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 12:21:42 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 {
 	char	*tmp1;
-	char	*tmp2;
+	//char	*tmp2;
 	int		i;
 	
 	i = 0;
@@ -25,16 +25,24 @@ static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 	tmp1 = ft_strndup(str, i);
 	if (!tmp1)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-	check_env_expand(data, env, &str[i], src);
+	check_env_expand(data, env);
 	if (!src->previous)
+	{
+		//data->lexer->previous = NULL;
 		data->lexer = data->lexer->next;
-	//printf("data->lexer = %s\n", data->lexer->next->word);
+		//data->lexer->previous->next = NULL;
+	}
+	//data->lexer->previous = NULL;
+	//printf("src->word = %s\n", src->word);
+	//le del_one ici autant cest horrible mais pas rencontrer de cas encore
+	//faudra le mettre dans un retour d'erreur propre de check_env_expand)
 	ft_lexer_delone(src);
 	return ;
-	tmp2 = ft_strjoin(tmp1, env->content);
-	free(tmp1);
-	if (str[i])
-		get_next_expand(data, str, tmp2, i);
+	// !!!Ca l'air de bien marché sans les lignes suivantes, chelou, a voir!!!
+	// tmp2 = ft_strjoin(tmp1, env->content);
+	// free(tmp1);
+	// if (str[i])
+	// 	get_next_expand(data, str, tmp2, i);
 }
 
 static bool	check_expand(t_data *data, t_env *env, char *s1)
@@ -99,14 +107,14 @@ void	expand_status(t_data *data, char *str)
 	if (!err_code)
 		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
 	tmp = ft_strjoin(err_code, tmp);
-	printf("tmp : %s\n", tmp);
+	//printf("tmp : %s\n", tmp);
 	if (!tmp)
 	{
 		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
 		free(err_code);
 	}
 	ft_lexer_last(data->lexer)->word = tmp;
-	printf("lexer : %s\n", str);
+	//printf("lexer : %s\n", str);
 }
 
 int		expand(t_data *data, char *str, int i)

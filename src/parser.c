@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/05 17:37:42 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 12:21:05 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ static t_lexer	*parse_cmd(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 	{
 		if (lexer->token == WORD)
 		{
-			printf("PROUT!\n");
-			//printf("PROUT == !%s!\n", ft_lexer_first(data->lexer)->word);
 			lst->cmd[++j] = ft_strdup(lexer->word);
 			if (!lst->cmd[j])
 				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);

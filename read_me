@@ -1,0 +1,35 @@
+06/07/2023 :
+---------------------------------------------
+
+-verifier si ca pose probleme plus tard(les nodes vides)
+de faire : $lol(var inexistante) :
+    : Minishell > $lol $lol
+
+Redirections[0]:
+
+___________________
+
+Command[0]:
+
+char[0] : ||
+char[1] : ||
+
+
+ PS = cest la fonction presente dans get_expand l.83 
+ qui creer cette node vide(au cas ou besoin de patch):
+ 	if (env == NULL)
+		replace_false_expand_quote(end);
+
+---------------------------------------------
+
+Je viens de voir ca sur la page du projet :
+
+Ne pas interpréter de quotes (guillemets) non fermés ou de 
+caractères spéciaux non demandés dans le sujet, 
+tels que \ (le backslash) ou ; (le point-virgule).
+
+le probleme cest que j'ai implanté la gestion du \ (le backslash) et
+ca marche vraiment niquel, a voir si il faut que je l'enleve
+ou si on peut le laisser, cest quand meme stylé ce que ça gere^^
+
+---------------------------------------------

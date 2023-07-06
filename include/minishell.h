@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/05 16:43:30 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/06 11:24:07 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	print_lexer(t_lexer **lexer);
 int		count_node(t_lexer	*lexer);
 int		expand(t_data *data, char *str, int i);
 int		expand_in_quote(t_data *data, char *str, int i);
-void	check_env_expand(t_data *data, t_env *env, char *str, t_lexer *src);
+void	check_env_expand(t_data *data, t_env *env);
 int		get_word(t_data *data, char *str, int start, int stop);
 bool	find_dollar(char *str);
 bool	ft_parser(t_data *data);
