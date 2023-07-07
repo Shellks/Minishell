@@ -13,20 +13,6 @@ still reachable: 1 bytes in 1 blocks
 
 ---------------------------------------------
 
-06/07/2023 :
-
----------------------------------------------
-
-attention au del_one dans create expand l39. il ma pas posé de probleme
-pour le moment, mais si yen a ca peut surement venir de lui
-il est important faudra pas l'enlever mais le remettre dans une sortie d'erreur
-propre pour check_env_expand
-
-les 3lignes du dessous en commentaires a la fin, je vois pas la diff
-avec et sans ducoup jles laisse en com pour l'instant aussi
-
----------------------------------------------
-
 -verifier si ca pose probleme plus tard(les nodes vides)
 de faire : $lol(var inexistante) :
     : Minishell > $lol $lol
@@ -68,8 +54,10 @@ env: «unset»: Aucun fichier ou dossier de ce type
 
 ---------------------------------------------
 
-surement gerer le cas des variables 
-en lecture seul dans le parsing de env, a voir
+surement gerer le cas des variables (ajouter une verif qui donne un bool is_readonly ou pas)
+en lecture seul(readonly) dans le parsing de env, a voir
+car par exemple export et unset ne doivent pas marcher quand cest appelé sur une var en readonly
+mais yen a le bash marche quand meme cest bizarre
 
 ---------------------------------------------
 
