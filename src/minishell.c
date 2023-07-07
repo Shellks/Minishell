@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 12:22:59 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 16:16:53 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ bool	exec_built_in(t_data *data)
 void	ft_mini_loop(t_data *data)
 {
 	add_history(data->input);
- 	lexer(data);
+ 	if (lexer(data) == false)
+		return ;
 	if (!data->lexer)
 		return ;
  	ft_fusion(data);

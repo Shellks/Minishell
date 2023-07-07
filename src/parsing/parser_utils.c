@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:14:11 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 12:00:27 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 15:51:36 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_print_syntax_error(char *word)
 {
-	printf("minishell: syntax error near unexpected token `%s'\n", word);
+	printf("minishell: parse error near `%s'\n", word);
 }
 
 void	del_node_space(t_data *data)

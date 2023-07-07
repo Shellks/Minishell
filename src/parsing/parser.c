@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 11:34:03 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 16:02:35 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,15 @@ bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 		lexer = parse_cmd(data, lexer, parser, i);
 		if (data->flag == 1)
 			return (ft_print_syntax_error("newline"), false);
+		 if (lexer && !lexer->next && lexer->token == PIPE)
+		 	return (ft_print_syntax_error("|"), false);
 		if (lexer && lexer->token == PIPE && lexer->next)
 		{
 			if (lexer->next && lexer->next->token == PIPE)
 				return (ft_print_syntax_error("|"), false);
 			new = ft_parser_new();
 			if (!new)
-				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
-	
+				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);	
 			ft_parser_add_back(&data->parser, new);
 			parser = parser->next;
 			lexer = lexer->next;
@@ -104,6 +105,8 @@ bool	ft_parser(t_data *data)
 	data->parser = NULL;
 	data->flag = 0;
 	i = 0;
+	if (data->lexer->token == PIPE)
+		return (ft_print_syntax_error("|"),false);
 	del_node_space(data);
 	lexer = data->lexer;
 	new = ft_parser_new();
@@ -111,8 +114,6 @@ bool	ft_parser(t_data *data)
 		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
 	ft_parser_add_back(&data->parser, new);
 	parser = data->parser;
-	if (lexer->token == PIPE)
-		return (ft_print_syntax_error("newline"),false);
 	i = count_node(lexer);
 	if (parser_loop(data, lexer, parser, i) == false)
 		return (false);

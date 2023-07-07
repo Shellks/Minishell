@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/06 16:07:41 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 16:22:16 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,31 @@ static int	build_cmd(int i, char *str, t_data *data)
 	return (i + j);
 }
 
-void	lexer(t_data *data)
+int	lexer_loop(t_data *data, int *i)
+{
+	if (data->input[*i] == '\\')
+		*i = get_anti_slash(*i, data->input, data);
+	if (*i == -1)
+		return (-1);
+	if (data->input[*i] == ' ')
+		*i = skipe_space(*i, data->input, data);
+	else if (data->input[*i] == 34 || data->input[*i] == 39)
+	{
+		*i = check_quote(data, *i);
+		if (data->quote_error == FALSE)
+		{
+			printf("minishell: parse error: quote unclosed\n");
+			return (-1);
+		}
+	}
+	else if (check_token(*i, data->input) == true)
+		*i = build_token(*i, data->input, data);
+	else if (data->input[*i] != ' ' && data->input[*i] != 0)
+		*i = build_cmd(*i, data->input, data);
+	return (*i);
+}
+
+bool	lexer(t_data *data)
 {
 	int	i;
 
@@ -75,25 +99,10 @@ void	lexer(t_data *data)
 	data->quote_error = 0;
 	while (data->input[i] != '\0')
 	{
-		if (data->input[i] == '\\')
-			i = get_anti_slash(i, data->input, data);
+		i = lexer_loop(data, &i);
 		if (i == -1)
-			return ;
-		if (data->input[i] == ' ')
-			i = skipe_space(i, data->input, data);
-		else if (data->input[i] == 34 || data->input[i] == 39)
-		{
-			i = check_quote(data, i);
-			if (data->quote_error == FALSE)
-			{
-				printf("Syntax error : odd number of quotes\n");
-				return ;
-			}
-		}
-		else if (check_token(i, data->input) == true)
-			i = build_token(i, data->input, data);
-		else if (data->input[i] != ' ' && data->input[i] != 0)
-			i = build_cmd(i, data->input, data);
+			return (false);
 		data->index++;
 	}
+	return (true);
 }

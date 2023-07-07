@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 10:47:51 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 16:17:48 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_data
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
 //lexer fonction
-void	lexer(t_data *data);
+bool	lexer(t_data *data);
 bool	find_dollar(char *str);
 int		count_node(t_lexer	*lexer);
 void	print_lexer(t_lexer **lexer);
