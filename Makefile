@@ -6,7 +6,7 @@
 #    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/06 16:21:34 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/07 10:48:38 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS =	src/minishell.c						\
 		src/lexer/ft_fusion.c				\
 		src/lexer/check_quote.c 			\
 		src/expand/ft_expand.c				\
+		src/expand/ft_expand_status.c		\
 		src/expand/ft_expand_utils.c		\
 		src/expand/ft_expand_space.c		\
 		src/expand/ft_expand_in_quote.c		\

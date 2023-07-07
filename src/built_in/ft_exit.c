@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:23:30 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 14:24:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 12:17:33 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ void    ft_exit(t_data *data)
 {
     int i;
 
+    i = -1;
+    if (data->path)
+    {
+        while (data->path[++i])
+            free(data->path[i]);
+        free (data->path);
+    }
     i = 1;
     if (data->parser->cmd[i])
         check_exit_args(data, data->parser, i);

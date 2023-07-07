@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/06 21:02:50 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 12:22:59 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,20 @@ bool	exec_built_in(t_data *data)
 	return (true);
 }
 
-bool	ft_mini_loop(t_data *data)
+void	ft_mini_loop(t_data *data)
 {
 	add_history(data->input);
  	lexer(data);
-// 	ft_fusion(data);
- 	print_lexer(&data->lexer);
-// 	if (!data->lexer)
-// 		return (true);
-// 	if (ft_parser(data) == false)
-// 		return (false);
-// 	if (!data->parser->next)
-// 		if (exec_built_in(data) == false)
-// 			return (false);
-// 	print_parser(&data->parser);
-// 	free (data->input);
- 	return (true);
+	if (!data->lexer)
+		return ;
+ 	ft_fusion(data);
+ 	//print_lexer(&data->lexer);
+	if (ft_parser(data) == false)
+		return ;
+ 	print_parser(&data->parser);
+	if (!data->parser->next)
+		if (exec_built_in(data) == false)
+			return ;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -62,6 +60,10 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	g_status = 0;
 	data.flag = 0;
+	//cette init parser permet d'annuler un conditional jump si juste des 
+	//espaces dans data.input, a voir si on ferait pas 
+	//une vrai init propre ou si on laisse comme ça
+	data.parser = NULL;
 	if (argc != 1)
 	{
 		printf("error args : try again with only arg : ./minishell\n");
@@ -90,9 +92,12 @@ int	main(int argc, char **argv, char **env)
 			ft_free_env(&data);
 			return (0);
 		}
-		if (ft_mini_loop(&data) == false)
-			continue ;
-		ft_lexer_clear(&data.lexer);
+		ft_mini_loop(&data);
+		if (data.lexer)
+			ft_lexer_clear(&data.lexer);
+		if (data.parser)
+			ft_parser_clear(&data.parser);
+		free (data.input);
 	}
 	ft_free_env(&data);
 }

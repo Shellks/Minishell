@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 09:52:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 21:03:45 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 12:08:21 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,24 @@ void	ft_free_split(t_data *data)
 
 void	ft_free(t_data	*data, int	error, char *msg, int nb)
 {
-	if (data->cmd_path != NULL)
-		free(data->cmd_path);
-	if (nb == 1)
-		ft_env_clear(&data->env);
-	if (nb == 2)
+	int	i;
+
+	i = -1;
+	(void)nb;
+	if (data->path)
 	{
-		ft_env_clear(&data->env);
-		ft_lexer_clear(&data->lexer);
+		while (data->path[++i])
+			free(data->path[i]);
+		free(data->path);
 	}
+	// if (data->cmd_path != NULL)
+	// 	free(data->cmd_path);
+	if (data->env)
+		ft_env_clear(&data->env);
+	if (data->lexer)
+		ft_lexer_clear(&data->lexer);
+	if (data->parser)
+		ft_parser_clear(&data->parser);
 	printf("%s\n", msg);
 	exit (error);
 }
@@ -50,6 +59,8 @@ void	ft_free_env(t_data *data)
 	}
 	ft_env_clear(&data->env);
 	ft_lexer_clear(&data->lexer);
+	if (data->parser)
+		ft_parser_clear(&data->parser);
 }
 // void	ft_free_lexer(t_data *data)
 // {

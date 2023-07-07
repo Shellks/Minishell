@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:07:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 20:51:46 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 11:08:07 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	create_expand_digit(t_data *data, char *str)
 {
+	t_lexer	*tmp_lexer;
 	char	*tmp;
 	int		i;
 
@@ -33,7 +34,10 @@ void	create_expand_digit(t_data *data, char *str)
 		if (!tmp)
 			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
 	}
-	ft_lexer_last(data->lexer)->word = tmp;
+	tmp_lexer = ft_lexer_last(data->lexer);
+	if (tmp_lexer->word)
+		free(tmp_lexer->word);
+	tmp_lexer->word = tmp;
 }
 
 int	get_anti_slash(int i, char *str, t_data *data)

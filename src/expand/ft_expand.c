@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 20:21:52 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 10:54:10 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,37 +79,6 @@ static void	get_expand(t_data *data, char *str, t_lexer *src)
 		replace_false_expand_quote(data, end);
 }
 
-void	expand_status(t_data *data, char *str)
-{
-	(void)data;
-	char	*err_code;
-	char	*tmp;
-	int		start;
-	int		i;
-
-	i = 0;
-	if (str[i] == '?')
-		i++;
-	start = i;
-	while (str[i])
-		i++;
-	tmp = ft_strndup(&str[start], i);
-	if (!tmp)
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
-	err_code = ft_itoa(g_status);
-	if (!err_code)
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
-	tmp = ft_strjoin(err_code, tmp);
-	//printf("tmp : %s\n", tmp);
-	if (!tmp)
-	{
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
-		free(err_code);
-	}
-	ft_lexer_last(data->lexer)->word = tmp;
-	//printf("lexer : %s\n", str);
-}
-
 int		expand(t_data *data, char *str, int i)
 {
 	t_lexer		*cur;
@@ -125,8 +94,8 @@ int		expand(t_data *data, char *str, int i)
 		cur = ft_lexer_last(data->lexer);
 		// if (!cur || !cur->word)
 		// 	break ;
-		printf("cur->word = %s\n", cur->word);
-		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
+		if (cur->word[0] == '$' && cur->word[1] != '\0' && \
+		cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
 			{
 				get_expand(data, &cur->word[1], cur);
 				cur = ft_lexer_last(data->lexer);

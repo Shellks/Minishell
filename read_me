@@ -55,3 +55,9 @@ env: «unset»: Aucun fichier ou dossier de ce type
 
 surement gerer le cas des variables 
 en lecture seul dans le parsing de env, a voir
+
+---------------------------------------------
+
+Verifier la commande $< si on la parse comme il faut
+
+---------------------------------------------

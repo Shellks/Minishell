@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 20:39:24 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 10:13:09 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	get_next_expand(t_data *data, char *str, char *tmp2, int i)
 {
+	t_lexer	*tmp_lexer;
 	char	*tmp1;
 	char	*final_tmp;
 	int		start;
@@ -32,7 +33,10 @@ void	get_next_expand(t_data *data, char *str, char *tmp2, int i)
 		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
 	free(tmp1);
 	free(tmp2);
-	ft_lexer_last(data->lexer)->word = final_tmp;
+	tmp_lexer = ft_lexer_last(data->lexer);
+	if (tmp_lexer->word)
+		free(tmp_lexer->word);
+	tmp_lexer->word = final_tmp;
 }
 
 static char	*rm_false_expand_word(t_data *data, t_lexer *end, int *start, int *i)
@@ -47,7 +51,6 @@ static char	*rm_false_expand_word(t_data *data, t_lexer *end, int *start, int *i
 	*i += 1;
 	while (end->word[*i] && end->word[*i] != ' ' && end->word[*i] != '$')
 		*i += 1;
-//		printf("end->word[i] = %s\n", &end->word[i]);
 	*start = *i;
 	while (end->word[*i])
 		*i += 1;
@@ -74,6 +77,8 @@ void	replace_false_expand_quote(t_data *data, t_lexer *end)
 	if (end->word[i] == '$')
 	{
 		tmp = rm_false_expand_word(data, end, &start, &i);
+		if (end->word)
+			free(end->word);
 		end->word = tmp;
 	}
 }

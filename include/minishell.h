@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/06 20:22:08 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 10:47:51 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,36 +57,41 @@ typedef struct s_data
 	int			pipe;
 }			t_data;
 
-void	lexer(t_data *data);
+
+//env fonction
 void	get_pwd(t_data *data);
+void	set_env(t_data *data, char **env);
+//lexer fonction
+void	lexer(t_data *data);
 bool	find_dollar(char *str);
-void	ft_free_split(t_data *data);
+int		count_node(t_lexer	*lexer);
 void	print_lexer(t_lexer **lexer);
 int		check_quote(t_data *data, int i);
-void	set_env(t_data *data, char **env);
+int		build_token(int i, char *str, t_data *data);
+int		get_anti_slash(int i, char *str, t_data *data);
+int		get_word(t_data *data, char *str, int start, int stop);
+int		get_word_in_quote(t_data *data, char *str, int start, int stop);
+//expand fonction
+int		expand(t_data *data, char *str, int i);
+void	expand_status(t_data *data, char *str);
+void	create_expand_digit(t_data *data, char *str);
+int		expand_in_quote(t_data *data, char *str, int i);
+void	replace_false_expand_quote(t_data *data, t_lexer *end);
+void	get_next_expand(t_data *data, char *str, char *tmp2, int i);
+bool	check_space_env_content(t_data *data, t_env *env, t_lexer *src);
+//parser fonction
+bool	ft_parser(t_data *data);
 void	ft_fusion(t_data *data);
 void	del_node_space(t_data *data);
-void	ft_print_syntax_error(char * word);
-void	replace_false_expand_quote(t_data *data, t_lexer *end);
-void	create_expand_digit(t_data *data, char *str);
-int		build_token(int i, char *str, t_data *data);
-void	print_lexer(t_lexer **lexer);
-int		count_node(t_lexer	*lexer);
-int		expand(t_data *data, char *str, int i);
-int		expand_in_quote(t_data *data, char *str, int i);
-bool	check_space_env_content(t_data *data, t_env *env, t_lexer *src);
-int		get_word(t_data *data, char *str, int start, int stop);
-bool	find_dollar(char *str);
-bool	ft_parser(t_data *data);
 void	print_parser(t_parser **parser);
-bool    ft_export(t_data *data, t_parser *parser);
+void	ft_print_syntax_error(char * word);
+//built_in fonction
 void    ft_exit(t_data *data);
-void	ft_free(t_data	*data, int	error, char *msg, int nb);
-void	get_next_expand(t_data *data, char *str, char *tmp2, int i);
-int		get_anti_slash(int i, char *str, t_data *data);
-int		get_word_in_quote(t_data *data, char *str, int start, int stop);
 bool    ft_unset(t_data *data, t_parser *parser);
+bool    ft_export(t_data *data, t_parser *parser);
 //fonction temporaire pour free
 void	ft_free_env(t_data *data);
+void	ft_free_split(t_data *data);
+void	ft_free(t_data	*data, int	error, char *msg, int nb);
 
 #endif

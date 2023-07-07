@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 20:22:34 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 11:14:00 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ static void	create_expand_quote(t_data *data, t_env *env, char *str)
 {
 	char	*tmp1;
 	char	*tmp2;
-//	int		start;
 	int		i;
 
-//	printf("old_tmp = |%s|\n", str);
 	i = 0;
 	while (str[i] && str[i] != '$')
 		i++;
@@ -30,7 +28,6 @@ static void	create_expand_quote(t_data *data, t_env *env, char *str)
 	free(tmp1);
 	if (str[i])
 		get_next_expand(data, str, tmp2, i);
-//	printf("new_tmp = |%s|\n", data->lexer->word);
 }
 
 static bool	check_expand_quote(t_env *env, char *str)
@@ -67,7 +64,6 @@ static void	get_expand_quote(t_data *data, char *str)
 			create_expand_quote(data, env, end->word);
 			break ;
 		}
-//		printf("End->word = %s\n", end->word);
 		env = env->next;
 	}
 	if (env == NULL)
@@ -96,7 +92,7 @@ int	expand_in_quote(t_data *data, char *str, int i)
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
 			get_expand_quote(data, &cur->word[1]);
 		if (cur->word[0] == '$' && cur->word[1] == '?')
-			dprintf(2, "aff du code err %s\n", &cur->word[i]);
+			expand_status(data, &cur->word[1]);
 		if (cur->word[0] == '$' && ft_isdigit(cur->word[1]) == 1)
 			create_expand_digit(data, &cur->word[1]);
 	}
