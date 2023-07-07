@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 10:54:10 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 21:48:28 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,17 @@ static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 		i++;
 	tmp1 = ft_strndup(str, i);
 	if (!tmp1)
-		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
 	if (check_space_env_content(data, env, src) == true)
-	{
 		free(tmp1);
-		return ;
-	}
 	else
 	{
 		tmp2 = ft_strjoin(tmp1, env->content);
+		if (!tmp2)
+		{
+			free(tmp1);
+			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+		}
 		free(tmp1);
 		get_next_expand(data, str, tmp2, i);
 	}

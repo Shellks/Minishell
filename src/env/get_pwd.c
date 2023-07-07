@@ -6,13 +6,13 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:05:05 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:05:26 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 20:13:33 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	create_old_pwd(t_data *data)
+static void	create_old_pwd(t_data *data)
 {
 	char	*name;
 	char	*content;
@@ -20,17 +20,16 @@ static int	create_old_pwd(t_data *data)
 
 	name = ft_strdup("OLDPWD");
 	if (!name)
-		return (FALSE);
+		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	content = NULL;
 	new = ft_env_new(name, content);
 	if (!new)
-		return (FALSE);
+		free_exit_env(data, name, NULL, 1);
 	data->old_pwd = new;
 	ft_env_add_back(&data->env, new);
-	return (TRUE);
 }
 
-static int	create_pwd(t_data *data)
+static void	create_pwd(t_data *data)
 {
 	char	*name;
 	char	*content;
@@ -38,37 +37,28 @@ static int	create_pwd(t_data *data)
 
 	name = ft_strdup("PWD");
 	if (!name)
-		return (FALSE);
+		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	content = getcwd(NULL, 0);
 	if (!content)
-	{
-		free(name);
-		return (FALSE);
-	}
+		free_exit_env(data, name, NULL, 1);
 	new = ft_env_new(name, content);
 	if (!new)
-		return (FALSE);
+		free_exit_env(data, name, content, 2);
 	data->pwd = new;
 	ft_env_add_back(&data->env, new);
-	return (TRUE);
 }
 
-static int	set_pwd(t_data *data, int flag)
+static void	set_pwd(t_data *data, int flag)
 {
 	if (flag == 0)
 	{
-		if (create_old_pwd(data) == FALSE)
-			return (FALSE);
-		if (create_pwd(data) == FALSE)
-			return (FALSE);
+		create_old_pwd(data);
+		create_pwd(data);
 	}
 	if (flag == 1)
-		if (create_old_pwd(data) == FALSE)
-			return (FALSE);
+		create_old_pwd(data);
 	if (flag == 2)
-		if (create_pwd(data) == FALSE)
-			return (FALSE);
-	return (TRUE);
+		create_pwd(data);
 }
 
 void	get_pwd(t_data *data)
@@ -93,6 +83,5 @@ void	get_pwd(t_data *data)
 		tmp = tmp->next;
 	}
 	if (flag != 3)
-		if (set_pwd(data, flag) == FALSE)
-			ft_free(data, ERR_MALLOC, "Malloc_error", 1);
+		set_pwd(data, flag);
 }

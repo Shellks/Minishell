@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:38:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 10:49:02 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 21:55:01 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,19 @@ static char	*get_expand_status(t_data *data, char *str)
 
 	err_code = ft_itoa(g_status);
 	if (!err_code)
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
+	{
+		free(str);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error");
+	}
 	tmp = ft_strjoin(err_code, str);
 	if (!tmp)
 	{
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
+		free(str);
 		free(err_code);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 	}
-	free(err_code);
 	free(str);
+	free(err_code);
 	return (tmp);
 }
 
@@ -46,7 +50,7 @@ void	expand_status(t_data *data, char *str)
 		i++;
 	tmp = ft_strndup(&str[start], i);
 	if (!tmp)
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 	tmp = get_expand_status(data, tmp);
     tmp_lexer = ft_lexer_last(data->lexer);
 	if (tmp_lexer->word)

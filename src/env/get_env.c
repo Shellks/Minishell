@@ -6,13 +6,13 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:05:29 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 00:12:55 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static	int	get_path(t_data *data)
+static	void	get_path(t_data *data)
 {
 	t_env	*tmp;
 
@@ -23,42 +23,39 @@ static	int	get_path(t_data *data)
 		if (ft_strncmp(tmp->name, "PATH", 4) == 0)
 		{
 			data->path = ft_split(tmp->content, ':');
-			if (data->path == NULL)
-				return (ERR_MALLOC);
+			if (!data->path)
+				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 			break ;
 		}
 		tmp = tmp->next;
 	}
-	return (TRUE);
 }
 
-static t_env	*get_env(char *env)
+static t_env	*get_env(t_data *data, char *env)
 {
+	t_env	*new;
 	char	*name;
 	char	*content;
 	int		len;
 	int		i;
-	int		j;
 
 	len = 0;
-	i = -1;
 	while (env[len] != '=')
 		len++;
-	name = (char *)ft_calloc(sizeof(char *), len + 1);
+	name = ft_strndup(env, len);
 	if (!name)
-		return (NULL);
-	while (++i < len)
-		name[i] = env[i];
+		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	len++;
+	i = len;
 	while (env[len])
 		len++;
-	content = (char *)ft_calloc(sizeof(char *), (len - i));
+	content = ft_strndup(&env[i], (len - i));
 	if (!content)
-		return (free(name), NULL);
-	j = -1;
-	while (++i < len)
-		content[++j] = env[i];
-	return (ft_env_new(name, content));
+		free_exit_env(data, name, NULL, 1);
+	new = ft_env_new(name, content);
+	if (!new)
+		free_exit_env(data, name, content, 2);
+	return (new);
 }
 
 void	set_env(t_data *data, char **env)
@@ -70,12 +67,9 @@ void	set_env(t_data *data, char **env)
 	data->env = NULL;
 	while (env[i])
 	{
-		new = get_env(env[i++]);
-		if (!new)
-			ft_free(data, ERR_MALLOC, "Malloc_error", 1);
+		new = get_env(data, env[i++]);
 		ft_env_add_back(&data->env, new);
 	}
 	get_pwd(data);
-	if (get_path(data) == ERR_MALLOC)
-		ft_free(data, ERR_MALLOC, "Malloc_error", 1);
+	get_path(data);
 }

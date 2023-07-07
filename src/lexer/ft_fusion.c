@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 16:11:53 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 21:45:20 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ void	ft_fusion(t_data *data)
 		{
 			str = ft_strjoin(cur->word, cur->next->word);
 			if (!str)
-				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 			free(cur->word);
 			cur->word = str;
 			ft_lexer_delone(cur->next);
 		}
 		else
 			cur = cur->next;
-		// if (!cur || !cur->next || cur->next->token != WORD)
-		// 	break ;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/05 13:23:26 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 23:43:44 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_lexer
 {
 	char			*word;
 	t_token			token;
-	int				index;
 	struct s_lexer	*previous;
 	struct s_lexer	*next;
 }			t_lexer;
@@ -51,7 +50,7 @@ int			ft_lexer_size(t_lexer *lst);
 t_lexer		*ft_lexer_first(t_lexer *lst);
 void		ft_lexer_clear(t_lexer **lst);
 void		ft_lexer_delone(t_lexer *lst);
-t_lexer		*ft_lexer_new(char *word, t_token token, int index);
+t_lexer		*ft_lexer_new(char *word, t_token token);
 void		ft_lexer_add_back(t_lexer **lst, t_lexer *new);
 void		ft_lexer_add_front(t_lexer **lst, t_lexer *new);
 

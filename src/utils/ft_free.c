@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 09:52:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 12:08:21 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 00:06:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,30 @@ void	ft_free_split(t_data *data)
 {
 	int	i;
 
-	i = -1;
-	while (data->path[++i])
-		free(data->path[i]);
+	i = 0;
+	while (data->path[i])
+		free(data->path[i++]);
 	free(data->path);
 }
 
-void	ft_free(t_data	*data, int	error, char *msg, int nb)
+void	free_exit_env(t_data *data, char *name, char *content, int i)
 {
-	int	i;
-
-	i = -1;
-	(void)nb;
-	if (data->path)
+	if (i == 1)
+		free (name);
+	if (i == 2)
 	{
-		while (data->path[++i])
-			free(data->path[i]);
-		free(data->path);
+		free(name);
+		free(content);
 	}
-	// if (data->cmd_path != NULL)
-	// 	free(data->cmd_path);
+	ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+}
+
+void	ft_free_exit(t_data	*data, int	error, char *msg)
+{
+	if (data->input)
+		free(data->input);
+	if (data->path)
+		ft_free_split(data);
 	if (data->env)
 		ft_env_clear(&data->env);
 	if (data->lexer)
@@ -48,21 +52,23 @@ void	ft_free(t_data	*data, int	error, char *msg, int nb)
 
 void	ft_free_env(t_data *data)
 {
-	int	i;
-
-	i = -1;
+	if (data->input)
+		free(data->input);
 	if (data->path)
-	{
-		while (data->path[++i])
-			free(data->path[i]);
-		free(data->path);
-	}
-	ft_env_clear(&data->env);
-	ft_lexer_clear(&data->lexer);
+		ft_free_split(data);
+	if (data->env)
+		ft_env_clear(&data->env);
+	if (data->lexer)
+		ft_lexer_clear(&data->lexer);
 	if (data->parser)
 		ft_parser_clear(&data->parser);
 }
-// void	ft_free_lexer(t_data *data)
-// {
-	
-// }
+
+void	ft_free_loop(t_data *data)
+{
+	if (data->lexer)
+		ft_lexer_clear(&data->lexer);
+	if (data->parser)
+		ft_parser_clear(&data->parser);
+	free (data->input);
+}

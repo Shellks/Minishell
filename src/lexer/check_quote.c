@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 11:11:38 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 23:40:48 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,20 @@ static void	get_string_quote(t_data *data, int j, int len, char quote)
 	i = -1;
 	str = (char *)ft_calloc(sizeof(char), (len + 1));
 	if (!str)
-		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
 	j++;
 	while (data->input[j] && data->input[j] != quote && i <= len)
 		str[++i] = data->input[j++];
 	i++;
 	str[i] = '\0';
 	i = 0;
-	tmp = ft_lexer_new(str, WORD, data->index);
+	tmp = ft_lexer_new(str, WORD);
 	if (!tmp)
-		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+	{
+		free(str);
+		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+	}
 	ft_lexer_add_back(&data->lexer, tmp);
-//	printf("STR == %s\n", str);
 }
 
 int	check_quote(t_data *data, int i)

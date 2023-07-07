@@ -6,11 +6,38 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:07:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 11:08:07 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 23:40:39 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+bool	check_backslah_quote(t_data *data, char *str, int *i)
+{
+	t_lexer	*new;
+	char	*tmp;
+
+	if (str[*i] == '\\' && str[*i + 1] && str[*i + 1] == '$')
+	{
+		tmp = ft_strndup(&str[*i + 1], 1);
+		if (!tmp)
+			ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+		new = ft_lexer_new(tmp, WORD);
+		if (!new)
+		{
+			free(tmp);
+			ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+		}
+		ft_lexer_add_back(&data->lexer, new);
+		*i += 2;
+		return (true);
+	}
+	else
+	{
+		*i += 1;
+		return (false);
+	}
+}
 
 void	create_expand_digit(t_data *data, char *str)
 {
@@ -25,32 +52,19 @@ void	create_expand_digit(t_data *data, char *str)
 	{
 		tmp = ft_strdup("");
 		if (!tmp)
-			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+			ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
 	}
 	else
 	{
 		str++;
 		tmp = ft_strndup(str, i - 1);
 		if (!tmp)
-			ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+			ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
 	}
 	tmp_lexer = ft_lexer_last(data->lexer);
 	if (tmp_lexer->word)
 		free(tmp_lexer->word);
 	tmp_lexer->word = tmp;
-}
-
-int	get_anti_slash(int i, char *str, t_data *data)
-{
-	t_lexer	*new;
-	char	*tmp;
-
-	if (!str[i + 1])
-		return (ft_print_syntax_error("\\"), -1);
-	tmp = ft_strndup(&str[i + 1], 1);
-	new = ft_lexer_new(tmp, WORD, data->index);
-	ft_lexer_add_back(&data->lexer, new);
-	return (i + 2);
 }
 
 int	get_word(t_data *data, char *str, int start, int stop)
@@ -68,10 +82,13 @@ int	get_word(t_data *data, char *str, int start, int stop)
 	i -= start;
 	tmp = ft_strndup(&str[start], i);
 	if (!tmp)
-		ft_free(data, ERR_MALLOC, "Malloc_error\n", 1);
-	new = ft_lexer_new(tmp, WORD, data->index);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+	new = ft_lexer_new(tmp, WORD);
 	if (!new)
-		ft_free(data, ERR_MALLOC, "Malloc_error\n", 1);
+	{
+		free(tmp);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+	}
 	ft_lexer_add_back(&data->lexer, new);
 	i += start;
 	return (i);

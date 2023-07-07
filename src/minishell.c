@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 16:16:53 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 00:12:42 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,28 @@ void	ft_mini_loop(t_data *data)
 	if (ft_parser(data) == false)
 		return ;
  	print_parser(&data->parser);
-	if (!data->parser->next)
+	if (data->parser->cmd[0] || !data->parser->next)
 		if (exec_built_in(data) == false)
 			return ;
+}
+
+static bool	init_var(t_data	*data, char **env, int argc)
+{
+	if (argc != 1)
+	{
+		printf("minishell: error: no args expect\n");
+		return (false);
+	}
+	g_status = 0;
+	data->flag = 0;
+	data->count = 0;
+	data->env = NULL;
+	data->path = NULL;
+	data->lexer = NULL;
+	data->input = NULL;
+	data->parser = NULL;
+	set_env(data, env);
+	return (true);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -59,27 +78,18 @@ int	main(int argc, char **argv, char **env)
 //	t_env	*tmp;
 
 	(void)argv;
-	g_status = 0;
-	data.flag = 0;
-	//cette init parser permet d'annuler un conditional jump si juste des 
-	//espaces dans data.input, a voir si on ferait pas 
-	//une vrai init propre ou si on laisse comme ça
-	data.parser = NULL;
-	if (argc != 1)
-	{
-		printf("error args : try again with only arg : ./minishell\n");
-		return (0);
-	}
-	set_env(&data, env);
+	if (init_var(&data, env, argc) == false)
+		return (1);
 	// tmp = data.env;
 	// while (tmp)
 	// {
 	// 	printf("%s=%s\n", tmp->name, tmp->content);
 	// 	tmp = tmp->next;
 	// }
+	//niveau malloc tout est ok reste juste les 4 sortie de exit qui sont chelou!!!!!
 	while (1)
 	{
-	//	deuxieme boucle d'env pour faire des checks si besoin
+		//	deuxieme boucle d'env pour faire des checks si besoin
 		// tmp = data.env;
 		// while (tmp)
 		// {
@@ -94,11 +104,8 @@ int	main(int argc, char **argv, char **env)
 			return (0);
 		}
 		ft_mini_loop(&data);
-		if (data.lexer)
-			ft_lexer_clear(&data.lexer);
-		if (data.parser)
-			ft_parser_clear(&data.parser);
-		free (data.input);
+		ft_free_loop(&data);
 	}
 	ft_free_env(&data);
+	return (0);
 }

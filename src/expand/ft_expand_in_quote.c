@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 11:14:00 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 22:41:35 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ static void	create_expand_quote(t_data *data, t_env *env, char *str)
 		i++;
 	tmp1 = ft_strndup(str, i);
 	if (!tmp1)
-		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
 	tmp2 = ft_strjoin(tmp1, env->content);
+	if (!tmp2)
+		free_exit_env(data, tmp1, NULL, 1);
 	free(tmp1);
 	if (str[i])
 		get_next_expand(data, str, tmp2, i);
@@ -78,12 +80,6 @@ int	expand_in_quote(t_data *data, char *str, int i)
 	j = 0;
 	while (str[j] && j < i)
 	{
-		// printf("STR == %s\n", &str[j]);
-		// if (str[j - 1] && str[j - 1] == '\\' && str[j] == '$')
-		// {
-		// 	printf("str = %c\n", str[j]);
-		// 	j = get_anti_slash((j - 1), str, data);
-		// }
 		if (find_dollar(&str[j]) == true)
 			while (str[j] == '$' && str[j + 1] == '$')
 				j++;

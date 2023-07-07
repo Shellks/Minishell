@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 16:17:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 23:45:55 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_data
 	char		*input;
 	int			flag;
 	int			quote_error;
-	int			index;
+	int			count;
 	t_lexer		*lexer;
 	t_parser	*parser;
 	int			pipe;
@@ -76,6 +76,7 @@ int		expand(t_data *data, char *str, int i);
 void	expand_status(t_data *data, char *str);
 void	create_expand_digit(t_data *data, char *str);
 int		expand_in_quote(t_data *data, char *str, int i);
+bool	check_backslah_quote(t_data *data, char *str, int *i);
 void	replace_false_expand_quote(t_data *data, t_lexer *end);
 void	get_next_expand(t_data *data, char *str, char *tmp2, int i);
 bool	check_space_env_content(t_data *data, t_env *env, t_lexer *src);
@@ -91,7 +92,9 @@ bool    ft_unset(t_data *data, t_parser *parser);
 bool    ft_export(t_data *data, t_parser *parser);
 //fonction temporaire pour free
 void	ft_free_env(t_data *data);
+void	ft_free_loop(t_data *data);
 void	ft_free_split(t_data *data);
-void	ft_free(t_data	*data, int	error, char *msg, int nb);
+void	ft_free_exit(t_data	*data, int	error, char *msg);
+void	free_exit_env(t_data *data, char *name, char *content, int i);
 
 #endif

@@ -6,37 +6,45 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 10:13:09 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 23:40:05 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	get_next_expand(t_data *data, char *str, char *tmp2, int i)
+static char	*next_expand_word(t_data *data, char *str, char *tmp2, int i)
 {
-	t_lexer	*tmp_lexer;
+	int		start;
 	char	*tmp1;
 	char	*final_tmp;
-	int		start;
 
-	i++;
-	while (str[i] && str[i] != '$' && str[i] != ' ')
-		i++;
 	start = i;
 	while (str[i])
 		i++;
 	tmp1 = ft_strndup(&str[start], (i - start));
 	if (!tmp1)
-		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+		free_exit_env(data, tmp2, NULL, 1);
 	final_tmp = ft_strjoin(tmp2, tmp1);
 	if (!final_tmp)
-		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+		free_exit_env(data, tmp1, tmp2, 2);
 	free(tmp1);
 	free(tmp2);
+	return (final_tmp);
+}
+
+void	get_next_expand(t_data *data, char *str, char *tmp2, int i)
+{
+	t_lexer	*tmp_lexer;
+	char	*tmp;
+
+	i++;
+	while (str[i] && str[i] != '$' && str[i] != ' ')
+		i++;
+	tmp = next_expand_word(data, str, tmp2, i);
 	tmp_lexer = ft_lexer_last(data->lexer);
 	if (tmp_lexer->word)
 		free(tmp_lexer->word);
-	tmp_lexer->word = final_tmp;
+	tmp_lexer->word = tmp;
 }
 
 static char	*rm_false_expand_word(t_data *data, t_lexer *end, int *start, int *i)
@@ -47,7 +55,7 @@ static char	*rm_false_expand_word(t_data *data, t_lexer *end, int *start, int *i
 
 	tmp1 = ft_strndup(end->word, *i);
 	if (!tmp1)
-		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	*i += 1;
 	while (end->word[*i] && end->word[*i] != ' ' && end->word[*i] != '$')
 		*i += 1;
@@ -56,10 +64,10 @@ static char	*rm_false_expand_word(t_data *data, t_lexer *end, int *start, int *i
 		*i += 1;
 	tmp2 = ft_strndup(&end->word[*start], (*i - *start));
 	if (!tmp2)
-		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+		free_exit_env(data, tmp1, NULL, 1);
 	final_tmp = ft_strjoin(tmp1, tmp2);
 	if (!final_tmp)
-		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+		free_exit_env(data, tmp1, tmp2, 2);
 	free(tmp1);
 	free(tmp2);
 	return (final_tmp);
@@ -91,23 +99,21 @@ int	get_word_in_quote(t_data *data, char *str, int start, int stop)
 
 	i = start;
 	tmp = NULL;
-	if (str[i] == '\\' && str[i + 1] && str[i + 1] == '$')
-	{
-		tmp = ft_strndup(&str[i + 1], 1);
-		new = ft_lexer_new(tmp, WORD, data->index);
-		ft_lexer_add_back(&data->lexer, new);
-		return (i + 2);
-	}
-	else
-		i++;
-	while(str[i] && str[i] != '=' && str[i] != '$' && str[i] != ' ' \
+	if (check_backslah_quote(data, str, &i) == true)
+		return (i);
+	while (str[i] && str[i] != '=' && str[i] != '$' && str[i] != ' ' \
 	&& str[i] != 28 && str[i] != '\\' &&i < stop)
 		i++;
 	i -= start;
 	tmp = ft_strndup(&str[start], i);
-	new = ft_lexer_new(tmp, WORD, data->index);
+	if (!tmp)
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+	new = ft_lexer_new(tmp, WORD);
 	if (!new)
-		ft_free(data, ERR_MALLOC, "Malloc_error\n", 1);
+	{
+		free(tmp);
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+	}
 	ft_lexer_add_back(&data->lexer, new);
 	return (i += start);
 }

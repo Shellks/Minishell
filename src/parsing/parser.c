@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 16:02:35 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 23:08:53 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@ static bool	parse_redir(t_data *data, t_lexer **lex, t_parser *lst, int *i)
 	{
 		redir = ft_redir_new((*lex)->token);
 		if (!redir)
-			ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 		redir->redirec = ft_strdup((*lex)->next->word);
+		if (!redir->redirec)
+		{
+			ft_redir_delone(redir);
+			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+		}
 		ft_redir_add_back(&lst->redir, redir);
 		if ((*lex)->next->next)
 		{
@@ -31,11 +36,8 @@ static bool	parse_redir(t_data *data, t_lexer **lex, t_parser *lst, int *i)
 		else
 			return (false);
 	}
-	else
-	{
-		data->flag = 1;
-		return (false);
-	}
+	else // c'est norme ce return ??
+		return (data->flag = 1, false);
 	return (true);
 }
 
@@ -48,7 +50,7 @@ static t_lexer	*parse_cmd(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 	j = -1;
 	lst->cmd = (char **)ft_calloc(sizeof(char *), (i + 1));
 	if (!lst->cmd)
-		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	lst->redir = NULL;
 	while(lexer && len < i)
 	{
@@ -56,7 +58,7 @@ static t_lexer	*parse_cmd(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 		{
 			lst->cmd[++j] = ft_strdup(lexer->word);
 			if (!lst->cmd[j])
-				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 			lexer = lexer->next;
 			len++;
 		}
@@ -83,7 +85,7 @@ bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 				return (ft_print_syntax_error("|"), false);
 			new = ft_parser_new();
 			if (!new)
-				ft_free(data, ERR_MALLOC, "Malloc error\n", 2);	
+				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 			ft_parser_add_back(&data->parser, new);
 			parser = parser->next;
 			lexer = lexer->next;
@@ -111,7 +113,7 @@ bool	ft_parser(t_data *data)
 	lexer = data->lexer;
 	new = ft_parser_new();
 	if (!new)
-		ft_free(data, ERR_MALLOC, "Malloc error\n", 2);
+		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	ft_parser_add_back(&data->parser, new);
 	parser = data->parser;
 	i = count_node(lexer);

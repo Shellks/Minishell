@@ -1,3 +1,18 @@
+07/07/2023
+
+--------------------------------------------
+on a un leaks dans ft_expand_space de 1bytes quand un malloc(qui ne petera jamais) pete,
+je sais comment le regler mais en vrai cest mega chiant a faire faut qu'on voie si on le laisse ou
+pas, il est vraiment perdu de ouf pour le trouver cest juste de la chatte
+
+ft_expand_space : les deux malloc(la lst et la str) cest
+la str tmp1 dans create expand qui est pas free mais voila le bordel pour la free faut restructurer toute la fonction
+et j'ai galeré de ouf a faire un truc normé et qui marche mdr
+
+still reachable: 1 bytes in 1 blocks
+
+---------------------------------------------
+
 06/07/2023 :
 
 ---------------------------------------------
