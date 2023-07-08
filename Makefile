@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/03 21:04:13 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/05 17:51:43 by nicolasbern      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,8 @@ SRCS =	src/minishell.c						\
 		src/get_pwd.c						\
 		src/get_env.c						\
 		src/lexer.c							\
+		src/builtin_env.c					\
+		src/builtin_echo.c					\
 		src/ft_fusion.c						\
 		src/ft_expand.c						\
 		src/ft_expand_in_quote.c			\

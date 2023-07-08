@@ -1,44 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 01:03:22 by nicolasbern      ###   ########.fr       */
+/*   Created: 2023/07/05 17:42:09 by nicolasbern       #+#    #+#             */
+/*   Updated: 2023/07/05 17:52:16 by nicolasbern      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	g_status;
-
-int	main(int argc, char **argv, char **env)
+void	builtin_env(t_data *data)
 {
-	t_data	data;
+	t_env	*tmp;
 
-	(void)argv;
-	g_status = 0;
-	data.flag = 0;
-	if (argc != 1)
+	tmp = NULL;
+	tmp = data->env;
+	while (tmp)
 	{
-		//printf("error\n");
-		return (0);
+		printf("%s=%s\n", tmp->name, tmp->content);
+		tmp = tmp->next;
 	}
-	set_env(&data, env);
-	while (1)
-	{
-		data.input = readline(COLOR"Minishell > "RESET);
-		if (!data.input)
-		{
-			printf("exit\n");
-			ft_env_clear(&data.env);
-			return (0);
-		}
-		add_history(data.input);
-		lexer(&data);
-		free (data.input);
-	}
-	ft_env_clear(&data.env);
 }

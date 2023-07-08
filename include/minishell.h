@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 20:05:00 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 00:07:14 by nicolasbern      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include "env.h"
 # include "lexer.h"
+# include "parser.h"
+# include "builtin.h"
+//boolean
+# include <stdbool.h>
 //Malloc
 # include <stdlib.h>
 //Printf
@@ -26,9 +30,6 @@
 //Library for environment
 # include <readline/readline.h>
 # include <readline/history.h>
-//boolean
-# include <stdbool.h>
-# include "parser.h"
 
 
 # define COLOR "\x1b[36;1m"
@@ -55,6 +56,10 @@ typedef struct s_data
 	t_parser	*parser;
 	int			pipe;
 }			t_data;
+
+//builtin=====
+void	builtin_env(t_data *data);
+void	builtin_echo(char **tab);
 
 void	lexer(t_data *data);
 void	get_pwd(t_data *data);

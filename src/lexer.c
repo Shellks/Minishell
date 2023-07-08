@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 18:09:29 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 16:48:30 by nicolasbern      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,12 @@ void	lexer(t_data *data)
 		data->index++;
 	}
 	ft_fusion(data);
-//	print_lexer(&data->lexer);
+	//print_lexer(&data->lexer);
 	if (!data->lexer)
 		return ;
 	if (ft_parser(data) == FALSE)
 		return ;
-	print_parser(&data->parser);
+
+    
+	//print_parser(&data->parser);
 }

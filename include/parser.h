@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:05:19 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/03 21:03:38 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/05 16:37:43 by nicolasbern      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_parser
 	struct s_parser	*next;
 }			t_parser;
 
-t_redir		*ft_redir_new();
+t_redir		*ft_redir_new(t_token token);
 t_parser	*ft_parser_new();
 t_redir		*ft_redir_last(t_redir *lst);
 int			ft_parser_size(t_parser *lst);

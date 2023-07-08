@@ -1,0 +1,50 @@
+
+echo -n -n -ny -n salut prout
+tmp->cmd[0] : |echo|
+tmp->cmd[1] : |-n|
+tmp->cmd[2] : |-n|
+tmp->cmd[3] : |-ny|
+tmp->cmd[4] : |-n|
+tmp->cmd[5] : |salut|
+tmp->cmd[6] : |prout|
+
+
+si un argc et tmp->cmd[0] : |echo|  -->     ft_strndup(tmp->cmd[0], "echo", 4)
+si deux args check si tmp->cmd[1] : |-n|
+secu tmp->cmd[0] : |echo|           -->     ft_strndup(tmp->cmd[0], "echo", 4)
+boucle sur tmp->cmd[i]              -->     while (tmp->cmd[i])
+boucle sur tmp->cmd[i][j]           -->     while (tmp->cmd[i][j])
+condition si 'n' ou '-'             -->     if ((tmp->cmd[i][j] == 'n') || (tmp->cmd[i][j] == '-'))
+
+
+bool backslash_n;
+    int len;
+    int flag;
+    int i;
+    int j;
+
+    flag = 0;
+    len = ft_strlen_tab(tab);
+    i = -1;
+    j = 0;
+    backslash_n = false;
+
+liste chainée
+
+typedef struct s_echo
+{
+    int len;
+    int flag;
+    int i;
+    int j;
+    bool backslash_n;
+}               t_echo;
+
+void    init_struct_echo(t_echo *echo, char **tab)
+{
+    echo->len = ft_strlen_tab(tab);
+    echo->flag
+    echo->i = 1;
+    echo->j = 0;
+    echo->backslash_n = false;
+}
