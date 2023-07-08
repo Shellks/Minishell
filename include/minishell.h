@@ -6,15 +6,18 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 23:45:55 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 12:38:37 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//Own library
 # include "env.h"
 # include "lexer.h"
+# include "parser.h"
+# include "exec.h"
 //Malloc
 # include <stdlib.h>
 //Printf
@@ -28,7 +31,6 @@
 # include <readline/history.h>
 //boolean
 # include <stdbool.h>
-# include "parser.h"
 
 
 # define COLOR "\x1b[36;1m"
@@ -90,6 +92,8 @@ void	ft_print_syntax_error(char * word);
 void    ft_exit(t_data *data);
 bool    ft_unset(t_data *data, t_parser *parser);
 bool    ft_export(t_data *data, t_parser *parser);
+//exec fonction
+bool    ft_set_redir(t_parser *parser, t_exec *exec);
 //fonction temporaire pour free
 void	ft_free_env(t_data *data);
 void	ft_free_loop(t_data *data);

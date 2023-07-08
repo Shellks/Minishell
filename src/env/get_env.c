@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/08 00:12:55 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 09:44:49 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static t_env	*get_env(t_data *data, char *env)
 void	set_env(t_data *data, char **env)
 {
 	t_env	*new;
+	int		tmp;
 	int		i;
 
 	i = 0;
@@ -68,6 +69,15 @@ void	set_env(t_data *data, char **env)
 	while (env[i])
 	{
 		new = get_env(data, env[i++]);
+		if (ft_strncmp(new->name, "SHLVL", 5) == 0)
+		{
+			tmp = ft_atoi(new->content);
+			tmp++;
+			free(new->content);
+			new->content = ft_itoa(tmp);
+			if (!new->content)
+				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+		}
 		ft_env_add_back(&data->env, new);
 	}
 	get_pwd(data);

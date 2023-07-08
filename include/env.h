@@ -6,14 +6,12 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 09:13:19 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 13:14:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 10:44:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-
-//# include "minishell.h"
 
 typedef struct s_env
 {

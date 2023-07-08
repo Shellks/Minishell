@@ -64,3 +64,6 @@ mais yen a le bash marche quand meme cest bizarre
 Verifier la commande $< si on la parse comme il faut
 
 ---------------------------------------------
+
+redir valable tant qu'elle est existe, peut y en a voir x, on prend que la derniere en compte
+et ça pour chaque pipe separement

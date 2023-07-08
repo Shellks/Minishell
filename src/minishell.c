@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/08 00:12:42 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 15:15:27 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_status;
 
-bool	exec_built_in(t_data *data)
+bool	get_built_in(t_data *data)
 {
 	if (ft_strncmp(data->parser->cmd[0], "pwd", 3) == 0)
 	{
@@ -36,7 +36,16 @@ bool	exec_built_in(t_data *data)
 	return (true);
 }
 
-void	ft_mini_loop(t_data *data)
+void	ft_exec(t_data *data, t_exec *exec)
+{
+	if (ft_set_redir(data->parser, exec) == false)
+		return ;
+	// if (data->parser->cmd[0] || !data->parser->next)
+	// 	if (get_built_in(data) == false)
+	// 		return ;
+}
+
+void	ft_mini_loop(t_data *data, t_exec *exec)
 {
 	add_history(data->input);
  	if (lexer(data) == false)
@@ -48,16 +57,14 @@ void	ft_mini_loop(t_data *data)
 	if (ft_parser(data) == false)
 		return ;
  	print_parser(&data->parser);
-	if (data->parser->cmd[0] || !data->parser->next)
-		if (exec_built_in(data) == false)
-			return ;
+	ft_exec(data, exec);
 }
 
-static bool	init_var(t_data	*data, char **env, int argc)
+static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 {
 	if (argc != 1)
 	{
-		printf("minishell: error: no args expect\n");
+		printf("minishell: error: no args expected\n");
 		return (false);
 	}
 	g_status = 0;
@@ -68,6 +75,8 @@ static bool	init_var(t_data	*data, char **env, int argc)
 	data->lexer = NULL;
 	data->input = NULL;
 	data->parser = NULL;
+	exec->flag_in = 0;
+	exec->flag_out = 0;
 	set_env(data, env);
 	return (true);
 }
@@ -75,17 +84,18 @@ static bool	init_var(t_data	*data, char **env, int argc)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
-//	t_env	*tmp;
+	t_env	*tmp;
+	t_exec	exec;
 
 	(void)argv;
-	if (init_var(&data, env, argc) == false)
+	if (init_var(&data, &exec, env, argc) == false)
 		return (1);
-	// tmp = data.env;
-	// while (tmp)
-	// {
-	// 	printf("%s=%s\n", tmp->name, tmp->content);
-	// 	tmp = tmp->next;
-	// }
+	tmp = data.env;
+	while (tmp)
+	{
+		printf("%s=%s\n", tmp->name, tmp->content);
+		tmp = tmp->next;
+	}
 	//niveau malloc tout est ok reste juste les 4 sortie de exit qui sont chelou!!!!!
 	while (1)
 	{
@@ -103,7 +113,7 @@ int	main(int argc, char **argv, char **env)
 			ft_free_env(&data);
 			return (0);
 		}
-		ft_mini_loop(&data);
+		ft_mini_loop(&data, &exec);
 		ft_free_loop(&data);
 	}
 	ft_free_env(&data);
