@@ -6,12 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:55:59 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/08 15:16:20 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 17:58:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 static bool	get_infile(t_redir *redir, t_exec *exec)
 {
@@ -51,28 +50,6 @@ static bool	get_outfile(t_redir *redir, t_exec *exec)
     exec->flag_out = 1;
     return (true);
 }
-// static bool	get_heredoc(t_redir *redir, t_exec *exec)
-// {
-//     char	*str;
-
-// 	if (pipe(exec->here_doc) < 0)
-// 		exit (false);
-// 	while (1)
-// 	{
-// 		write(1, "here_doc> ", 11);
-// 		str = get_next_line(STDIN_FILENO);
-// 		if (str == NULL)
-// 			exit (false);
-// 		if (ft_strncmp(str, redir->redirec, ft_strlen(redir->redirec)) == 0 && 
-// 		    ft_strlen(str) == ft_strlen(redir->redirec) +1)
-// 		{
-// 			free(str);
-// 			break ;
-// 		}
-// 		write(exec->here_doc[1], str, ft_strlen(str));
-// 		free(str);
-// 	}
-// }
 static bool	get_append(t_redir *redir, t_exec *exec)
 {
     if (!redir->redirec)
@@ -93,13 +70,11 @@ static bool	get_append(t_redir *redir, t_exec *exec)
     return (true);
 }
 
-static bool    set_redir_loop(t_exec *exec, t_redir *redir)
+static bool    set_redir_loop(t_data *data, t_exec *exec, t_redir *redir)
 {
+    (void)data;
     // if (redir->token == HERE_DOC)
-    // {
-    //     if (get_heredoc(redir, exec) == false)
-    //         return (false);
-    // }
+    //     get_heredoc(data, redir, exec);
     if (redir->token == INFILE)
     {
         if (get_infile(redir, exec) == false)
@@ -118,7 +93,7 @@ static bool    set_redir_loop(t_exec *exec, t_redir *redir)
     return (true);
 }
 
-bool    ft_set_redir(t_parser *parser, t_exec *exec)
+bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec)
 {
     t_redir *tmp_redir;
 
@@ -127,7 +102,7 @@ bool    ft_set_redir(t_parser *parser, t_exec *exec)
     tmp_redir = parser->redir;
     while (tmp_redir)
     {
-        if (set_redir_loop(exec, tmp_redir) == false)
+        if (set_redir_loop(data, exec, tmp_redir) == false)
         {
             if (exec->flag_in == 1)
                 close(exec->infile);

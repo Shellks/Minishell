@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/08 12:38:37 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/08 16:59:51 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define FALSE 1
 # define ERR_MALLOC 2
 # define ERR_SYNTAX 3
+# define ERR_FORK	4
 
 extern int g_status;
 
@@ -93,7 +94,8 @@ void    ft_exit(t_data *data);
 bool    ft_unset(t_data *data, t_parser *parser);
 bool    ft_export(t_data *data, t_parser *parser);
 //exec fonction
-bool    ft_set_redir(t_parser *parser, t_exec *exec);
+void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec);
+bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
 //fonction temporaire pour free
 void	ft_free_env(t_data *data);
 void	ft_free_loop(t_data *data);
