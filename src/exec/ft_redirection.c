@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:55:59 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/10 14:18:43 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/10 22:59:51 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec)
         }
         tmp_redir = tmp_redir->next;
     }
-    if (exec->flag_in == 2)
-        ft_close_here_doc(exec, 0, 1);
+    // if (exec->flag_in == 2)
+    //     ft_close_here_doc(exec, 0, 1);
     if (exec->flag_in == 1)
         close(exec->infile);
     if (exec->flag_out == 1)
