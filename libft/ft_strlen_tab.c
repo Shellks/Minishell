@@ -1,14 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_parser.c                                     :+:      :+:    :+:   */
+/*   ft_strlen_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/30 13:19:34 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/30 13:22:54 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/07/09 20:08:18 by nicolasbern       #+#    #+#             */
+/*   Updated: 2023/07/09 20:12:04 by nicolasbern      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
 
+size_t ft_strlen_tab(char **tab)
+{
+    int len;
+
+    len = 0;
+    while(tab[len])
+        len++;
+    return (len);
+}

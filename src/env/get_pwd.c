@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:05:05 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/19 18:11:29 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/06 16:05:26 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int	create_old_pwd(t_data *data)
 {
@@ -25,6 +25,7 @@ static int	create_old_pwd(t_data *data)
 	new = ft_env_new(name, content);
 	if (!new)
 		return (FALSE);
+	data->old_pwd = new;
 	ft_env_add_back(&data->env, new);
 	return (TRUE);
 }
@@ -47,6 +48,7 @@ static int	create_pwd(t_data *data)
 	new = ft_env_new(name, content);
 	if (!new)
 		return (FALSE);
+	data->pwd = new;
 	ft_env_add_back(&data->env, new);
 	return (TRUE);
 }

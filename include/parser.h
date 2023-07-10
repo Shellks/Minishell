@@ -6,7 +6,7 @@
 /*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:05:19 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/05 16:37:43 by nicolasbern      ###   ########.fr       */
+/*   Updated: 2023/07/10 06:59:42 by nicolasbern      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ typedef struct s_redir
 typedef struct s_parser
 {
 	char			**cmd;
+	int     		*fd_input;
+    int     		*fd_output;
+    int     		pid;
 	t_redir			*redir;
 	struct s_parser	*next;
 }			t_parser;
@@ -31,6 +34,8 @@ typedef struct s_parser
 t_redir		*ft_redir_new(t_token token);
 t_parser	*ft_parser_new();
 t_redir		*ft_redir_last(t_redir *lst);
+void		ft_redir_delone(t_redir *lst);
+void		ft_redir_clear(t_redir **lst);
 int			ft_parser_size(t_parser *lst);
 t_parser	*ft_parser_last(t_parser *lst);
 void		ft_parser_clear(t_parser **lst);

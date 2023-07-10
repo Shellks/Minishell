@@ -1,59 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand.c                                        :+:      :+:    :+:   */
+/*   ft_expand_in_quote.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/29 14:54:48 by nibernar         ###   ########.fr       */
+/*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
+/*   Updated: 2023/07/07 11:14:00 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-
-static void	create_expand(t_data *data, t_env *env, char *str)
+static void	create_expand_quote(t_data *data, t_env *env, char *str)
 {
 	char	*tmp1;
 	char	*tmp2;
 	int		i;
-	
+
 	i = 0;
 	while (str[i] && str[i] != '$')
 		i++;
 	tmp1 = ft_strndup(str, i);
 	if (!tmp1)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
-	check_env_expand(data, env, &str[i]);
 	tmp2 = ft_strjoin(tmp1, env->content);
 	free(tmp1);
 	if (str[i])
 		get_next_expand(data, str, tmp2, i);
 }
 
-static bool	check_expand(t_data *data, t_env *env, char *s1)
+static bool	check_expand_quote(t_env *env, char *str)
 {
 	int	i;
 
-	(void)data;
 	i = 0;
-	while(s1[i] != '$' && s1[i] != '\0')
+	while(str[i] != ' ' && str[i] != '$' && str[i] != '\0')
 		i++;
 	if ((int)ft_strlen(env->name) < i)
 	{
-		if (ft_strncmp(s1, env->name, i) == 0)
+		if (ft_strncmp(str, env->name, i) == 0)
 			return (true);
 	}
 	else
 	{
-		if (ft_strncmp(s1, env->name, ft_strlen(env->name)) == 0)
+		if (ft_strncmp(str, env->name, ft_strlen(env->name)) == 0)
 			return (true);
 	}
 	return (false);
 }
 
-static void	get_expand(t_data *data, char *str)
+static void	get_expand_quote(t_data *data, char *str)
 {
 	t_lexer	*end;
 	t_env	*env;
@@ -62,49 +59,18 @@ static void	get_expand(t_data *data, char *str)
 	end = ft_lexer_last(data->lexer);
 	while (env)
 	{
-		if (check_expand(data, env, str) == true)
+		if (check_expand_quote(env, str) == true)
 		{
-			create_expand(data, env, end->word);
+			create_expand_quote(data, env, end->word);
 			break ;
 		}
 		env = env->next;
 	}
 	if (env == NULL)
-		replace_false_expand_quote(end);
+		replace_false_expand_quote(data, end);
 }
 
-void	expand_status(t_data *data, char *str)
-{
-	(void)data;
-	char	*err_code;
-	char	*tmp;
-	int		start;
-	int		i;
-
-	i = 0;
-	if (str[i] == '?')
-		i++;
-	start = i;
-	while (str[i])
-		i++;
-	tmp = ft_strndup(&str[start], i);
-	if (!tmp)
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
-	err_code = ft_itoa(g_status);
-	if (!err_code)
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
-	tmp = ft_strjoin(err_code, tmp);
-	printf("tmp : %s\n", tmp);
-	if (!tmp)
-	{
-		ft_free(data, ERR_MALLOC, "Malloc_error", 2);
-		free(err_code);
-	}
-	ft_lexer_last(data->lexer)->word = tmp;
-	printf("lexer : %s\n", str);
-}
-
-int		expand(t_data *data, char *str, int i)
+int	expand_in_quote(t_data *data, char *str, int i)
 {
 	t_lexer		*cur;
 	int		j;
@@ -112,15 +78,19 @@ int		expand(t_data *data, char *str, int i)
 	j = 0;
 	while (str[j] && j < i)
 	{
+		// printf("STR == %s\n", &str[j]);
+		// if (str[j - 1] && str[j - 1] == '\\' && str[j] == '$')
+		// {
+		// 	printf("str = %c\n", str[j]);
+		// 	j = get_anti_slash((j - 1), str, data);
+		// }
 		if (find_dollar(&str[j]) == true)
-		{
 			while (str[j] == '$' && str[j + 1] == '$')
 				j++;
-		}
-		j = get_word(data, str, j, i);
+		j = get_word_in_quote(data, str, j, i);
 		cur = ft_lexer_last(data->lexer);
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
-			get_expand(data, &cur->word[1]);
+			get_expand_quote(data, &cur->word[1]);
 		if (cur->word[0] == '$' && cur->word[1] == '?')
 			expand_status(data, &cur->word[1]);
 		if (cur->word[0] == '$' && ft_isdigit(cur->word[1]) == 1)

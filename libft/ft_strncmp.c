@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 14:35:27 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/14 16:44:38 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/09 20:57:37 by nicolasbern      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 			return (uns1[i] - uns2[i]);
 		i++;
 	}
+	//printf("s1 = |%s|    s2 = |%s|\n", s1, s2);
 	return (0);
 }

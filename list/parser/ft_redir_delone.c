@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   ft_redir_delone.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/05 17:42:09 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/05 17:52:16 by nicolasbern      ###   ########.fr       */
+/*   Created: 2023/07/06 13:27:25 by acarlott          #+#    #+#             */
+/*   Updated: 2023/07/06 14:13:48 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-void	builtin_env(t_data *data)
+void	ft_redir_delone(t_redir *lst)
 {
-	t_env	*tmp;
-
-	tmp = NULL;
-	tmp = data->env;
-	while (tmp)
+	if (lst)
 	{
-		printf("%s=%s\n", tmp->name, tmp->content);
-		tmp = tmp->next;
+		free(lst->redirec);
+		free(lst);
 	}
 }

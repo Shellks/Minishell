@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser_clear.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:51:01 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/29 16:12:13 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/07 11:47:48 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_parser_clear(t_parser **lst)
 		return ;
 	while (*lst)
 	{
+		ft_redir_clear(&(*lst)->redir);
 		tmp = (*lst)->next;
 		ft_parser_delone(*lst);
 		*lst = tmp;

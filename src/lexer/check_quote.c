@@ -6,11 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/06/28 19:18:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/07 11:11:38 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static void	get_string_quote(t_data *data, int j, int len, char quote)
 {
@@ -24,7 +24,6 @@ static void	get_string_quote(t_data *data, int j, int len, char quote)
 	if (!str)
 		ft_free(data, ERR_MALLOC, "Malloc_error\n", 2);
 	j++;
-//	printf("str[j] = %c\n", data->input[j]);
 	while (data->input[j] && data->input[j] != quote && i <= len)
 		str[++i] = data->input[j++];
 	i++;
@@ -55,7 +54,7 @@ int	check_quote(t_data *data, int i)
 		return (i + 1);
 	}
 	else if (data->input[i] == quote && quote == 39)
-		get_string_quote(data, j, (i - j), quote);
+		get_string_quote(data, (j - 1), (i - j), quote);
 	else
 		data->quote_error = 1;
 	return (i + 1);
