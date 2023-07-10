@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 09:52:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/08 00:06:06 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/10 13:04:24 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	ft_free_exit(t_data	*data, int	error, char *msg)
 		ft_lexer_clear(&data->lexer);
 	if (data->parser)
 		ft_parser_clear(&data->parser);
-	printf("%s\n", msg);
+	if (msg)
+		printf("%s\n", msg);
 	exit (error);
 }
 

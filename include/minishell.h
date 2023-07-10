@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/08 16:59:51 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/10 14:02:15 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 
 # define COLOR "\x1b[36;1m"
 # define RESET "\x1b[0m"
+# define BUFFER_SIZE 100
+# define NONE 0
+# define REDIR 1
 # define BREAK -1
 # define TRUE 0
 # define FALSE 1
@@ -102,5 +105,9 @@ void	ft_free_loop(t_data *data);
 void	ft_free_split(t_data *data);
 void	ft_free_exit(t_data	*data, int	error, char *msg);
 void	free_exit_env(t_data *data, char *name, char *content, int i);
+//gnl
+char	*get_next_line(int fd);
+//fonction temporaire pour close
+void    ft_close_here_doc(t_exec *exec, int *fd, int sign);
 
 #endif

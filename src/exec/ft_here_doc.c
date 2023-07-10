@@ -6,88 +6,88 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/08 17:57:35 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/10 14:57:33 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
-// void    child_heredoc(t_redir *re, int p_to_c[2], int c_to_p[2], int pipe[2])
-// {
-//     int     read_byte;
-//     char    buf[100];
+void    child_heredoc(t_exec *exec, t_redir *re, int pipe_connect[2])
+{
+  char    *str;
 
-//     close(c_to_p[0]);
-//     close(pipe[0]);
-//     close(pipe[1]);
-//     while (1)
-// 	{
-// 		write(1, "here_doc> ", 11);
-//         read_byte = read(p_to_c[0], buf, sizeof(buf));
-//         if (read_byte > 0)
-//         {
-//             if (ft_strncmp(buf, re->redirec, ft_strlen(re->redirec)) == 0)
-//                 break ;
-//             write(c_to_p[1], buf, read_byte);
-//         }
-//         else
-//             break;
-// 	}
-//     close(p_to_c[0]);
-//     close(c_to_p[1]);
-//     close(p_to_c[1]);
-// }
+  while (1)
+	{
+    str = readline("here_doc> ");
+    if (!str)
+      break ;
+    if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0)
+      break ;
+    write(pipe_connect[1], str, ft_strlen(str));
+    free (str);
+	}
+  ft_close_here_doc(exec, 0, 1);
+  close(pipe_connect[1]);
+  close(pipe_connect[0]);
+}
 
-// void    parent_heredoc(t_redir *re, int p_to_c[2], int c_to_p[2], int pipe[2])
-// {
-//     int     read_byte;
-//     int     read_from_child;
-//     char    buf[100];
+void    parent_heredoc(t_redir *re, int pipe_connect[2], int pipe[2])
+{
+  char      buf[100];
+  ssize_t   read_byte;
+  char      *str;
+  //int       fd;
 
-//     close(c_to_p[1]);
-//     close(p_to_c[0]);
-//     while (1)
-// 	{
-//         read_byte = read(STDIN_FILENO, buf, sizeof(buf));
-//         if (read_byte > 0)
-//         {
-//             write(p_to_c[1], buf, read_byte);
-//             read_from_child = read(c_to_p[0], buf, sizeof(buf));
-//             write(pipe[1], buf, read_from_child);
-//             if (ft_strncmp(buf, re->redirec, ft_strlen(re->redirec)) == 0)
-//                 break ;
-//         }
-//         else
-//             break ;
-//     }
-//     close(p_to_c[1]);
-//     close(c_to_p[0]);
-// }
+  //ft_memset(buf, 0, 100);
+  close(pipe_connect[1]);
+  //fd = open(re->next->redirec, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  while (1)
+	{
+    read_byte = read(pipe_connect[0], buf, sizeof(buf));
+    if (read_byte > 0)
+    {
+      //buf[read_byte] = '\0';
+      str = ft_strnstr(buf, re->redirec, read_byte);
+        if (!str)
+        {
+          write(pipe[1], buf, read_byte);
+          //write(fd, buf, read_byte);
+        }
+        else
+          break ;
+    }
+    else
+      break ;
+  }
+  //close(fd);
+  close(pipe_connect[0]);
+}
 
-// void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
-// {
-//     int parent_to_child[2];
-//     int child_to_parent[2];
+void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
+{
+    int pipe_connect[2];
 
-//     if (exec->flag_in == 1)
-//     {
-//         exec->flag_in = 0;
-//         close(exec->infile);
-//     }
-// 	if (pipe(parent_to_child) < 0 || pipe(child_to_parent) < 0)
-// 		exit (false);
-//     if (pipe(exec->here_doc) < 0)
-//         exit (false);
-//     exec->pid = fork ();
-//     if (exec->pid == -1)
-//         ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
-//     if (exec->pid == 0)
-//         child_heredoc(redir, parent_to_child, child_to_parent, exec->here_doc);
-//     else
-//     {
-//         parent_heredoc(redir, parent_to_child, child_to_parent, exec->here_doc);
-//         printf("Coucou\n");
-//         wait(NULL);
-//     }
-//     exec->flag_in = 2;
-// }
+    if (exec->flag_in == 1)
+    {
+        exec->flag_in = 0;
+        close(exec->infile);
+    }
+    if (pipe(exec->here_doc) < 0 || pipe(pipe_connect) < 0)
+		  ft_free_exit(data, ERR_FORK, "minishell: error with creating pipe\n");
+    exec->pid = fork ();
+    if (exec->pid == -1)
+        ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
+    if (exec->pid == 0)
+    {
+      child_heredoc(exec, redir, pipe_connect);
+      printf("Child process ending !\n");
+      ft_free_exit(data, 0, NULL);
+    }
+    else
+    {
+        parent_heredoc(redir, pipe_connect, exec->here_doc);
+        wait(NULL);
+    }
+    printf("Here_doc created !\n");
+    exec->flag_in = 2;
+}

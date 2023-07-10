@@ -6,7 +6,7 @@
 #    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/08 17:20:45 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/10 12:34:51 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ SRCS =	src/minishell.c						\
 		src/exec/ft_redirection.c			\
 		src/exec/ft_here_doc.c				\
 		src/utils/ft_free.c					\
+		src/utils/get_next_line.c			\
+		src/utils/ft_close.c				\
 		list/parser/ft_parser_add_back.c	\
 		list/parser/ft_parser_clear.c		\
 		list/parser/ft_parser_delone.c		\
