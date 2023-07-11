@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/10 14:03:49 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/11 17:43:54 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,21 @@ bool	get_built_in(t_data *data)
 	}
 	else if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
 		ft_exit(data);
+	else if (ft_strncmp(data->parser->cmd[0], "env", 3) == 0)
+	{
+		if (ft_env(data) == false)
+			return (false);
+	}
+	else if (ft_strncmp(data->parser->cmd[0], "echo", 4) == 0)
+	{
+		if (ft_echo(data) == false)
+			return (false);
+	}
+	else if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
+	{
+		if (ft_cd(data ,data->parser->cmd) == false)
+			return (false);
+	}
 	return (true);
 }
 
@@ -117,6 +132,8 @@ int	main(int argc, char **argv, char **env)
 		ft_mini_loop(&data, &exec);
 		ft_free_loop(&data);
 	}
+	//while (waitpid(-1, NULL, 0) != -1)
+	//	;
 	ft_free_env(&data);
 	return (0);
 }

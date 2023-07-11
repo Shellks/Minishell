@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:15:36 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 13:22:01 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/11 16:51:06 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void    unset_loop(t_data *data, t_env *env, t_parser *parser, int i)
     while (env)
     {
         len = ft_strlen(parser->cmd[i]);
-        if (ft_strncmp(parser->cmd[i], env->name, len) == 0)
+        if (ft_strncmp(parser->cmd[i], env->name, ft_strlen(env->name)) == 0)
         {
             if (!env->previous)
                 data->env = data->env->next;

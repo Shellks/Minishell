@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/10 12:34:51 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/11 17:46:58 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,11 @@ SRCS =	src/minishell.c						\
 		src/parsing/parser.c				\
 		src/print_lexer.c					\
 		src/built_in/ft_exit.c				\
+		src/built_in/ft_echo.c				\
+		src/built_in/ft_env.c				\
 		src/built_in/ft_unset.c				\
 		src/built_in/ft_export.c			\
+		src/built_in/ft_cd.c				\
 		src/exec/ft_redirection.c			\
 		src/exec/ft_here_doc.c				\
 		src/utils/ft_free.c					\
