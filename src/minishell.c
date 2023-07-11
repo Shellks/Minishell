@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/10 07:56:45 by nicolasbern      ###   ########.fr       */
+/*   Updated: 2023/07/11 16:50:16 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_mini_loop(t_data *data)
  	//print_lexer(&data->lexer);
 	if (ft_parser(data) == false)
 		return ;
- 	//print_parser(&data->parser);
+ 	print_parser(&data->parser);
 	if (!data->parser->next)
 		if (exec_built_in(data) == false)
 			return ;
@@ -94,12 +94,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 	//	deuxieme boucle d'env pour faire des checks si besoin
-		// tmp = data.env;
-		// while (tmp)
-		// {
-		// 	printf("%s=%s\n", tmp->name, tmp->content);
-		// 	tmp = tmp->next;
-		// }
+//
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{
@@ -114,5 +109,7 @@ int	main(int argc, char **argv, char **env)
 			ft_parser_clear(&data.parser);
 		free (data.input);
 	}
+	//while (waitpid(-1, NULL, 0) != -1)
+	//	;
 	ft_free_env(&data);
 }

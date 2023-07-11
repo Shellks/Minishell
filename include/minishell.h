@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/10 07:53:06 by nicolasbern      ###   ########.fr       */
+/*   Updated: 2023/07/11 16:13:03 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 //Library for environment
 # include <readline/readline.h>
 # include <readline/history.h>
-
+//Library for waitpid
+# include <sys/wait.h>
 
 # define COLOR "\x1b[36;1m"
 # define RESET "\x1b[0m"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:50:43 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/10 10:17:11 by nicolasbern      ###   ########.fr       */
+/*   Updated: 2023/07/11 16:54:29 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool ft_echo(t_data *data)
 
     echo = data->parser;
     //TODO : redir le result de printf avec dup2
-    echo->pid = fork();
+    //echo->pid = fork();
     // if (echo->pid == -1)
     //     exit (EXIT_FAILURE);
     // if (ft_dup_fd(echo))
