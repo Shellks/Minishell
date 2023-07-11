@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/11 17:43:54 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:17:35 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ bool	get_built_in(t_data *data)
 
 void	ft_exec(t_data *data, t_exec *exec)
 {
-	if (ft_set_redir(data, data->parser, exec) == false)
-		return ;
-	// if (data->parser->cmd[0] || !data->parser->next)
-	// 	if (get_built_in(data) == false)
-	// 		return ;
+	(void)exec;
+	// if (ft_set_redir(data, data->parser, exec) == false)
+	// 	return ;
+	 if (data->parser->cmd[0] || !data->parser->next)
+	 	if (get_built_in(data) == false)
+	 		return ;
 }
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
@@ -72,7 +73,6 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
 	if (ft_parser(data) == false)
 		return ;
  	print_parser(&data->parser);
-	(void)exec;
 	ft_exec(data, exec);
 }
 
