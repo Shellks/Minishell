@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 23:40:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 13:44:46 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	get_string_quote(t_data *data, int j, int len, char quote)
 	i++;
 	str[i] = '\0';
 	i = 0;
-	tmp = ft_lexer_new(str, WORD);
+	tmp = ft_lexer_new(str, WORD, SINGLE);
 	if (!tmp)
 	{
 		free(str);

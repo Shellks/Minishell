@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/11 18:17:35 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 14:06:13 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ bool	get_built_in(t_data *data)
 void	ft_exec(t_data *data, t_exec *exec)
 {
 	(void)exec;
-	// if (ft_set_redir(data, data->parser, exec) == false)
-	// 	return ;
-	 if (data->parser->cmd[0] || !data->parser->next)
+	if (ft_set_redir(data, data->parser, exec) == false)
+		return ;
+	 if (data->parser->cmd[0] && !data->parser->next)
 	 	if (get_built_in(data) == false)
 	 		return ;
 }

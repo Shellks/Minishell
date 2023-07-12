@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/11 17:46:04 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:09:21 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 # define COLOR "\x1b[36;1m"
 # define RESET "\x1b[0m"
-# define BUFFER_SIZE 100
+# define BUFFER_SIZE 10
 # define NONE 0
 # define REDIR 1
 # define BREAK -1
@@ -103,6 +103,7 @@ bool    ft_export(t_data *data, t_parser *parser);
 //exec fonction
 void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec);
 bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
+char   *expand_here_doc(t_data *data, char *str, int i);
 //fonction temporaire pour free
 void	ft_free_env(t_data *data);
 void	ft_free_loop(t_data *data);

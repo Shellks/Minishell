@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/11 17:44:31 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/12 13:43:43 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	skipe_space(int i, char *str, t_data *data)
 		return (j);
 	else
 	{
-		tmp = ft_lexer_new(NULL, DELIMITER);
+		tmp = ft_lexer_new(NULL, DELIMITER, NONE);
 		if (!tmp)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 		ft_lexer_add_back(&data->lexer, tmp);

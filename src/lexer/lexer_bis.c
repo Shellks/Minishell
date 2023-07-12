@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:31:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 23:44:15 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 13:44:15 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	build_token_in(int i, char *str, t_data *data)
 	tmp = NULL;
 	if (str[i + 1] == '<')
 	{
-		tmp = ft_lexer_new(NULL, HERE_DOC);
+		tmp = ft_lexer_new(NULL, HERE_DOC, NONE);
 		if (!tmp)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 		ft_lexer_add_back(&data->lexer, tmp);
@@ -27,7 +27,7 @@ static int	build_token_in(int i, char *str, t_data *data)
 	}
 	else
 	{
-		tmp = ft_lexer_new(NULL, INFILE);
+		tmp = ft_lexer_new(NULL, INFILE, NONE);
 		if (!tmp)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 		ft_lexer_add_back(&data->lexer, tmp);
@@ -43,7 +43,7 @@ static int	build_token_out(int i, char *str, t_data *data)
 	tmp = NULL;
 	if (str[i + 1] == '>')
 	{
-		tmp = ft_lexer_new(NULL, OUTFILE_APPEND);
+		tmp = ft_lexer_new(NULL, OUTFILE_APPEND, NONE);
 		if (!tmp)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 		ft_lexer_add_back(&data->lexer, tmp);
@@ -51,7 +51,7 @@ static int	build_token_out(int i, char *str, t_data *data)
 	}
 	else
 	{
-		tmp = ft_lexer_new(NULL, OUTFILE);
+		tmp = ft_lexer_new(NULL, OUTFILE, NONE);
 		if (!tmp)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 		ft_lexer_add_back(&data->lexer, tmp);
@@ -67,7 +67,7 @@ int	build_token(int i, char *str, t_data *data)
 	tmp = NULL;
 	if (str[i] == '|')
 	{
-		tmp = ft_lexer_new(NULL, PIPE);
+		tmp = ft_lexer_new(NULL, PIPE, NONE);
 		if (!tmp)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 		ft_lexer_add_back(&data->lexer, tmp);
@@ -89,7 +89,7 @@ int	get_anti_slash(int i, char *str, t_data *data)
 	tmp = ft_strndup(&str[i + 1], 1);
 	if (!tmp)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error \n");
-	new = ft_lexer_new(tmp, WORD);
+	new = ft_lexer_new(tmp, WORD, NONE);
 	if (!new)
 	{
 		free(tmp);
