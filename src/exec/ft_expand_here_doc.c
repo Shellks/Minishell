@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:28:24 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/12 22:51:19 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 13:59:01 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,33 +49,32 @@ static char	*check_backslah_quote_expand(t_data *data, char *str, int *i)
 	return (str);
 }
 
-static char	*replace_false_heredoc_expand(t_data *data, char *str)
+static char	*replace_false_heredoc_expand(t_data *data, char *str, int *j)
 {
 	char	*tmp1;
 	char	*tmp2;
 	int		i;
 
-	i = 0;
-	while (str[i] && str[i] != '$')
-			i++;
-	if (str[i] == '$')
-	{
-		tmp1 = ft_strndup(str, i);
+	i = 1;
+		tmp1 = ft_strndup(str, *j);
 		if (!tmp1)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+		dprintf(2, "tmp1 = %s\n", tmp1);
 		i++;
-		while (str[i] && isalnum(str[i]))
+		while (str[i + *j] && isalnum(str[i + *j]))
 			i++;
-		tmp2 = ft_strdup(&str[i]);
+		tmp2 = ft_strdup(&str[i + *j]);
 		if (!tmp2)
 			free_exit_env(data, tmp1, NULL, 1);
+		dprintf(2, "tmp2 = %s\n", tmp2);
 		free(str);
 		str = ft_strjoin(tmp1, tmp2);
 		if (!str)
 			free_exit_env(data, tmp1, tmp2, 2);
+		dprintf(2, "str1 = %s\n", str);
 		free(tmp1);
 		free(tmp2);
-	}
+		*j += i;
 	return (str);
 }
 
@@ -149,7 +148,7 @@ static char	*get_expand_here_doc(t_data *data, char *str, char *to_find, int *j)
 		env = env->next;
 	}
 	if (env == NULL)
-		str = replace_false_heredoc_expand(data, str);
+		str = replace_false_heredoc_expand(data, str, j);
 	return (str);
 }
 
@@ -189,14 +188,13 @@ char   *expand_here_doc(t_data *data, char *str, int i)
 	while (str[j])
 	{
 		dprintf(2, "str = %s\n", str);
-		dprintf(2, "str[j] = %s\n", &str[j]);
 		if (find_dollar(&str[j]) == true)
 			while (str[j] == '$' && str[j + 1] == '$')
 				j++;
-		if (str[j] == '$' && !str[j + 1])
-			break ;
 			// if (str[j] == '$' && str[j + 1] == '$')
 			// 	str = rm_dollar_expand_heredoc(data, str);
+		if (str[j] == '$' && !str[j + 1])
+			break ;
 		if (str[j] == '$' && str[j + 1] == '!')
 			str = check_exclamation_expand(data, str, &j);
 		else if ((str[j] == '$' && str[j + 1] == '\\') || (str[j] == '\\' && str[j + 1] == '$'))
@@ -211,6 +209,7 @@ char   *expand_here_doc(t_data *data, char *str, int i)
 			expand_status(data, &str[j + 1]);
 		else if (str[j] == '$' && ft_isdigit(str[1]) == 1)
 			create_expand_digit(data, &str[j + 1]);
+		dprintf(2, "str[j] = %s\n", &str[j]);
 		if (str[j] == '$' && str[j + 1] == ' ')
 			j++;
 		while (str[j] && str[j] != '$')
