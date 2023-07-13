@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/13 17:54:35 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 19:40:13 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,7 @@ int	main(int argc, char **argv, char **env)
 	//niveau malloc tout est ok reste juste les 4 sortie de exit qui sont chelou!!!!!
 	while (1)
 	{
-		//	deuxieme boucle d'env pour faire des checks si besoin
-		// tmp = data.env;
-		// while (tmp)
-		// {
-		// 	printf("%s=%s\n", tmp->name, tmp->content);
-		// 	tmp = tmp->next;
-		// }
 		data.input = readline(COLOR"Minishell > "RESET);
-		printf("data->input = %s\n", data.input);
 		if (!data.input)
 		{
 			printf("exit\n");
@@ -137,8 +129,6 @@ int	main(int argc, char **argv, char **env)
 		ft_mini_loop(&data, &exec);
 		ft_free_loop(&data);
 	}
-	//while (waitpid(-1, NULL, 0) != -1)
-	//	;
 	ft_free_env(&data);
 	return (0);
 }

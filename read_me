@@ -2,11 +2,17 @@
 
 -------------------------------------------
 
+checker tout les messages d'erreur (qu'il soit conforme a bash)
+
+gerer export sans option (affiche l'env trier (en ascii ???))
+
 implementer correctement infile, outfile,heredoc (ptit probleme de boucle inf);
 
 regler les problemes de heredoc;
 
 implementer les signaux
+
+regarder pour clear(Theo avait des leaks avec en plus, faire attention)
 
 implementer exec sans pipe
 
