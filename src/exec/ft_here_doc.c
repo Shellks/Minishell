@@ -6,18 +6,16 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/14 12:17:23 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 18:26:07 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void    child_heredoc_expand(t_data *data, t_exec *exec, t_redir *re, int pipe[2])
+static void    child_heredoc_expand(t_data *data, t_redir *re, int pipe[2])
 {
   char    *str;
 
-  close(exec->here_doc[0]);
-  close(exec->here_doc[1]);
   close(pipe[0]);
   while (1)
 	{
@@ -35,12 +33,10 @@ static void    child_heredoc_expand(t_data *data, t_exec *exec, t_redir *re, int
   close(pipe[1]);
 }
 
-static void    child_heredoc(t_exec *exec, t_redir *re, int pipe_connect[2])
+static void    child_heredoc(t_redir *re, int pipe_connect[2])
 {
   char    *str;
 
-  close(exec->here_doc[0]);
-  close(exec->here_doc[1]);
   close(pipe_connect[0]);
   while (1)
 	{
@@ -57,13 +53,11 @@ static void    child_heredoc(t_exec *exec, t_redir *re, int pipe_connect[2])
   close(pipe_connect[1]);
 }
 
-static void    parent_heredoc(t_redir *re, int pipe_connect[2], int pipe[2])
+static void    parent_heredoc(t_redir *re, int pipe_connect[2], int fd)
 {
   char      *str;
-  int       fd;
 
   close(pipe_connect[1]);
-  fd = open(re->next->redirec, O_WRONLY | O_CREAT | O_TRUNC, 0644);
   while (1)
 	{
     str = get_next_line(pipe_connect[0]);
@@ -71,7 +65,6 @@ static void    parent_heredoc(t_redir *re, int pipe_connect[2], int pipe[2])
       break ;
     if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0)
       break ;
-    ft_putstr_fd(str, pipe[1]);
     ft_putstr_fd(str, fd);
     free(str);
   }
@@ -83,13 +76,14 @@ static void    parent_heredoc(t_redir *re, int pipe_connect[2], int pipe[2])
 void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
 {
     int pipe_connect[2];
+    int fd;
 
     if (exec->flag_in == 1)
     {
         exec->flag_in = 0;
         close(exec->infile);
     }
-    if (pipe(exec->here_doc) < 0 || pipe(pipe_connect) < 0)
+    if (pipe(pipe_connect) < 0)
 		  ft_free_exit(data, ERR_FORK, "minishell: error with creating pipe\n");
     exec->pid = fork ();
     if (exec->pid == -1)
@@ -97,17 +91,15 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
     if (exec->pid == 0)
     {
       if (redir->quote != NONE)
-        child_heredoc(exec, redir, pipe_connect);
+        child_heredoc(redir, pipe_connect);
       else
-        child_heredoc_expand(data, exec, redir, pipe_connect);
+        child_heredoc_expand(data, redir, pipe_connect);
       printf("Child process ending !\n");
       ft_free_exit(data, 0, NULL);
     }
-    else
-    {
-        parent_heredoc(redir, pipe_connect, exec->here_doc);
-        wait(NULL);
-    }
+    get_here_doc_fd(data, redir, &fd);
+    parent_heredoc(redir, pipe_connect, fd);
+    waitpid(exec->pid, &g_status, 0);
     printf("Here_doc created !\n");
     exec->flag_in = 2;
 }

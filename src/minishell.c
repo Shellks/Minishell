@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/13 19:40:13 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 18:38:09 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,13 @@ void	ft_exec(t_data *data, t_exec *exec)
 {
 	if (!data->parser->next)
 	{
-		ft_set_redir(data, data->parser, exec);
+		//ft_set_redir(data, data->parser, exec, );
 		if (data->parser->cmd[0] && !data->parser->next)
 			if (get_built_in(data) == false)
 				return ;
-		return ;
 	}
-	ft_set_redir(data, data->parser, exec);
-	pipex(data, exec);
+	else
+		pipex(data, exec);
 }
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
@@ -76,7 +75,7 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
  	//print_lexer(&data->lexer);
 	if (ft_parser(data) == false)
 		return ;
- 	//print_parser(&data->parser);
+ 	print_parser(&data->parser);
 	ft_exec(data, exec);
 }
 

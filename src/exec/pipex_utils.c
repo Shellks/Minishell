@@ -6,11 +6,37 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/13 15:48:32 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 18:20:47 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	ft_std_manager(int STDIN,int STDOUT)
+{
+	int	wait_all = 0;
+
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	while (wait_all != -1)
+		wait_all = waitpid(-1, NULL, 0);
+	dup2(STDIN, STDIN_FILENO);
+	dup2(STDOUT, STDOUT_FILENO);
+}
+
+void	ft_dup_manager(t_data *data, t_exec *exec)
+{
+	if (exec->flag_in == 1)
+		dup2(exec->infile, 0);
+	else if (exec->flag_in == 2)
+	{
+		exec->infile = open(data->here_doc_path->redirec, O_RDONLY);
+		if (exec->infile < 0)
+			ft_free_exit(data, ERR_OPEN, "Error opening file\n");
+		dup2(exec->infile, 0);
+		unlink(data->here_doc_path->redirec);
+	}
+}
 
 // void	ft_free_child(t_pipe *p, int error)
 // {

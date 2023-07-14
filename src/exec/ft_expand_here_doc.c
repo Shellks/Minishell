@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:28:24 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/13 13:59:01 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 18:54:34 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ char   *expand_here_doc(t_data *data, char *str, int i)
 	(void)i;
 	while (str[j])
 	{
-		dprintf(2, "str = %s\n", str);
+		//dprintf(2, "str = %s\n", str);
 		if (find_dollar(&str[j]) == true)
 			while (str[j] == '$' && str[j + 1] == '$')
 				j++;
@@ -209,12 +209,12 @@ char   *expand_here_doc(t_data *data, char *str, int i)
 			expand_status(data, &str[j + 1]);
 		else if (str[j] == '$' && ft_isdigit(str[1]) == 1)
 			create_expand_digit(data, &str[j + 1]);
-		dprintf(2, "str[j] = %s\n", &str[j]);
+		//dprintf(2, "str[j] = %s\n", &str[j]);
 		if (str[j] == '$' && str[j + 1] == ' ')
 			j++;
 		while (str[j] && str[j] != '$')
 		{
-			dprintf(2, "str = %c\n", str[j]);
+			//dprintf(2, "str = %c\n", str[j]);
 			j++;
 		}
 	}

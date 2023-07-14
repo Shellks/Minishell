@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/13 17:13:06 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 18:20:45 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_data
 	int			count;
 	t_lexer		*lexer;
 	t_parser	*parser;
+	t_redir 	*here_doc_path;
 	int			pipe;
 }			t_data;
 
@@ -101,11 +102,14 @@ void    ft_exit(t_data *data);
 bool    ft_unset(t_data *data, t_parser *parser);
 bool    ft_export(t_data *data, t_parser *parser);
 //exec fonction
-char   *expand_here_doc(t_data *data, char *str, int i);
 void	pipex(t_data *data, t_exec *exec);
+void	ft_std_manager(int STDIN,int STDOUT);
+void	ft_dup_manager(t_data *data, t_exec *exec);
+char   *expand_here_doc(t_data *data, char *str, int i);
+void 	get_here_doc_fd(t_data *data, t_redir *redir, int *fd);
 void	last_child(t_data *data, t_exec *exec, t_parser *parse);
-void	child_process(t_data *data, t_exec *exec, t_parser *parse);
 void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec);
+void	child_process(t_data *data, t_exec *exec, t_parser *parse);
 bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
 //fonction temporaire pour free
 void	ft_free_env(t_data *data);
@@ -116,6 +120,6 @@ void	free_exit_env(t_data *data, char *name, char *content, int i);
 //gnl
 char	*get_next_line(int fd);
 //fonction temporaire pour close
-void    ft_close_here_doc(t_exec *exec, int *fd, int sign);
+void    ft_close_here_doc(int *fd, int sign);
 
 #endif

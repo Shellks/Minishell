@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:41:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/13 16:06:06 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 16:28:09 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+# define START_CMD 1
+# define END_CMD 2
 # define ERR_ARGS 1
 # define ERR_INFILE 2
 # define ERR_OUTFILE 3
@@ -30,6 +32,7 @@
 # define ERR_DUP 8
 # define ERR_EXEC 9
 # define ERR_DOC 10
+# define ERR_OPEN 11
 # define ERR_CMD 127
 # define CLOSE_FILE 1
 # define CLOSE_ALL 2
@@ -43,7 +46,6 @@ typedef struct s_exec
     int     flag_out;
     int     infile;
     int     outfile;
-    int     here_doc[2];
     int		pipes[2];
     int		status;
 	int		exit_status;
