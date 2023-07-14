@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/11 17:38:53 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:55:23 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void    parent_heredoc(t_redir *re, int pipe_connect[2], int pipe[2])
   char      buf[100];
   ssize_t   read_byte;
   char      *str;
-  int       fd;
+  //int       fd;
 
   ft_memset(buf, 0, 100);
   close(pipe_connect[1]);
-  fd = open(re->next->redirec, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  //fd = open(re->next->redirec, O_WRONLY | O_CREAT | O_TRUNC, 0644);
   while (1)
 	{
     read_byte = read(pipe_connect[0], buf, sizeof(buf));
@@ -51,7 +51,7 @@ void    parent_heredoc(t_redir *re, int pipe_connect[2], int pipe[2])
         if (!str)
         {
           write(pipe[1], buf, read_byte);
-          write(fd, buf, read_byte);
+          //write(fd, buf, read_byte);
         }
         else
           break ;

@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/11 17:45:20 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:00:26 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 		lexer = parse_cmd(data, lexer, parser, i);
 		if (data->flag == 1)
 			return (ft_print_syntax_error("newline"), false);
-		 if (lexer && !lexer->next && lexer->token == PIPE)
+		if (lexer && !lexer->next && lexer->token == PIPE)
 		 	return (ft_print_syntax_error("|"), false);
 		if (lexer && lexer->token == PIPE && lexer->next)
 		{

@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/11 17:43:54 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:58:20 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
 	if (!data->lexer)
 		return ;
  	ft_fusion(data);
- 	//print_lexer(&data->lexer);
+ 	print_lexer(&data->lexer);
 	if (ft_parser(data) == false)
-		return ;
+	 	return ;
  	print_parser(&data->parser);
-	(void)exec;
+	 (void)exec;
 	ft_exec(data, exec);
 }
 
