@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 23:55:43 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/11 17:44:15 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static bool    create_new_env(t_data *data, t_parser *parser, int end, int i)
 
 static int export_is_exist(t_env *env, t_parser *parser, int end, int i)
 {
-    if (ft_strncmp(env->name, parser->cmd[1], i) == 0)
+    if (ft_strncmp(env->name, parser->cmd[1], ft_strlen(env->name)) == 0)
     {
         free(env->content);
         env->content = ft_strndup(&parser->cmd[1][i + 1], (end - i));

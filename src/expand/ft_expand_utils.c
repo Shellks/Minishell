@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:07:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 23:40:39 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 16:49:14 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	check_backslah_quote(t_data *data, char *str, int *i)
 		tmp = ft_strndup(&str[*i + 1], 1);
 		if (!tmp)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-		new = ft_lexer_new(tmp, WORD);
+		new = ft_lexer_new(tmp, WORD, DOUBLE);
 		if (!new)
 		{
 			free(tmp);
@@ -83,7 +83,7 @@ int	get_word(t_data *data, char *str, int start, int stop)
 	tmp = ft_strndup(&str[start], i);
 	if (!tmp)
 		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-	new = ft_lexer_new(tmp, WORD);
+	new = ft_lexer_new(tmp, WORD, NONE);
 	if (!new)
 	{
 		free(tmp);

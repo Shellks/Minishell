@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/10 14:03:49 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 19:40:13 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,36 @@ bool	get_built_in(t_data *data)
 	}
 	else if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
 		ft_exit(data);
+	else if (ft_strncmp(data->parser->cmd[0], "env", 3) == 0)
+	{
+		if (ft_env(data) == false)
+			return (false);
+	}
+	else if (ft_strncmp(data->parser->cmd[0], "echo", 4) == 0)
+	{
+		if (ft_echo(data) == false)
+			return (false);
+	}
+	else if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
+	{
+		if (ft_cd(data ,data->parser->cmd) == false)
+			return (false);
+	}
 	return (true);
 }
 
 void	ft_exec(t_data *data, t_exec *exec)
 {
-	if (ft_set_redir(data, data->parser, exec) == false)
+	if (!data->parser->next)
+	{
+		ft_set_redir(data, data->parser, exec);
+		if (data->parser->cmd[0] && !data->parser->next)
+			if (get_built_in(data) == false)
+				return ;
 		return ;
-	// if (data->parser->cmd[0] || !data->parser->next)
-	// 	if (get_built_in(data) == false)
-	// 		return ;
+	}
+	ft_set_redir(data, data->parser, exec);
+	pipex(data, exec);
 }
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
@@ -56,8 +76,7 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
  	//print_lexer(&data->lexer);
 	if (ft_parser(data) == false)
 		return ;
- 	print_parser(&data->parser);
-	(void)exec;
+ 	//print_parser(&data->parser);
 	ft_exec(data, exec);
 }
 
@@ -85,28 +104,21 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
-	t_env	*tmp;
+	//t_env	*tmp;
 	t_exec	exec;
 
 	(void)argv;
 	if (init_var(&data, &exec, env, argc) == false)
 		return (1);
-	tmp = data.env;
-	while (tmp)
-	{
-		printf("%s=%s\n", tmp->name, tmp->content);
-		tmp = tmp->next;
-	}
+	// tmp = data.env;
+	// while (tmp)
+	// {
+	// 	printf("%s=%s\n", tmp->name, tmp->content);
+	// 	tmp = tmp->next;
+	// }
 	//niveau malloc tout est ok reste juste les 4 sortie de exit qui sont chelou!!!!!
 	while (1)
 	{
-		//	deuxieme boucle d'env pour faire des checks si besoin
-		// tmp = data.env;
-		// while (tmp)
-		// {
-		// 	printf("%s=%s\n", tmp->name, tmp->content);
-		// 	tmp = tmp->next;
-		// }
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{

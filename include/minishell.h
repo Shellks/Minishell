@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/10 14:02:15 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 17:13:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include "lexer.h"
 # include "parser.h"
 # include "exec.h"
+# include "builtin.h"
+//boolean
+# include <stdbool.h>
 //Malloc
 # include <stdlib.h>
 //Printf
@@ -29,13 +32,12 @@
 //Library for environment
 # include <readline/readline.h>
 # include <readline/history.h>
-//boolean
-# include <stdbool.h>
-
+//Library for waitpid
+# include <sys/wait.h>
 
 # define COLOR "\x1b[36;1m"
 # define RESET "\x1b[0m"
-# define BUFFER_SIZE 100
+# define BUFFER_SIZE 10
 # define NONE 0
 # define REDIR 1
 # define BREAK -1
@@ -43,7 +45,6 @@
 # define FALSE 1
 # define ERR_MALLOC 2
 # define ERR_SYNTAX 3
-# define ERR_FORK	4
 
 extern int g_status;
 
@@ -63,8 +64,11 @@ typedef struct s_data
 	int			pipe;
 }			t_data;
 
-
-//env fonction
+//builtin=====
+bool	ft_env(t_data *data);
+bool 	ft_echo(t_data *data);
+int 	ft_dup_fd(t_parser *parser);
+bool    ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
 //lexer fonction
@@ -97,6 +101,10 @@ void    ft_exit(t_data *data);
 bool    ft_unset(t_data *data, t_parser *parser);
 bool    ft_export(t_data *data, t_parser *parser);
 //exec fonction
+char   *expand_here_doc(t_data *data, char *str, int i);
+void	pipex(t_data *data, t_exec *exec);
+void	last_child(t_data *data, t_exec *exec, t_parser *parse);
+void	child_process(t_data *data, t_exec *exec, t_parser *parse);
 void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec);
 bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
 //fonction temporaire pour free

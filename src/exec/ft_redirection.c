@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:55:59 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/10 22:59:51 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 12:17:35 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static bool	get_append(t_redir *redir, t_exec *exec)
         exec->flag_out = 0;
         close(exec->outfile);
     }
-    exec->outfile = open(redir->redirec, O_CREAT | O_RDWR | O_TRUNC, 0644);
+    exec->outfile = open(redir->redirec, O_CREAT | O_RDWR | O_APPEND, 0644);
     if (exec->outfile < 0)
     {
 		printf("no such file or directory: %s\n", redir->redirec);

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 23:08:53 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 14:09:15 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static bool	parse_redir(t_data *data, t_lexer **lex, t_parser *lst, int *i)
 
 	if ((*lex)->next && (*lex)->next->token == WORD)
 	{
-		redir = ft_redir_new((*lex)->token);
+		redir = ft_redir_new((*lex)->token, (*lex)->next->quote);
 		if (!redir)
 			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 		redir->redirec = ft_strdup((*lex)->next->word);
