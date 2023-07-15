@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 23:43:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 13:43:21 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@
 # define PRINT_DELIMITER			"SPACE"
 # define PRINT_WORD					"WORD"
 # define PRINT_EXPAND				"EXPAND"
+
+typedef enum e_quote
+{
+	NONE,
+	SINGLE,
+	DOUBLE,
+}	t_quote;
 
 typedef enum e_token
 {
@@ -40,6 +47,7 @@ typedef enum e_token
 typedef struct s_lexer
 {
 	char			*word;
+	t_quote			quote;
 	t_token			token;
 	struct s_lexer	*previous;
 	struct s_lexer	*next;
@@ -50,7 +58,7 @@ int			ft_lexer_size(t_lexer *lst);
 t_lexer		*ft_lexer_first(t_lexer *lst);
 void		ft_lexer_clear(t_lexer **lst);
 void		ft_lexer_delone(t_lexer *lst);
-t_lexer		*ft_lexer_new(char *word, t_token token);
+t_lexer		*ft_lexer_new(char *word, t_token token, t_quote quote);
 void		ft_lexer_add_back(t_lexer **lst, t_lexer *new);
 void		ft_lexer_add_front(t_lexer **lst, t_lexer *new);
 

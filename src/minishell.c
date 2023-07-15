@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/11 17:58:20 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/15 13:16:16 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,16 @@ bool	get_built_in(t_data *data)
 
 void	ft_exec(t_data *data, t_exec *exec)
 {
-	if (ft_set_redir(data, data->parser, exec) == false)
+	if (!data->parser->next)
+	{
+		ft_set_redir(data, data->parser, exec);
+		if (data->parser->cmd[0] && !data->parser->next)
+			if (get_built_in(data) == false)
+				return ;
 		return ;
-	// if (data->parser->cmd[0] || !data->parser->next)
-	// 	if (get_built_in(data) == false)
-	// 		return ;
+	}
+	ft_set_redir(data, data->parser, exec);
+	pipex(data, exec);
 }
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
@@ -70,9 +75,8 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
  	ft_fusion(data);
  	print_lexer(&data->lexer);
 	if (ft_parser(data) == false)
-	 	return ;
- 	print_parser(&data->parser);
-	 (void)exec;
+		return ;
+ 	//print_parser(&data->parser);
 	ft_exec(data, exec);
 }
 
@@ -100,28 +104,21 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
-	t_env	*tmp;
+	//t_env	*tmp;
 	t_exec	exec;
 
 	(void)argv;
 	if (init_var(&data, &exec, env, argc) == false)
 		return (1);
-	tmp = data.env;
-	while (tmp)
-	{
-		printf("%s=%s\n", tmp->name, tmp->content);
-		tmp = tmp->next;
-	}
+	// tmp = data.env;
+	// while (tmp)
+	// {
+	// 	printf("%s=%s\n", tmp->name, tmp->content);
+	// 	tmp = tmp->next;
+	// }
 	//niveau malloc tout est ok reste juste les 4 sortie de exit qui sont chelou!!!!!
 	while (1)
 	{
-		//	deuxieme boucle d'env pour faire des checks si besoin
-		// tmp = data.env;
-		// while (tmp)
-		// {
-		// 	printf("%s=%s\n", tmp->name, tmp->content);
-		// 	tmp = tmp->next;
-		// }
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{
@@ -132,8 +129,6 @@ int	main(int argc, char **argv, char **env)
 		ft_mini_loop(&data, &exec);
 		ft_free_loop(&data);
 	}
-	//while (waitpid(-1, NULL, 0) != -1)
-	//	;
 	ft_free_env(&data);
 	return (0);
 }

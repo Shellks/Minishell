@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 23:40:05 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 21:29:00 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,13 @@ int	get_word_in_quote(t_data *data, char *str, int start, int stop)
 	if (check_backslah_quote(data, str, &i) == true)
 		return (i);
 	while (str[i] && str[i] != '=' && str[i] != '$' && str[i] != ' ' \
-	&& str[i] != 28 && str[i] != '\\' &&i < stop)
+	&& str[i] != 28 && str[i] != '\\' && i < stop)
 		i++;
 	i -= start;
 	tmp = ft_strndup(&str[start], i);
 	if (!tmp)
 		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-	new = ft_lexer_new(tmp, WORD);
+	new = ft_lexer_new(tmp, WORD, DOUBLE);
 	if (!new)
 	{
 		free(tmp);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/11 17:46:58 by nibernar         ###   ########.fr        #
+#    Updated: 2023/07/13 17:12:25 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS =	src/minishell.c						\
 		src/lexer/ft_fusion.c				\
 		src/lexer/check_quote.c 			\
 		src/expand/ft_expand.c				\
+		src/exec/ft_expand_here_doc.c		\
 		src/expand/ft_expand_status.c		\
 		src/expand/ft_expand_utils.c		\
 		src/expand/ft_expand_space.c		\
@@ -40,6 +41,9 @@ SRCS =	src/minishell.c						\
 		src/built_in/ft_cd.c				\
 		src/exec/ft_redirection.c			\
 		src/exec/ft_here_doc.c				\
+		src/exec/child_process.c			\
+		src/exec/pipex_utils.c				\
+		src/exec/pipex.c					\
 		src/utils/ft_free.c					\
 		src/utils/get_next_line.c			\
 		src/utils/ft_close.c				\
@@ -73,9 +77,7 @@ SRCS =	src/minishell.c						\
 OBJS = ${SRCS:.c=.o}
 
 LIBFT_PATH	=	./libft/
-
 LIBFT_FILE	=	libft.a
-
 LIBFT_LIB	=	$(addprefix $(LIBFT_PATH), $(LIBFT_FILE))
 
 

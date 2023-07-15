@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:12:58 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 23:42:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 14:07:05 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	print_lexer(t_lexer **lexer)
 	{
 		printf("char : |%s|\n", tmp->word);
 		debug_token(tmp->token);
+		printf("lexer->quote = %d\n", tmp->quote);
 		dprintf(2, "\n\n");
 		tmp = tmp->next;
 	}
@@ -109,6 +110,7 @@ void	print_parser(t_parser **parser)
         {
             debug_token(tmp_redir->token);
             printf("word-token : |%s|\n", tmp_redir->redirec);
+			printf("word-quote : |%u|\n", tmp_redir->quote);
 			if (tmp_redir->next)
 				printf("---\n");
             tmp_redir = tmp_redir->next;

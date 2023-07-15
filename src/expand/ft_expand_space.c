@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 10:19:03 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 23:40:20 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/12 13:47:35 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool manage_end_space(t_data *data, t_env *env, int *i, int *start)
 			return (false);
 	if (env->content[*i - 1] == ' ')
 	{
-		new = ft_lexer_new(NULL, DELIMITER);
+		new = ft_lexer_new(NULL, DELIMITER, NONE);
 		if (!new)
 			ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
 		ft_lexer_add_back(&data->lexer, new);
@@ -47,7 +47,7 @@ static int	manage_space_content(t_data *data, t_env *env, int *start)
 	{
 		if (env->content[*start] == ' ')
 		{
-			new = ft_lexer_new(NULL, DELIMITER);
+			new = ft_lexer_new(NULL, DELIMITER, NONE);
 			if (!new)
 				ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
 			ft_lexer_add_back(&data->lexer, new);
@@ -101,7 +101,7 @@ static int	space_env_loop(t_data *data, t_env *env, int *start, int *i)
 	tmp = get_word_in_content(data, env, start);
 	if (!tmp)
 		return (BREAK); ;
-	new = ft_lexer_new(tmp, WORD);
+	new = ft_lexer_new(tmp, WORD, NONE);
 	if(!new)
 	{
 		free(tmp);
