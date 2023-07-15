@@ -1,3 +1,12 @@
+15/07/2023
+
+-------------------------------------------
+
+probleme quand < Makefile grep built > end | < end cat > ok on est pas censé recuperer le contenu de end et nous ca marche
+probleme quand redir incorrecte ??;
+les closes des fd ne sont pas tous correctement gérés; (voir photo sur mon tel);
+
+
 13/07/23
 
 -------------------------------------------
@@ -8,7 +17,7 @@ gerer export sans option (affiche l'env trier (en ascii ???))
 
 implementer correctement infile, outfile,heredoc (ptit probleme de boucle inf);		OK !?
 
-regler les problemes de heredoc;
+regler les problemes de heredoc;    OK !?
 
 regarder pour clear(Theo avait des leaks avec en plus, faire attention)
 
@@ -31,12 +40,6 @@ Regler probleme expand here_doc quand : $$PAGER$$LW$$LESS$$end
 gerer le cas de ! apres $ exemple =
 									 echo "$!PAGER" = PAGER;
 
-10/07/2023
-
---------------------------------------------
-le here_doc est maintenant fonctionnel, parcontre quand fichier extremement volumineux on a pas tout, a voir
-
-Need faire l'expand dans here_doc egalmeent, sinon le reste à l'air good;
 
 07/07/2023
 

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:41:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/14 16:28:09 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 17:16:00 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_exec
     int     infile;
     int     outfile;
     int		pipes[2];
+    int     fd_stdin;
+    int     fd_stdout;
     int		status;
 	int		exit_status;
 	pid_t	pid;

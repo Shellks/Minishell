@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/15 16:26:14 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 20:11:18 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	last_process(t_data *data, t_exec *exec, t_parser *parse)
 		last_child(data, exec, parse);
 	else
 	{
+		if (exec->flag_out != -1)
+		 	close(exec->outfile);
 		close(exec->pipes[0]);
 		close(exec->pipes[1]);
 	}
@@ -44,8 +46,10 @@ static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 	}
 	else
 	{
+		if (exec->flag_out != -1)
+		 	close(exec->outfile);
 		close(exec->pipes[1]);
-		if (exec->flag_in == 0)
+		if (exec->flag_in == -1)
 		{
 			if (dup2(exec->pipes[0], STDIN_FILENO) < 0)
 			{
@@ -62,6 +66,7 @@ static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 				// ft_close(p, 1, 0, 1);
 				// ft_free_parent(p, ERR_DUP);
 			}
+			close(exec->infile);
 		}
 		close(exec->pipes[0]);
 	}
@@ -69,33 +74,29 @@ static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 void	pipex(t_data *data, t_exec *exec)
 {
 	t_parser	*parse;
-	int			STDIN_CPY;
-	int			STDOUT_CPY;
 
-	STDIN_CPY = dup(STDIN_FILENO);
-	STDOUT_CPY = dup(STDOUT_FILENO);
+	exec->fd_stdin = dup(STDIN_FILENO);
+	exec->fd_stdout = dup(STDOUT_FILENO);
 	parse = data->parser;
 	while (parse && parse->next)
 	{
 		if (ft_set_redir(data, parse, exec) == false)
 		{
 			parse = parse->next;
-			if (parse->next)
-				break ;
+			if (!parse->next)
+				return ;
 		}
 		parent_process(data, exec, parse);
 		parse = parse->next;
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		dup2(STDIN_CPY, STDIN_FILENO);
-		dup2(STDOUT_CPY, STDOUT_FILENO);
 	}
 	if (ft_set_redir(data, parse, exec) == false)
 	{
-		ft_std_manager(STDIN_CPY, STDOUT_CPY);
+		ft_std_manager(exec->fd_stdin, exec->fd_stdout);
 		return ;
 	}
 	last_process(data, exec, parse);
 	waitpid(exec->pid, &exec->status, 0);
-	ft_std_manager(STDIN_CPY, STDOUT_CPY);
+	ft_std_manager(exec->fd_stdin, exec->fd_stdout);
+	close(exec->fd_stdin);
+	close(exec->fd_stdout);
 }

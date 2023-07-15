@@ -6,11 +6,12 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/15 16:20:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 19:19:49 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 
 void	ft_std_manager(int STDIN,int STDOUT)
 {
@@ -27,19 +28,20 @@ void	ft_std_manager(int STDIN,int STDOUT)
 void	ft_dup_manager(t_data *data, t_exec *exec)
 {
 	if (exec->flag_in == 1)
+	{
 		dup2(exec->infile, STDIN_FILENO);
+		close(exec->infile);
+	}
 	else if (exec->flag_in == 2)
 	{
 		exec->infile = open(data->here_doc_path->redirec, O_RDONLY);
 		if (exec->infile < 0)
 			ft_free_exit(data, ERR_OPEN, "Error opening file\n");
 		dup2(exec->infile, 0);
+		close(exec->infile);
 		unlink(data->here_doc_path->redirec);
 	}
-	if (exec->flag_out == 1)
-		dup2(exec->outfile, STDOUT_FILENO);
 }
-
 // void	ft_free_child(t_pipe *p, int error)
 // {
 // 	int	i;

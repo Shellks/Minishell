@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/15 16:22:58 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 20:20:33 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 	char	*cmd2;
 
 	close(exec->pipes[0]);
-	if (exec->flag_out != 0)
+	if (exec->flag_out != -1)
+	{
 	  	if (dup2(exec->outfile, STDOUT_FILENO) < 0)
 	   		ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+		close(exec->outfile);
+	}
 	cmd2 = get_cmd(data->path, parse->cmd[0]);
 	if (cmd2 == NULL)
 	{
@@ -65,15 +68,17 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 
 	
 	close(exec->pipes[0]);
-	if (exec->flag_out != 0)
+	if (exec->flag_out != -1)
 	{
-		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
-			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+	  	if (dup2(exec->outfile, STDOUT_FILENO) < 0)
+	   		ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+		//close(exec->outfile);
 	}
 	else
 	{
 		if (dup2(exec->pipes[1], STDOUT_FILENO) < 0)
-			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+			ft_free_exit(data, ERR_EXEC, "Exec error1\n");
+		//close(exec->pipes[1]);
 	}
 	cmd2 = get_cmd(data->path, parse->cmd[0]);
 	if (cmd2 == NULL)

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/14 18:26:07 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 20:14:20 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
 
     if (exec->flag_in == 1)
     {
-        exec->flag_in = 0;
+        exec->flag_in = -1;
         close(exec->infile);
     }
     if (pipe(pipe_connect) < 0)
