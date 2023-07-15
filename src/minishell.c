@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/14 18:38:09 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 15:40:14 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
  	//print_lexer(&data->lexer);
 	if (ft_parser(data) == false)
 		return ;
- 	print_parser(&data->parser);
+ 	//print_parser(&data->parser);
 	ft_exec(data, exec);
 }
 

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:55:59 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/14 19:15:39 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 15:59:09 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	get_infile(t_data *data, t_redir *redir, t_exec *exec)
 		printf("no such file or directory: %s\n", redir->redirec);
         return (false);
     }
-    //printf("infile : %s  Add !\n", redir->redirec);
+    dprintf(2, "infile : %s  Add !\n", redir->redirec);
     exec->flag_in = 1;
     return (true);
 }
@@ -51,7 +51,7 @@ static bool	get_outfile(t_redir *redir, t_exec *exec)
 		printf("no such file or directory: %s\n", redir->redirec);
         return (false);
     }
-    //printf("outfile : %s   Add!\n", redir->redirec);
+    dprintf(2, "outfile : %s   Add!\n", redir->redirec);
     exec->flag_out = 1;
     return (true);
 }
@@ -104,7 +104,7 @@ bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec)
     exec->flag_in = 0;
     exec->flag_out = 0;
     if (!parser->redir)
-        return (false);
+        return (true);
     tmp_redir = parser->redir;
     while (tmp_redir)
     {
