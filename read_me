@@ -6,6 +6,21 @@ probleme quand < Makefile grep built > end | < end cat > ok on est pas censé re
 probleme quand redir incorrecte ??;
 les closes des fd ne sont pas tous correctement gérés; (voir photo sur mon tel);
 
+comprendre cette merde : doit falloir faire une verif si pipe entrée et egale a pipe sortie du pipe precedent, a voir
+neyks@Alex-VM:~/Bureau/42/cercle_4/Minishell$ < Makefile grep src > end | < Makefile grep env > ok | < ok cat
+                src/env/get_pwd.c                                       \
+                src/env/get_env.c                                       \
+                src/built_in/ft_env.c                           \
+                list/env/ft_env_add_back.c                      \
+                list/env/ft_env_add_front.c                     \
+                list/env/ft_env_clear.c                         \
+                list/env/ft_env_delone.c                        \
+                list/env/ft_env_first.c                         \
+                list/env/ft_env_last.c                          \
+                list/env/ft_env_new.c                           \
+                list/env/ft_env_size.c
+neyks@Alex-VM:~/Bureau/42/cercle_4/Minishell$ < Makefile grep src > end | < Makefile grep env > ok | < ok cat > test
+neyks@Alex-VM:~/Bureau/42/cercle_4/Minishell$ < Makefile grep src > end | < end grep env > ok | < ok cat
 
 13/07/23
 
