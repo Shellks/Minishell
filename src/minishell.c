@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/15 13:16:16 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/15 15:08:56 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,12 @@ void	ft_exec(t_data *data, t_exec *exec)
 	{
 		ft_set_redir(data, data->parser, exec);
 		if (data->parser->cmd[0] && !data->parser->next)
+		{
+			exec_simple_cmd(data, exec);
 			if (get_built_in(data) == false)
 				return ;
-		return ;
+		}
+		//return ;
 	}
 	ft_set_redir(data, data->parser, exec);
 	pipex(data, exec);
@@ -120,9 +123,9 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		data.input = readline(COLOR"Minishell > "RESET);
+		dprintf(2, "input = %s\n", data.input);
 		if (!data.input)
 		{
-			printf("exit\n");
 			ft_free_env(&data);
 			return (0);
 		}

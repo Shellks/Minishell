@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/13 17:13:06 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 13:26:32 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void    ft_exit(t_data *data);
 bool    ft_unset(t_data *data, t_parser *parser);
 bool    ft_export(t_data *data, t_parser *parser);
 //exec fonction
+void	exec_simple_cmd(t_data *data, t_exec *exec);
 char   *expand_here_doc(t_data *data, char *str, int i);
 void	pipex(t_data *data, t_exec *exec);
 void	last_child(t_data *data, t_exec *exec, t_parser *parse);

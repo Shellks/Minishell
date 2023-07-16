@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/13 18:54:02 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 14:02:58 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	last_process(t_data *data, t_exec *exec, t_parser *parse)
 
 static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 {	
-	 if (pipe(exec->pipes) == -1)
+	if (pipe(exec->pipes) == -1)
 	 	ft_free_exit(data, ERR_EXEC, "Exec prout error\n");
 	exec->pid = fork ();
 	// if (exec->pid == -1)
