@@ -1,5 +1,11 @@
 15/07/2023
 
+le code de retour 126 indique spécifiquement que la commande a été trouvée, mais n'a pas pu être exécutée.
+le code de retour 126 est une convention couramment utilisée pour représenter l'échec de l'exécution d'une commande.
+
+le code de retour 127 indique spécifiquement que la commande exécutable spécifiée n'a pas été trouvée dans le système. 
+le code de retour 127 est une convention couramment utilisée pour représenter l'absence de la commande spécifiée lors de l'exécution.
+
 -------------------------------------------
 
 probleme quand < Makefile grep built > end | < end cat > ok on est pas censé recuperer le contenu de end et nous ca marche

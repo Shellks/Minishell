@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/15 18:50:28 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/16 09:28:40 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ bool    ft_export(t_data *data, t_parser *parser);
 void	ft_close_fd(int *fd);
 void	pipex(t_data *data, t_exec *exec);
 void	ft_std_manager(int STDIN,int STDOUT);
+char	*ft_get_cmd(t_data *data, t_parser *parse);
 void	ft_dup_manager(t_data *data, t_exec *exec);
 char   *expand_here_doc(t_data *data, char *str, int i);
 void	ft_dup(t_data *data, int fd, int fd2, t_exec *exec);

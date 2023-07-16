@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:55:59 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/15 20:14:49 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/16 09:57:24 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static bool	get_infile(t_data *data, t_redir *redir, t_exec *exec)
         ft_putstr_fd("\n", 2);
         return (false);
     }
-    dprintf(2, "infile : %s  Add !\n", redir->redirec);
+    //dprintf(2, "infile : %s  Add !\n", redir->redirec);
     exec->flag_in = 1;
     return (true);
 }
@@ -55,7 +55,7 @@ static bool	get_outfile(t_redir *redir, t_exec *exec)
         ft_putstr_fd("\n", 2);
         return (false);
     }
-    dprintf(2, "outfile : %s   Add!\n", redir->redirec);
+    //dprintf(2, "outfile : %s   Add!\n", redir->redirec);
     exec->flag_out = 1;
     return (true);
 }
@@ -81,7 +81,7 @@ static bool	get_append(t_redir *redir, t_exec *exec)
     return (true);
 }
 
-static bool    set_redir_loop(t_data *data, t_exec *exec, t_redir *redir)
+static bool    redir_loop(t_data *data, t_exec *exec, t_redir *redir)
 {
     if (redir->token == HERE_DOC)
         get_heredoc(data, redir, exec);
@@ -94,6 +94,7 @@ static bool    set_redir_loop(t_data *data, t_exec *exec, t_redir *redir)
     {
          if (get_outfile(redir, exec) == false)
             return (false);
+        //get_old = dup(exec->outfile);
     }
     else if (redir->token == OUTFILE_APPEND)
     {
@@ -105,8 +106,11 @@ static bool    set_redir_loop(t_data *data, t_exec *exec, t_redir *redir)
 
 bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec)
 {
+    //voir ici pour checker le cas du redir outfile precedent et du infile actuel qui sont les meme,
+    // le old_outfile et le dup au dessus sont pour ça a la base
     t_redir *tmp_redir;
-
+    //int     old_outfile;
+    
     exec->flag_in = -1;
     exec->flag_out = -1;
     if (!parser->redir)
@@ -114,7 +118,7 @@ bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec)
     tmp_redir = parser->redir;
     while (tmp_redir)
     {
-        if (set_redir_loop(data, exec, tmp_redir) == false)
+        if (redir_loop(data, exec, tmp_redir) == false)
         {
             if (exec->flag_in == 1)
                 close(exec->infile);
@@ -125,11 +129,5 @@ bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec)
         tmp_redir = tmp_redir->next;
     }
     ft_dup_manager(data, exec);
-    // if (exec->flag_in == 2)
-    //     ft_close_here_doc(exec, 0, 1);
-    // if (exec->flag_in == 1)
-    //     close(exec->infile);
-    // if (exec->flag_out == 1)
-    //     close(exec->outfile);
     return (true);
 }
