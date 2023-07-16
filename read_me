@@ -1,3 +1,7 @@
+16/07/2023
+
+Ajout d'un vrai check du chemin absolu et/ou relatif dans les process enfants
+
 15/07/2023
 
 le code de retour 126 indique spécifiquement que la commande a été trouvée, mais n'a pas pu être exécutée.

@@ -6,11 +6,23 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 09:52:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/13 17:42:55 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/16 17:45:50 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	ft_print_error(char *str1, char *str2, char *str3, char *str4)
+{
+	if (str1)
+		ft_putstr_fd(str1, 2);
+	if (str2)
+		ft_putstr_fd(str2, 2);
+	if (str3)
+		ft_putstr_fd(str3, 2);
+	if (str4)
+		ft_putstr_fd(str4, 2);
+}
 
 void	ft_free_split(t_data *data)
 {

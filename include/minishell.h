@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/16 09:28:40 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/16 18:18:10 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ bool    ft_export(t_data *data, t_parser *parser);
 void	ft_close_fd(int *fd);
 void	pipex(t_data *data, t_exec *exec);
 void	ft_std_manager(int STDIN,int STDOUT);
+char   *expand_here_doc(t_data *data, char *str);
 char	*ft_get_cmd(t_data *data, t_parser *parse);
 void	ft_dup_manager(t_data *data, t_exec *exec);
-char   *expand_here_doc(t_data *data, char *str, int i);
 void	ft_dup(t_data *data, int fd, int fd2, t_exec *exec);
 void 	get_here_doc_fd(t_data *data, t_redir *redir, int *fd);
 void	last_child(t_data *data, t_exec *exec, t_parser *parse);
@@ -124,5 +124,7 @@ void	free_exit_env(t_data *data, char *name, char *content, int i);
 char	*get_next_line(int fd);
 //fonction temporaire pour close
 void    ft_close_here_doc(int *fd, int sign);
+//fonction temporaire
+void	ft_print_error(char *str1, char *str2, char *str3, char *str4);
 
 #endif

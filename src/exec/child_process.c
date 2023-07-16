@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/16 09:33:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/16 17:53:25 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 	   		ft_free_exit(data, ERR_EXEC, "Exec error0\n");
 		close(exec->outfile);
 	}
-	if (parse->cmd)
+	if (parse->cmd[0])
 	{
 		cmd = ft_get_cmd(data, parse);
 		execve(cmd, parse->cmd, data->path);
@@ -50,7 +50,7 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 			ft_free_exit(data, ERR_EXEC, "Exec error1\n");
 		//close(exec->pipes[1]);
 	}
-	if (parse->cmd)
+	if (parse->cmd[0])
 	{
 		cmd = ft_get_cmd(data, parse);
 		execve(cmd, parse->cmd, data->path);

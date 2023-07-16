@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/16 09:34:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/16 17:51:42 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,7 @@ static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 	if (exec->pid == -1)
 		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
 	if (exec->pid == 0)
-	{
-		//dprintf(2,"parse->cmd = %s\n", parse->cmd[0]);
-		if (access(parse->cmd[0], R_OK) == 0)
-			ft_free_exit(data, ERR_EXEC, "Exec error du acces bizarre\n");
 		child_process(data, exec, parse);
-	}
 	else
 		ft_parent_pattern(data, exec);
 }

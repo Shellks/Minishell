@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/15 20:14:20 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/16 18:19:03 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ static void    child_heredoc_expand(t_data *data, t_redir *re, int pipe[2])
       break ;
     if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0)
       break ;
-    str = expand_here_doc(data, str, ft_strlen(str));
+    str = expand_here_doc(data, str);
     ft_putstr_fd(str, pipe[1]);
     ft_putstr_fd("\n", pipe[1]);
-    //free (str);
+    free (str);
 	}
-  free(str);
+  if (str)
+    free(str);
   close(pipe[1]);
 }
 
@@ -49,7 +50,8 @@ static void    child_heredoc(t_redir *re, int pipe_connect[2])
     ft_putstr_fd("\n", pipe_connect[1]);
     free (str);
 	}
-  free(str);
+  if (str)
+    free(str);
   close(pipe_connect[1]);
 }
 
@@ -68,7 +70,8 @@ static void    parent_heredoc(t_redir *re, int pipe_connect[2], int fd)
     ft_putstr_fd(str, fd);
     free(str);
   }
-  free(str);
+  if (str)
+    free(str);
   close(fd);
   close(pipe_connect[0]);
 }
@@ -95,6 +98,8 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
       else
         child_heredoc_expand(data, redir, pipe_connect);
       printf("Child process ending !\n");
+      close(exec->fd_stdin);
+      close(exec->fd_stdout);
       ft_free_exit(data, 0, NULL);
     }
     get_here_doc_fd(data, redir, &fd);
