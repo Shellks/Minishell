@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/16 18:18:10 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 22:07:40 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ char   *expand_here_doc(t_data *data, char *str);
 char	*ft_get_cmd(t_data *data, t_parser *parse);
 void	ft_dup_manager(t_data *data, t_exec *exec);
 void	ft_dup(t_data *data, int fd, int fd2, t_exec *exec);
+char	*expand_digit_heredoc(t_data *data, char *str, int j);
+char	*expand_status_heredoc(t_data *data, char *str, int j);
 void 	get_here_doc_fd(t_data *data, t_redir *redir, int *fd);
 void	last_child(t_data *data, t_exec *exec, t_parser *parse);
 void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec);

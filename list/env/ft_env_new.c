@@ -6,13 +6,13 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 13:35:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/06/15 10:25:01 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 23:43:45 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_env	*ft_env_new(char *name, char *content)
+t_env	*ft_env_new(char *name, char *content, t_equals equals)
 {
 	t_env	*new;
 
@@ -25,6 +25,7 @@ t_env	*ft_env_new(char *name, char *content)
 	}
 	new->name = name;
 	new->content = content;
+	new->equals = equals;
 	new->next = NULL;
 	new->previous = NULL;
 	return (new);

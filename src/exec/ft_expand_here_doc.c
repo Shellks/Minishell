@@ -6,33 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:28:24 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/17 16:45:52 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 22:08:07 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static char *check_exclamation_expand(t_data *data, char *str, int *j)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	tmp1 = ft_strndup(str, *j);
-	if (!tmp1)
-		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-	//dprintf(2, "tmp1 = %s\n", tmp1);
-	tmp2 = ft_strdup(&str[*j + 2]);
-	if (!tmp2)
-		free_exit_env(data, tmp1, NULL, 1);
-	//dprintf(2, "tmp2 = %s\n", tmp2);
-	str = ft_strjoin(tmp1, tmp2);
-	if (!str)
-		free_exit_env(data, tmp1, tmp2, 2);
-	free(tmp1);
-	free(tmp2);
-	j += 2;
-	return (str);
-}
 
 static char	*replace_false_heredoc_expand(t_data *data, char *str, int *j)
 {
@@ -44,8 +22,8 @@ static char	*replace_false_heredoc_expand(t_data *data, char *str, int *j)
 	tmp1 = ft_strndup(str, *j);
 	if (!tmp1)
 		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-	if (str[*j] == '$')
-		*j += 1;
+	if (str[*j + i] == '$')
+		i++;
 	while (str[*j + i] && isalnum(str[*j + i]))
 		i++;
 	tmp2 = ft_strdup(&str[*j + i]);
@@ -130,8 +108,6 @@ static char	*get_expand_here_doc(t_data *data, char *str, char *to_find, int *j)
 	return (str);
 }
 
-//essayer de faire une nouvelle expand plus propre en itérant tout str sur une seconde chaine expand par expand
-//ca devrait gerer tout les problemes, meme les suites de $$ inchallah
 char   *expand_here_doc(t_data *data, char *str)
 {
 	int	j;
@@ -139,22 +115,18 @@ char   *expand_here_doc(t_data *data, char *str)
 	j = 0;
 	while(j < (int)ft_strlen(str) && str[j])
 	{
-		dprintf(2, "&str[%d] = %s\n", j, &str[j]);
 		while (str[j] && str[j] != '$')
 			j++;
 		while (str[j] && str[j + 1] && str[j + 1] == '$')
 			j++;
 		if (!str[j] || !str[j + 1])
 			break ;
-		if (str[j + 1] == '!')
-			str = check_exclamation_expand(data, str, &j);
 		else if (str[j + 1] == '?')
-			expand_status(data, &str[j + 1]);
-		else if (ft_isdigit(str[j + 1]) == 1)
-			create_expand_digit(data, &str[j + 1]);
+			str = expand_status_heredoc(data, str, j);
+		else if (ft_isdigit(str[j + 1]))
+			str = expand_digit_heredoc(data, str, j);
 		else
 			str = get_expand_here_doc(data, str, &str[j + 1], &j);
-		dprintf(2, "j = %d\n", j);
 	}
 	return (str);
 }

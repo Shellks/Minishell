@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:42:09 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/10 08:25:08 by nicolasbern      ###   ########.fr       */
+/*   Updated: 2023/07/17 23:49:19 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,13 @@ bool	ft_env(t_data *data)
     //     exit(EXIT_FAILURE);
 	while (tmp)
 	{
-		ft_putstr_fd(tmp->name, 1);
-		ft_putstr_fd("=", 1);
-	    ft_putstr_fd(tmp->content, 1);
-	    ft_putstr_fd("\n", 1);
+		if (tmp->equals != NOT_EQUALS)
+		{
+			ft_putstr_fd(tmp->name, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(tmp->content, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		tmp = tmp->next;
 	}
 	return (true);

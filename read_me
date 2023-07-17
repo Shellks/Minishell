@@ -46,7 +46,7 @@ regler les problemes de heredoc;    OK !?
 
 regarder pour clear(Theo avait des leaks avec en plus, faire attention)
 
-implementer exec sans pipe
+implementer exec sans pipe  OK!?
 
 implementer built_in (les notres) dans pipe
 
@@ -56,7 +56,7 @@ implementer les signaux;
 
 -------------------------------------------
 
-Regler probleme expand here_doc quand : $$PAGER$$LW$$LESS$$end 
+Regler probleme expand here_doc quand : $$PAGER$$LW$$LESS$$end OK !?
 
 12/07/23
 
@@ -130,8 +130,3 @@ mais yen a le bash marche quand meme cest bizarre
 ---------------------------------------------
 
 Verifier la commande $< si on la parse comme il faut
-
----------------------------------------------
-
-redir valable tant qu'elle existe, peut y en a voir x, on prend que la derniere en compte
-et ça pour chaque pipe separement

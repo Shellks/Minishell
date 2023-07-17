@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:05:05 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 20:13:33 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 23:47:15 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	create_old_pwd(t_data *data)
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	content = NULL;
-	new = ft_env_new(name, content);
+	new = ft_env_new(name, content, NOT_EQUALS);
 	if (!new)
 		free_exit_env(data, name, NULL, 1);
 	data->old_pwd = new;
@@ -41,7 +41,7 @@ static void	create_pwd(t_data *data)
 	content = getcwd(NULL, 0);
 	if (!content)
 		free_exit_env(data, name, NULL, 1);
-	new = ft_env_new(name, content);
+	new = ft_env_new(name, content, EQUALS);
 	if (!new)
 		free_exit_env(data, name, content, 2);
 	data->pwd = new;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/11 17:44:15 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/18 00:09:54 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static bool    create_new_env(t_data *data, t_parser *parser, int end, int i)
     content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
      if (!content)
         free_exit_env(data, name, NULL, 1);
-    new = ft_env_new(name, content);
+    new = ft_env_new(name, content, EQUALS);
     if (!new)
         free_exit_env(data, name, content, 2);
     ft_env_add_back(&data->env, new);
@@ -58,13 +58,81 @@ static int export_is_exist(t_env *env, t_parser *parser, int end, int i)
     {
         free(env->content);
         env->content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
-        free(env->content);
-        env->content = NULL;
         if (!env->content)
             return (ERR_MALLOC);
         return (TRUE);
     }
     return (FALSE);
+}
+
+void    ft_export_no_args(t_env *env)
+{
+    char    *tmp_content;
+    char    *tmp_name;
+    t_equals tmp_equals;
+
+    while(env && env->next)
+    {
+        if (env->name[0] > env->next->name[0])
+        {
+            tmp_name = env->name;
+            env->name = env->next->name;
+            env->next->name = tmp_name;
+            tmp_content = env->content;
+            env->content = env->next->content;
+            env->next->content = tmp_content;
+            tmp_equals = env->equals;
+            env->equals = env->next->equals;
+            env->next->equals = tmp_equals;
+            ft_env_first(env);
+            continue ;
+        }
+        env = env->next;
+    }
+    ft_env_first(env);
+    while (env)
+    {
+        // if (ft_strncmp(env->name, "_", 1))
+        // {
+        //     env = env->next;
+        //     continue ;
+        // }
+        if (env->equals == NOT_EQUALS)
+            printf("declare -x %s\n", env->name);
+        else
+            printf("declare -x %s=\"%s\"\n", env->name, env->content);
+        env = env->next;
+    }
+}
+
+static bool    create_env_no_equals(t_data *data, t_parser *parser)
+{
+    t_env   *new;
+    char    *name;
+    int     i;
+
+    i = -1;
+    name = ft_strdup(parser->cmd[1]);
+    if (!name)
+        ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+    if (name[0] >= 48 && name[0] <= 57)
+    {
+        free(name);
+        return (ft_print_id_error(parser->cmd[1]), false);
+    }
+    while (name[++i])
+    {
+        if (is_valid_char(name, i) == false)
+        {
+            free(name);
+            return (ft_print_id_error(parser->cmd[1]), false);
+        }
+    }
+    new = ft_env_new(name, NULL, NOT_EQUALS);
+    if (!new)
+        free_exit_env(data, name, NULL, 1);
+    ft_env_add_back(&data->env, new);
+    return (true);
 }
 
 bool    ft_export(t_data *data, t_parser *parser)
@@ -76,13 +144,20 @@ bool    ft_export(t_data *data, t_parser *parser)
     data->count = 0;
     tmp_env = data->env;
     tmp_parser = parser;
-    if (!tmp_env || !tmp_parser->cmd[1])
+    if (!tmp_env)
         return (false);
+    if (!tmp_parser->cmd[1])
+        return(ft_export_no_args(tmp_env), true);
     end = (ft_strlen(tmp_parser->cmd[1]) - 1);
     while(tmp_parser->cmd[1][data->count] && tmp_parser->cmd[1][data->count] != '=')
         data->count++;
     if (tmp_parser->cmd[1][data->count] != '=')
-        return (false);
+    {
+        if (create_env_no_equals(data, tmp_parser) == true)
+            return (true);
+        else
+            return (false);
+    }
     while(tmp_env)
     {
         if (export_is_exist(tmp_env, tmp_parser, end, data->count) == TRUE)
