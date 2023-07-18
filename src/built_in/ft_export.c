@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/18 10:42:03 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 16:37:53 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	ft_print_id_error(char *word)
 
 static  bool    is_valid_char(char *name, int i)
 {
+    if (name[i] == '_')
+        return (true);
     if (name[i] < 48 || (name[i] > 57 && name[i] < 65))
         return (false);
     if ((name[i] > 90 && name[i] < 97) || name[i] > 122)
@@ -107,7 +109,7 @@ bool    ft_export(t_data *data, t_parser *parser)
     if (!tmp_env)
         return (false);
     if (!tmp_parser->cmd[1])
-        return(ft_export_no_args(tmp_env), true);
+        return(ft_export_no_args(data, data->env), true);
     end = (ft_strlen(tmp_parser->cmd[1]) - 1);
     while(tmp_parser->cmd[1][data->count] && tmp_parser->cmd[1][data->count] != '=')
         data->count++;

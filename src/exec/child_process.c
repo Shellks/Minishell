@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/18 13:51:09 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 14:59:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 			close(exec->infile);
 		if (exec->flag_out != -1)
 			close(exec->outfile);
+		close(exec->fd_stdin);
+		close(exec->fd_stdout);
 		close(exec->pipes[1]);
 		ft_free_exit(data, g_status, NULL);
 	}
@@ -88,6 +90,8 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 			close(exec->infile);
 		if (exec->flag_out != -1)
 			close(exec->outfile);
+		close(exec->fd_stdin);
+		close(exec->fd_stdout);
 		close(exec->pipes[1]);
 		ft_free_exit(data, g_status, NULL);
 	}

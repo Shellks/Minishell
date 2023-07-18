@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/18 13:49:46 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 16:26:34 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ bool    ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
 void    ft_exit(t_data *data);
-void    ft_export_no_args(t_env *env);
 bool    ft_unset(t_data *data, t_parser *parser);
 bool    ft_export(t_data *data, t_parser *parser);
+void    ft_export_no_args(t_data *data, t_env *env);
 //lexer fonction
 bool	lexer(t_data *data);
 bool	find_dollar(char *str);

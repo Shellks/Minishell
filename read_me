@@ -18,8 +18,8 @@ les closes des fd ne sont pas tous correctement gérés; (voir photo sur mon tel
 
 comprendre cette merde : doit falloir faire une verif si pipe entrée et egale a pipe sortie du pipe precedent, a voir
 neyks@Alex-VM:~/Bureau/42/cercle_4/Minishell$ < Makefile grep src > end | < Makefile grep env > ok | < ok cat
-                src/env/get_pwd.c                                       \
-                src/env/get_env.c                                       \
+                src/env/get_pwd.c                               \
+                src/env/get_env.c                               \
                 src/built_in/ft_env.c                           \
                 list/env/ft_env_add_back.c                      \
                 list/env/ft_env_add_front.c                     \
@@ -42,12 +42,12 @@ gerer export sans option (affiche l'env trier (en ascii ???))   OK!?
 Regler probleme expand here_doc quand : $$PAGER$$LW$$LESS$$end OK !?
 regler les problemes de heredoc;    OK !?
 implementer exec sans pipe  OK!?
+implementer built_in (les notres) dans pipe OK!?
 
 checker tout les messages d'erreur (qu'il soit conforme a bash)
 
 regarder pour clear(Theo avait des leaks avec en plus, faire attention)
 
-implementer built_in (les notres) dans pipe
 
 checker les leaks/norme (normalement tout est deja ok jusqua parser) et les close
 
