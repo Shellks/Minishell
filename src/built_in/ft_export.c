@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/18 00:09:54 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 10:42:03 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,46 +63,6 @@ static int export_is_exist(t_env *env, t_parser *parser, int end, int i)
         return (TRUE);
     }
     return (FALSE);
-}
-
-void    ft_export_no_args(t_env *env)
-{
-    char    *tmp_content;
-    char    *tmp_name;
-    t_equals tmp_equals;
-
-    while(env && env->next)
-    {
-        if (env->name[0] > env->next->name[0])
-        {
-            tmp_name = env->name;
-            env->name = env->next->name;
-            env->next->name = tmp_name;
-            tmp_content = env->content;
-            env->content = env->next->content;
-            env->next->content = tmp_content;
-            tmp_equals = env->equals;
-            env->equals = env->next->equals;
-            env->next->equals = tmp_equals;
-            ft_env_first(env);
-            continue ;
-        }
-        env = env->next;
-    }
-    ft_env_first(env);
-    while (env)
-    {
-        // if (ft_strncmp(env->name, "_", 1))
-        // {
-        //     env = env->next;
-        //     continue ;
-        // }
-        if (env->equals == NOT_EQUALS)
-            printf("declare -x %s\n", env->name);
-        else
-            printf("declare -x %s=\"%s\"\n", env->name, env->content);
-        env = env->next;
-    }
 }
 
 static bool    create_env_no_equals(t_data *data, t_parser *parser)

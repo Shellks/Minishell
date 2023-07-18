@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/17 22:07:40 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 13:49:46 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,15 @@ typedef struct s_data
 
 //builtin=====
 bool	ft_env(t_data *data);
-bool 	ft_echo(t_data *data);
+bool	ft_echo(t_parser *parser);
 int 	ft_dup_fd(t_parser *parser);
 bool    ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
+void    ft_exit(t_data *data);
+void    ft_export_no_args(t_env *env);
+bool    ft_unset(t_data *data, t_parser *parser);
+bool    ft_export(t_data *data, t_parser *parser);
 //lexer fonction
 bool	lexer(t_data *data);
 bool	find_dollar(char *str);
@@ -97,10 +101,6 @@ void	ft_fusion(t_data *data);
 void	del_node_space(t_data *data);
 void	print_parser(t_parser **parser);
 void	ft_print_syntax_error(char * word);
-//built_in fonction
-void    ft_exit(t_data *data);
-bool    ft_unset(t_data *data, t_parser *parser);
-bool    ft_export(t_data *data, t_parser *parser);
 //exec fonction
 void	ft_close_fd(int *fd);
 void	pipex(t_data *data, t_exec *exec);

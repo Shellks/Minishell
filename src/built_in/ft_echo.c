@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:50:43 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/11 16:54:29 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:49:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int check_option(char **cmd, int *index)
 }
 
 
-bool ft_echo(t_data *data)
+bool ft_echo(t_parser *parser)
 {
     int index;
     int bslash_n;
     t_parser *echo;
 
-    echo = data->parser;
+    echo = parser;
     //TODO : redir le result de printf avec dup2
     //echo->pid = fork();
     // if (echo->pid == -1)
@@ -81,12 +81,12 @@ bool ft_echo(t_data *data)
     bslash_n = check_option(echo->cmd, &index);
     while (echo->cmd[index])
     {
-        ft_putstr_fd(echo->cmd[index], 1);
+        ft_putstr_fd(echo->cmd[index], STDOUT_FILENO);
         if (echo->cmd[index + 1])
-			ft_putstr_fd(" ", 2);
+			ft_putstr_fd(" ", STDOUT_FILENO);
         index++;
     }
     if (bslash_n)
-        ft_putstr_fd("\n", 1);
+        ft_putstr_fd("\n", STDOUT_FILENO);
     return (true);
 }

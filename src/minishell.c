@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/17 22:39:23 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 13:50:47 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	get_built_in(t_data *data)
 	}
 	else if (ft_strncmp(data->parser->cmd[0], "echo", 4) == 0)
 	{
-		if (ft_echo(data) == false)
+		if (ft_echo(data->parser) == false)
 			return (false);
 	}
 	else if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)

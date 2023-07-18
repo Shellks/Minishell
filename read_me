@@ -36,17 +36,16 @@ neyks@Alex-VM:~/Bureau/42/cercle_4/Minishell$ < Makefile grep src > end | < end 
 
 -------------------------------------------
 
-checker tout les messages d'erreur (qu'il soit conforme a bash)
-
-gerer export sans option (affiche l'env trier (en ascii ???))
 
 implementer correctement infile, outfile,heredoc (ptit probleme de boucle inf);		OK !?
-
+gerer export sans option (affiche l'env trier (en ascii ???))   OK!?
+Regler probleme expand here_doc quand : $$PAGER$$LW$$LESS$$end OK !?
 regler les problemes de heredoc;    OK !?
+implementer exec sans pipe  OK!?
+
+checker tout les messages d'erreur (qu'il soit conforme a bash)
 
 regarder pour clear(Theo avait des leaks avec en plus, faire attention)
-
-implementer exec sans pipe  OK!?
 
 implementer built_in (les notres) dans pipe
 
@@ -56,7 +55,6 @@ implementer les signaux;
 
 -------------------------------------------
 
-Regler probleme expand here_doc quand : $$PAGER$$LW$$LESS$$end OK !?
 
 12/07/23
 
