@@ -6,7 +6,7 @@
 #    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/19 15:13:56 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/19 15:27:54 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRCS =	src/minishell.c						\
 		src/exec/pipex.c					\
 		src/exec/ft_get_fd_heredoc.c		\
 		src/signal/ft_ctrl_c.c				\
+		src/exec/exec_simple_cmd.c			\
 		src/utils/ft_free.c					\
 		src/utils/get_next_line.c			\
 		src/utils/ft_close.c				\

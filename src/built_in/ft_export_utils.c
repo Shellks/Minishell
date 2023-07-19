@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/19 14:07:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 15:31:27 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,20 @@
 
 char    **bubble_sort_tab(char **tab, int len)
 {
-    char    *tmp;
     char    *to_sort;
+    char    *tmp;
     int     i;
-    int     j;
 
     i = 0;
+    to_sort = tab[i];
     while (tab[i] && i < len)
     {
         to_sort = tab[i];
-        j = -1;
-        while(tab[++j] && j < len - i)
+        if (ft_strcmp(tab[i], to_sort) > 0)
         {
-            if (ft_strcmp(tab[j], to_sort) > 0)
-            {
-                tmp = tab[j];
-                tab[j] = to_sort;
+                tmp = tab[i];
+                tab[i] = to_sort;
                 to_sort = tmp;
-            }
         }
         i++;
     }
