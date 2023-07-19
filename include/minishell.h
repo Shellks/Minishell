@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/19 15:27:57 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 16:29:13 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	del_node_space(t_data *data);
 void	print_parser(t_parser **parser);
 void	ft_print_syntax_error(char * word);
 //exec fonction
+char    **get_env_tab(t_data *data, t_env * env);
 int		is_builtin(t_data *data, t_parser *parse);
 void	exec_simple_cmd(t_data *data, t_exec *exec);
 void	pipex(t_data *data, t_exec *exec);

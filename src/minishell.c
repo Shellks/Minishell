@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/19 15:29:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 18:27:39 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,19 @@ void	ft_exec(t_data *data, t_exec *exec)
 {
 	if (!data->parser->next)
 	{
+		if (ft_set_redir(data, data->parser, exec) == false)
+			return ;
 		if (data->parser->cmd[0] && !data->parser->next)
+		{
+				if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
+				{
+					ft_cd(data ,data->parser->cmd);
+					return ;
+				}
+				if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
+					ft_exit(data);
 			exec_simple_cmd(data, exec);
+		}
 	}
 	else
 		pipex(data, exec);
@@ -111,19 +122,11 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
-	//t_env	*tmp;
 	t_exec	exec;
 
 	(void)argv;
 	if (init_var(&data, &exec, env, argc) == false)
 		return (1);
-	// tmp = data.env;
-	// while (tmp)
-	// {
-	// 	printf("%s=%s\n", tmp->name, tmp->content);
-	// 	tmp = tmp->next;
-	// }
-	//niveau malloc tout est ok reste juste les 4 sortie de exit qui sont chelou!!!!!
 	while (1)
 	{
 		signal(SIGINT, ft_ctrl_c);
@@ -131,6 +134,7 @@ int	main(int argc, char **argv, char **env)
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{
+			printf("Exit\n");
 			ft_free_env(&data);
 			return (0);
 		}

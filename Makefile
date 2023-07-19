@@ -6,13 +6,13 @@
 #    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/19 15:27:54 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/19 17:58:27 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CFLAGS = -Wall -Wextra -Werror -o2 -g3
+CFLAGS = -Wall -Wextra -Werror -g3
 CC = cc
 HEADER = ./include
 

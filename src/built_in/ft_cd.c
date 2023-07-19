@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:38:10 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/10 00:42:21 by nicolasbern      ###   ########.fr       */
+/*   Updated: 2023/07/19 17:14:11 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,13 @@ bool    ft_cd(t_data *data, char **tab)
         target = get_target_env(data->env, "OLDPWD");
     else
         target = ft_strdup(tab[1]);
-    if (target == NULL)
-        return (false);
+    if (!target)
+        ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
     if (cd_and_actualise_env(data, target) == false)
+    {
+        free(target);
         return (false);
+    }
+    free(target);
     return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/19 12:08:13 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 18:23:39 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 {
+	char	**env_tab;
 	char	*cmd;
 
 	if (exec->flag_out != -1)
@@ -35,7 +36,8 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 	if (parse->cmd[0])
 	{
 			cmd = ft_get_cmd(data, parse);
-			execve(cmd, parse->cmd, data->path);
+			env_tab = get_env_tab(data,data->env);
+			execve(cmd, parse->cmd, env_tab);
 	}
 	close(exec->fd_stdin);
 	close(exec->fd_stdout);

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/19 15:29:22 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 18:35:41 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	is_builtin(t_data *data, t_parser *parse)
 
 void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 {
+	char	**env_tab;
 	char	*cmd;
 
 	close(exec->pipes[0]);
@@ -59,14 +60,17 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 	if (parse->cmd[0])
 	{
 			cmd = ft_get_cmd(data, parse);
-			execve(cmd, parse->cmd, data->path);
+			env_tab = get_env_tab(data,data->env);
+			execve(cmd, parse->cmd, env_tab);
 	}
 	close(exec->pipes[1]);
-	ft_free_exit(data, ERR_EXEC, "Error with executing execve");
+	g_status = 0;
+	ft_free_exit(data, g_status, NULL);
 }
 
 void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 {
+	char	**env_tab;
 	char	*cmd;
 
 	signal(SIGQUIT, SIG_DFL);
@@ -98,8 +102,10 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	if (parse->cmd[0])
 	{
 		cmd = ft_get_cmd(data, parse);
-		execve(cmd, parse->cmd, data->path);
+		env_tab = get_env_tab(data,data->env);
+		execve(cmd, parse->cmd, env_tab);
 	}
 	close(exec->pipes[1]);
-	ft_free_exit(data, ERR_EXEC, "Error with executing execve");
+	g_status = 0;
+	ft_free_exit(data, g_status, NULL);
 }
