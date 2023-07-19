@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/19 10:32:14 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 12:05:42 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	del_node_space(t_data *data);
 void	print_parser(t_parser **parser);
 void	ft_print_syntax_error(char * word);
 //exec fonction
-void	ft_close_fd(int *fd);
+int		is_builtin(t_data *data, t_parser *parse);
+void	exec_simple_cmd(t_data *data, t_exec *exec);
 void	pipex(t_data *data, t_exec *exec);
 void	ft_std_manager(int STDIN,int STDOUT);
 char   *expand_here_doc(t_data *data, char *str);
@@ -125,6 +126,7 @@ void	free_exit_env(t_data *data, char *name, char *content, int i);
 //gnl
 char	*get_next_line(int fd);
 //fonction temporaire pour close
+void	ft_close_fd(int *fd);
 void    ft_close_here_doc(int *fd, int sign);
 //fonction temporaire
 void	ft_print_error(char *str1, char *str2, char *str3, char *str4);
