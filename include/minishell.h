@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/18 16:26:34 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 10:32:14 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
 //fonction temporaire pour free
 void	ft_free_env(t_data *data);
 void	ft_free_loop(t_data *data);
-void	ft_free_split(t_data *data);
+void	ft_free_split(char **tab);
 void	ft_free_exit(t_data	*data, int	error, char *msg);
 void	free_exit_env(t_data *data, char *name, char *content, int i);
 //gnl

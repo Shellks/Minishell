@@ -6,107 +6,104 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/18 16:51:45 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 11:29:33 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
-
-static void swap_nodes(t_env *node1, t_env *node2)
+char    **bubble_sort_tab(char **tab, int len)
 {
-    if (node1->previous != NULL)
-        node1->previous->next = node2;
-    if (node2->next != NULL)
-        node2->next->previous = node1;
-    node1->next = node2->next;
-    node2->previous = node1->previous;
-    node1->previous = node2;
-    node2->next = node1;
-}
+    char    *tmp;
+    char    *to_sort;
+    int     i;
+    int     j;
 
-static t_env *export_sort_list(t_env *env)
-{
-    t_env *start = env;
-    int swapped = 1;
-
-    while (swapped) 
+    i = 0;
+    while (tab[i] && i < len)
     {
-        swapped = 0;
-        while (env && env->next) 
+        to_sort = tab[i];
+        j = -1;
+        while(tab[++j] && j < len - i)
         {
-            if (ft_strcmp(env->name, env->next->name) > 0) 
+            if (ft_strcmp(tab[j], to_sort) > 0)
             {
-                swap_nodes(env, env->next);
-                swapped = 1;
+                printf("tab[j] = %s\n", tab[j]);
+                printf("to_sort = %s\n", to_sort);
+                tmp = tab[j];
+                tab[j] = to_sort;
+                to_sort = tmp;
             }
-            env = env->next;
         }
-        if (swapped)
-            env = start;
+        i++;
     }
-    return start;
+    return (tab);
 }
 
-t_env   *copy_linked_list(t_data *data, t_env *env)
+char    **get_env_tab(t_data *data, t_env * env)
 {
-    t_env   *new_env;
-    t_env   *node;
-    char    *name;
-    char    *content;
-    t_equals    equals;
+    char    *str;
+    char    **tab;
+    int     len;
 
-    new_env = NULL;
-    new_env = malloc(sizeof(t_env));
-    if (!new_env)
+    len = ft_env_size(env);
+    tab = (char **)ft_calloc(sizeof(char *), len + 1);
+    if (!tab)
         ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+    len = 0;
     while (env)
     {
-        content = NULL;
-        name = ft_strdup(env->name);
-        if (!name)
-            ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-        content = ft_strdup(env->content);
-            if (!content)
-                free_exit_env(data, name, NULL, 1);
-        equals = env->equals;
-        node = ft_env_new(name, content, equals);
-        if (!node)
-            free_exit_env(data, name, content, 1);
-        ft_env_add_back(&new_env, node);
+        if (env->equals == EQUALS)
+        {
+            str = ft_strjoin(env->name, "=");
+            if (!str)
+                ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+            tab[len] = ft_strjoin(str, env->content);
+            if (!tab[len])
+                free_exit_env(data, str, NULL, 1);
+            free (str);
+        }
+        else
+        {
+            tab[len] = ft_strdup(env->name);
+            if (!tab[len])
+                ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+        }
         env = env->next;
+        len++;
     }
-    return (new_env->next);
+    return (tab);
 }
 
 void    ft_export_no_args(t_data *data, t_env *env)
 {
+    char    **env_tab;
     t_env   *tmp_env;
-    t_env   *env_copy;
-    t_env   *sorted_env;
+    int     i;
+    int     len;
 
     tmp_env = env;
-    env_copy = copy_linked_list(data, tmp_env);
-    sorted_env = export_sort_list(env_copy);
-    tmp_env = sorted_env;
-    while (sorted_env)
+    env_tab = get_env_tab(data, tmp_env);
+    len = 0;
+    while (env_tab[len])
+        len++;
+    env_tab = bubble_sort_tab(env_tab, len);
+    i = 0;
+    while (env_tab[i])
     {
-        if (ft_strlen(sorted_env->name) == 1 && sorted_env->name[0] == '_')
+        if (ft_strlen(env_tab[i]) == 1 && env_tab[i][0] == '_')
         {
-            if (env->next)
+            if (env_tab[i + 1])
             {
-                env = env->next;
+                i++;
                 continue ;
             }
             else
                 break ; 
         }
-        if (sorted_env->equals == NOT_EQUALS)
-            printf("declare -x %s\n", sorted_env->name);
-        else
-            printf("declare -x %s=\"%s\"\n", sorted_env->name, sorted_env->content);
-        sorted_env = sorted_env->next;
+        printf("declare -x %s\n", env_tab[i]);
+        i++;
     }
-    ft_env_clear(&tmp_env);
+    // if (env_tab)
+    //     ft_free_split(env_tab);
 }
