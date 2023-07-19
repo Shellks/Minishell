@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/16 18:19:03 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 15:22:32 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
     int pipe_connect[2];
     int fd;
 
+    signal(SIGINT, SIG_IGN);
     if (exec->flag_in == 1)
     {
         exec->flag_in = -1;
@@ -93,6 +94,7 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
         ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
     if (exec->pid == 0)
     {
+      signal(SIGINT, ft_ctrl_c_heredoc);
       if (redir->quote != NONE)
         child_heredoc(redir, pipe_connect);
       else

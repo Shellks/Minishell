@@ -6,13 +6,22 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/18 13:50:47 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 15:12:42 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int	g_status;
+
+t_data	*ft_get_data(t_data *data)
+{
+	static t_data	*data_ptr;
+
+	if (data)
+		data_ptr = data;
+	return (data_ptr);
+}
 
 bool	get_built_in(t_data *data)
 {
@@ -96,6 +105,7 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 	data->parser = NULL;
 	exec->flag_in = 0;
 	exec->flag_out = 0;
+	ft_get_data(data);
 	set_env(data, env);
 	return (true);
 }
@@ -118,6 +128,8 @@ int	main(int argc, char **argv, char **env)
 	//niveau malloc tout est ok reste juste les 4 sortie de exit qui sont chelou!!!!!
 	while (1)
 	{
+		signal(SIGINT, ft_ctrl_c);
+		signal(SIGQUIT, SIG_IGN);
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{

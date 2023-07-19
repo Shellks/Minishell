@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/18 14:59:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 15:18:32 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 		close(exec->pipes[1]);
 		ft_free_exit(data, g_status, NULL);
 	}
-	dprintf(2, "Bouh2!\n");
 	if (parse->cmd[0])
 	{
 			cmd = ft_get_cmd(data, parse);
@@ -70,7 +69,8 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 {
 	char	*cmd;
 
-	
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, ft_ctrl_c_exec);
 	close(exec->pipes[0]);
 	if (exec->flag_out != -1)
 	{
@@ -95,7 +95,6 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 		close(exec->pipes[1]);
 		ft_free_exit(data, g_status, NULL);
 	}
-	dprintf(2, "Bouh1!\n");
 	if (parse->cmd[0])
 	{
 		cmd = ft_get_cmd(data, parse);

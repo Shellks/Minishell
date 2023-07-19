@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/19 11:29:33 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 14:07:48 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ char    **bubble_sort_tab(char **tab, int len)
         {
             if (ft_strcmp(tab[j], to_sort) > 0)
             {
-                printf("tab[j] = %s\n", tab[j]);
-                printf("to_sort = %s\n", to_sort);
                 tmp = tab[j];
                 tab[j] = to_sort;
                 to_sort = tmp;
