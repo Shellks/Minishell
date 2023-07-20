@@ -3,27 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   expand_here_doc_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 22:05:11 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/17 22:08:09 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 16:43:44 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*expand_status_heredoc(t_data *data, char *str, int j)
+char	*expand_status_heredoc(t_data *data, char *str, int j, char *err_code)
 {
 	char	*tmp1;
 	char	*tmp2;
-	char	*err_code;
 
 	tmp1 = ft_strndup(str, j);
 	if (!tmp1)
 		free_exit_env(data, str, NULL, 1);
-	err_code = ft_itoa(g_status);
-	if (!err_code)
-		free_exit_env(data, str, tmp1, 2);
 	tmp2 = ft_strjoin(tmp1, err_code);
 	if (!tmp2)
 	{

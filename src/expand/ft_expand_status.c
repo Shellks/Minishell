@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_status.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:38:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 21:55:01 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:49:09 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*get_expand_status(t_data *data, char *str)
 
 void	expand_status(t_data *data, char *str)
 {
-    t_lexer *tmp_lexer;
+	t_lexer	*tmp_lexer;
 	char	*tmp;
 	int		start;
 	int		i;
@@ -52,7 +52,7 @@ void	expand_status(t_data *data, char *str)
 	if (!tmp)
 		ft_free_exit(data, ERR_MALLOC, "Malloc_error");
 	tmp = get_expand_status(data, tmp);
-    tmp_lexer = ft_lexer_last(data->lexer);
+	tmp_lexer = ft_lexer_last(data->lexer);
 	if (tmp_lexer->word)
 		free(tmp_lexer->word);
 	tmp_lexer->word = tmp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:42:09 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/17 23:49:19 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:14:41 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@ bool	ft_env(t_data *data)
 
 	tmp = NULL;
 	tmp = data->env;
-	//TODO : redir le result de printf avec dup2
-    // data->parser->pid = fork();
-    // if (data->parser->pid == -1)
-    //     exit (EXIT_FAILURE);
-    // if (ft_dup_fd(data->parser))
-    //     exit(EXIT_FAILURE);
 	while (tmp)
 	{
 		if (tmp->equals != NOT_EQUALS)

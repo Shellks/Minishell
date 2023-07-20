@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 10:17:47 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:33:05 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,43 +23,6 @@ t_data	*ft_get_data(t_data *data)
 	return (data_ptr);
 }
 
-bool	get_built_in(t_data *data)
-{
-	if (ft_strncmp(data->parser->cmd[0], "pwd", 3) == 0)
-	{
-		printf("%s\n", data->pwd->content);
-		return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "unset", 5) == 0)
-	{
-		if (ft_unset(data, data->parser) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "export", 6) == 0)
-	{
-		if (ft_export(data, data->parser) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
-		ft_exit(data);
-	else if (ft_strncmp(data->parser->cmd[0], "env", 3) == 0)
-	{
-		if (ft_env(data) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "echo", 4) == 0)
-	{
-		if (ft_echo(data->parser) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
-	{
-		if (ft_cd(data ,data->parser->cmd) == false)
-			return (false);
-	}
-	return (true);
-}
-
 void	ft_exec(t_data *data, t_exec *exec)
 {
 	if (!data->parser->next)
@@ -70,7 +33,7 @@ void	ft_exec(t_data *data, t_exec *exec)
 		{
 			if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
 			{
-				ft_cd(data ,data->parser->cmd);
+				ft_cd(data, data->parser->cmd);
 				return ;
 			}
 			if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
@@ -85,15 +48,13 @@ void	ft_exec(t_data *data, t_exec *exec)
 void	ft_mini_loop(t_data *data, t_exec *exec)
 {
 	add_history(data->input);
- 	if (lexer(data) == false)
+	if (lexer(data) == false)
 		return ;
 	if (!data->lexer)
 		return ;
- 	ft_fusion(data);
- 	//print_lexer(&data->lexer);
+	ft_fusion(data);
 	if (ft_parser(data) == false)
 		return ;
- 	//print_parser(&data->parser);
 	ft_exec(data, exec);
 }
 

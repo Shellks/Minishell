@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_space.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 10:19:03 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/12 13:47:35 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:44:51 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static bool manage_end_space(t_data *data, t_env *env, int *i, int *start)
+static bool	manage_end_space(t_data *data, t_env *env, int *i, int *start)
 {
-    t_lexer *new;
+	t_lexer	*new;
 
-    if (*start == 0)
-			return (false);
+	if (*start == 0)
+		return (false);
 	if (env->content[*i - 1] == ' ')
 	{
 		new = ft_lexer_new(NULL, DELIMITER, NONE);
@@ -39,8 +39,8 @@ static int	manage_space_content(t_data *data, t_env *env, int *start)
 		i++;
 	if (!env->content[i])
 	{
-        if (manage_end_space(data, env, &i, start) == false)
-			return(-2);
+		if (manage_end_space(data, env, &i, start) == false)
+			return (-2);
 		return (FALSE);
 	}
 	else
@@ -54,7 +54,7 @@ static int	manage_space_content(t_data *data, t_env *env, int *start)
 			return (TRUE);
 		}
 	}
-	return(-1);
+	return (-1);
 }
 
 static char	*get_word_in_content(t_data *data, t_env *env, int *start)
@@ -76,7 +76,7 @@ static char	*get_word_in_content(t_data *data, t_env *env, int *start)
 	tmp = (char *)ft_calloc(sizeof(char), end + 1);
 	if (!tmp)
 		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-	while(env->content[i] && j < end)
+	while (env->content[i] && j < end)
 	{
 		tmp[j] = env->content[i];
 		i++;
@@ -100,9 +100,9 @@ static int	space_env_loop(t_data *data, t_env *env, int *start, int *i)
 		*start += 1;
 	tmp = get_word_in_content(data, env, start);
 	if (!tmp)
-		return (BREAK); ;
+		return (BREAK);
 	new = ft_lexer_new(tmp, WORD, NONE);
-	if(!new)
+	if (!new)
 	{
 		free(tmp);
 		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
@@ -124,7 +124,7 @@ bool	check_space_env_content(t_data *data, t_env *env, t_lexer *src)
 	if (!env->content[start])
 		return (false);
 	start = 0;
-	while(env->content[start])
+	while (env->content[start])
 	{
 		check = space_env_loop(data, env, &start, &i);
 		if (check == BREAK)

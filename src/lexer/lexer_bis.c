@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_bis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:31:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/12 13:44:15 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:18:20 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	build_token(int i, char *str, t_data *data)
 		i = build_token_out(i, str, data);
 	return (i);
 }
+
 int	get_anti_slash(int i, char *str, t_data *data)
 {
 	t_lexer	*new;

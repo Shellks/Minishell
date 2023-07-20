@@ -3,52 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:50:43 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/19 16:58:59 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 13:35:20 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
-
-int ft_dup_fd(t_parser *parser)
+static int	check_option(char **cmd, int *index)
 {
-	if (parser->fd_input != NULL)
-	{
-		if (dup2(*(parser->fd_input), 0) == -1)
-		{
-			perror("ERR_DUP");
-			if (close(*(parser->fd_input)) == -1)
-				perror("ERR_CLOSE");
-			return (EXIT_FAILURE);
-		}
-		if (*parser->fd_input != -1 && close(*parser->fd_input) == -1)
-			perror("ERR_CLOSE");
-	}
-	if (parser->fd_output != NULL)
-	{
-		if (dup2(*(parser->fd_output), 1) == -1)
-		{
-			perror("ERR_DUP2");
-			if (close(*(parser->fd_output)) == -1)
-				perror("ERR_CLOSE");
-			return (EXIT_FAILURE);
-		}
-		if (*parser->fd_output != -1 && close(*parser->fd_output) == -1)
-			perror("ERR_CLOSE");
-	}
-	return (0);
-}
+	int	bslash_n;
+	int	j;
 
-int check_option(char **cmd, int *index)
-{
-    int bslash_n;
-    int j;
-
-    bslash_n = 1;
+	bslash_n = 1;
 	while (cmd[*index] && ft_strncmp(cmd[*index], "-n", 2) == 0)
 	{
 		j = 2;
@@ -60,33 +29,26 @@ int check_option(char **cmd, int *index)
 			bslash_n = 0;
 		(*index)++;
 	}
-    return (bslash_n);
+	return (bslash_n);
 }
 
-
-bool ft_echo(t_parser *parser)
+bool	ft_echo(t_parser *parser)
 {
-    int index;
-    int bslash_n;
-    t_parser *echo;
+	int			index;
+	int			bslash_n;
+	t_parser	*echo;
 
-    echo = parser;
-    //TODO : redir le result de printf avec dup2
-    //echo->pid = fork();
-    // if (echo->pid == -1)
-    //     exit (EXIT_FAILURE);
-    // if (ft_dup_fd(echo))
-    //     exit(EXIT_FAILURE);
-    index = 1;
-    bslash_n = check_option(echo->cmd, &index);
-    while (echo->cmd[index])
-    {
-        ft_putstr_fd(echo->cmd[index], STDOUT_FILENO);
-        if (echo->cmd[index + 1])
+	echo = parser;
+	index = 1;
+	bslash_n = check_option(echo->cmd, &index);
+	while (echo->cmd[index])
+	{
+		ft_putstr_fd(echo->cmd[index], STDOUT_FILENO);
+		if (echo->cmd[index + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
-        index++;
-    }
-    if (bslash_n)
-        ft_putstr_fd("\n", STDOUT_FILENO);
-    return (true);
+		index++;
+	}
+	if (bslash_n)
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	return (true);
 }

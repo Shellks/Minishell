@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_quote_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/12 21:29:00 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:52:29 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	get_next_expand(t_data *data, char *str, char *tmp2, int i)
 	tmp_lexer->word = tmp;
 }
 
-static char	*rm_false_expand_word(t_data *data, t_lexer *end, int *start, int *i)
+static char	*rm_false_expand(t_data *data, t_lexer *end, int *start, int *i)
 {
 	char	*final_tmp;
 	char	*tmp1;
@@ -81,10 +81,10 @@ void	replace_false_expand_quote(t_data *data, t_lexer *end)
 
 	i = 0;
 	while (end->word[i] && end->word[i] != '$')
-			i++;
+		i++;
 	if (end->word[i] == '$')
 	{
-		tmp = rm_false_expand_word(data, end, &start, &i);
+		tmp = rm_false_expand(data, end, &start, &i);
 		if (end->word)
 			free(end->word);
 		end->word = tmp;

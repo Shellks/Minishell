@@ -3,108 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:38:10 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/19 17:14:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:20:59 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char    *get_target_env(t_env *env, char *name)
+static char	*get_target_env(t_env *env, char *name)
 {
-    t_env   *env_tmp;
-    char    *target;
+	t_env	*env_tmp;
+	char	*target;
 
-    env_tmp = NULL;
-    env_tmp = env;
-    target = NULL;
-    while (env_tmp)
+	env_tmp = NULL;
+	env_tmp = env;
+	target = NULL;
+	while (env_tmp)
 	{
-        if (ft_strcmp(env_tmp->name, name) == 0)
-            target = ft_strdup(env_tmp->content);
+		if (ft_strcmp(env_tmp->name, name) == 0)
+			target = ft_strdup(env_tmp->content);
 		env_tmp = env_tmp->next;
 	}
-    return (target);
+	return (target);
 }
 
-bool    actualise_pwd(t_data *data, char *name, char *target)
+static bool	actualise_pwd(t_data *data, char *name, char *target)
 {
-    t_env   *env_tmp;
+	t_env	*env_tmp;
 
-    env_tmp = NULL;
-    env_tmp = data->env;
-    while (env_tmp)
+	env_tmp = data->env;
+	while (env_tmp)
 	{
-        if (ft_strcmp(env_tmp->name, name) == 0)
-        {
-            if (ft_strncmp(name, "OLDPWD", 6) == 0)
-            {
-                free(env_tmp->content);
-                env_tmp->content = ft_strdup(target);
-                free (target);
-                return (true);
-            }
-            else
-            {
-                free(env_tmp->content);
-                env_tmp->content = ft_strdup(target);
-                free (target);
-                return (true);
-            }    
-        }
+		if (ft_strcmp(env_tmp->name, name) == 0)
+		{
+			if (ft_strncmp(name, "OLDPWD", 6) == 0)
+			{
+				free(env_tmp->content);
+				env_tmp->content = ft_strdup(target);
+				free (target);
+				return (true);
+			}
+			else
+			{
+				free(env_tmp->content);
+				env_tmp->content = ft_strdup(target);
+				free (target);
+				return (true);
+			}
+		}
 		env_tmp = env_tmp->next;
 	}
-    return (false);
+	return (false);
 }
 
-bool    cd_and_actualise_env(t_data *data, char *target)
+static bool	cd_and_actualise_env(t_data *data, char *target)
 {
-    char *pwd;
+	char	*pwd;
 
-    pwd = getcwd(NULL, 0);
-    if (pwd != NULL)
-        if (actualise_pwd(data, "OLDPWD", pwd) == false)
-            return (false);
-    if (chdir(target) != 0)
-    {
-        ft_putstr_fd("cd: ", 2); 
-        ft_putstr_fd(target, 2); 
-        ft_putstr_fd(" ", 2); 
-        perror("");
-        return (false);
-    }
-    pwd = getcwd(NULL, 0);
-    if (pwd != NULL)
-        if (actualise_pwd(data, "PWD", pwd) == false)
-            return (false);
-    return (true);  
+	pwd = getcwd(NULL, 0);
+	if (pwd != NULL)
+		if (actualise_pwd(data, "OLDPWD", pwd) == false)
+			return (false);
+	if (chdir(target) != 0)
+	{
+		ft_putstr_fd("cd: ", 2); 
+		ft_putstr_fd(target, 2); 
+		ft_putstr_fd(" ", 2); 
+		perror("");
+		return (false);
+	}
+	pwd = getcwd(NULL, 0);
+	if (pwd != NULL)
+		if (actualise_pwd(data, "PWD", pwd) == false)
+			return (false);
+	return (true);
 }
 
-bool    ft_cd(t_data *data, char **tab)
+bool	ft_cd(t_data *data, char **tab)
 {
-    char    *target;
+	char	*target;
 
-    target = NULL;
-    if (ft_strlen_tab(tab) > 2)
-    {
-        ft_putstr_fd("cd: too many arguments\n", 2);
-        return (false);
-    }
-    else if (ft_strlen_tab(tab) == 1 || ft_strcmp(tab[1], "~") == 0)
-        target = get_target_env(data->env, "HOME");
-    else if (ft_strcmp(tab[1], "-") == 0)
-        target = get_target_env(data->env, "OLDPWD");
-    else
-        target = ft_strdup(tab[1]);
-    if (!target)
-        ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-    if (cd_and_actualise_env(data, target) == false)
-    {
-        free(target);
-        return (false);
-    }
-    free(target);
-    return (true);
+	target = NULL;
+	if (ft_strlen_tab(tab) > 2)
+	{
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		return (false);
+	}
+	else if (ft_strlen_tab(tab) == 1 || ft_strcmp(tab[1], "~") == 0)
+		target = get_target_env(data->env, "HOME");
+	else if (ft_strcmp(tab[1], "-") == 0)
+		target = get_target_env(data->env, "OLDPWD");
+	else
+		target = ft_strdup(tab[1]);
+	if (!target)
+		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+	if (cd_and_actualise_env(data, target) == false)
+	{
+		free(target);
+		return (false);
+	}
+	free(target);
+	return (true);
 }

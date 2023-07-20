@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 09:13:19 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/17 23:44:35 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:14:56 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ typedef enum e_equals
 {
 	EQUALS,
 	NOT_EQUALS,
-
 }	t_equals;
 
 typedef struct s_env

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:41:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/15 17:16:00 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:15:27 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,18 @@
 
 typedef struct s_exec
 {
-    int     flag_in;
-    int     flag_out;
-    int     infile;
-    int     outfile;
-    int		pipes[2];
-    int     fd_stdin;
-    int     fd_stdout;
-    int		status;
+	int		flag_in;
+	int		flag_out;
+	int		infile;
+	int		outfile;
+	int		pipes[2];
+	int		fd_stdin;
+	int		fd_stdout;
+	int		status;
 	int		exit_status;
 	pid_t	pid;
 	int		doc;
-    
-}   t_exec;
+}	t_exec;
 
 void	ft_close(t_exec *exec, int in_out, int pipe, int std);
 void	ft_close_free(t_exec *exec, int close, int free, int error);

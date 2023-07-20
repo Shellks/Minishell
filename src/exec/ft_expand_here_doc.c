@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_here_doc.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:28:24 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/17 22:08:07 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 16:41:44 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*create_expand_here_doc(t_data *data, t_env *env, char *str, int *j)
 	char	*tmp1;
 	char	*tmp2;
 	int		i;
-	
+
 	i = *j;
 	tmp1 = ft_strndup(str, *j);
 	if (!tmp1)
@@ -64,15 +64,13 @@ static char	*create_expand_here_doc(t_data *data, t_env *env, char *str, int *j)
 		free_exit_env(data, tmp1, tmp2, 2);
 	*j += ft_strlen(env->content);
 	free(tmp1);
-	free(tmp2);
-	return (str);
+	return (free(tmp2), str);
 }
 
-static bool	check_expand_here_doc(t_data *data, t_env *env, char *to_find)
+static bool	check_expand_here_doc(t_env *env, char *to_find)
 {
 	int	i;
 
-	(void)data;
 	i = 0;
 	while (to_find[i] && isalnum(to_find[i]))
 		i++;
@@ -96,7 +94,7 @@ static char	*get_expand_here_doc(t_data *data, char *str, char *to_find, int *j)
 	env = data->env;
 	while (env)
 	{
-		if (check_expand_here_doc(data, env, to_find) == true)
+		if (check_expand_here_doc(env, to_find) == true)
 		{
 			str = create_expand_here_doc(data, env, str, j);
 			break ;
@@ -108,12 +106,16 @@ static char	*get_expand_here_doc(t_data *data, char *str, char *to_find, int *j)
 	return (str);
 }
 
-char   *expand_here_doc(t_data *data, char *str)
+char	*expand_here_doc(t_data *data, char *str)
 {
-	int	j;
+	int		j;
+	char	*err_code;
 
 	j = 0;
-	while(j < (int)ft_strlen(str) && str[j])
+	err_code = ft_itoa(g_status);
+	if (!err_code)
+		free_exit_env(data, str, NULL, 2);
+	while (j < (int)ft_strlen(str) && str[j])
 	{
 		while (str[j] && str[j] != '$')
 			j++;
@@ -122,7 +124,7 @@ char   *expand_here_doc(t_data *data, char *str)
 		if (!str[j] || !str[j + 1])
 			break ;
 		else if (str[j + 1] == '?')
-			str = expand_status_heredoc(data, str, j);
+			str = expand_status_heredoc(data, str, j, err_code);
 		else if (ft_isdigit(str[j + 1]))
 			str = expand_digit_heredoc(data, str, j);
 		else
