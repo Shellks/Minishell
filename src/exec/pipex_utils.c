@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/19 12:05:37 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 10:41:12 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,15 @@ char	*ft_get_cmd(t_data *data, t_parser *parse)
 void	ft_std_manager(int STDIN,int STDOUT)
 {
 	int	wait_all = 0;
-
+	
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	while (wait_all != -1)
 		wait_all = waitpid(-1, NULL, 0);
 	dup2(STDIN, STDIN_FILENO);
 	dup2(STDOUT, STDOUT_FILENO);
+	close(STDIN);
+	close(STDOUT);
 }
 
 void	ft_dup_manager(t_data *data, t_exec *exec)

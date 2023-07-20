@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/19 18:27:39 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 10:17:47 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ void	ft_exec(t_data *data, t_exec *exec)
 	{
 		if (ft_set_redir(data, data->parser, exec) == false)
 			return ;
-		if (data->parser->cmd[0] && !data->parser->next)
+		if (data->parser->cmd[0])
 		{
-				if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
-				{
-					ft_cd(data ,data->parser->cmd);
-					return ;
-				}
-				if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
-					ft_exit(data);
+			if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
+			{
+				ft_cd(data ,data->parser->cmd);
+				return ;
+			}
+			if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
+				ft_exit(data);
 			exec_simple_cmd(data, exec);
 		}
 	}

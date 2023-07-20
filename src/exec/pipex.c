@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/19 12:03:23 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 10:29:15 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	pipex(t_data *data, t_exec *exec)
 			if (!parse->next)
 				return ;
 		}
+		else
+			ft_dup_manager(data, exec);
 		parent_process(data, exec, parse);
 		parse = parse->next;
 	}
@@ -91,6 +93,8 @@ void	pipex(t_data *data, t_exec *exec)
 		ft_std_manager(exec->fd_stdin, exec->fd_stdout);
 		return ;
 	}
+	else
+		ft_dup_manager(data, exec);
 	last_process(data, exec, parse);
 	waitpid(exec->pid, &exec->status, 0);
 	ft_std_manager(exec->fd_stdin, exec->fd_stdout);

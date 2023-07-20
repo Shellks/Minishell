@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/19 18:23:39 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 10:16:45 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ static void	exec_simple_cmd1(t_data *data, t_exec *exec, t_parser *parse)
 		child_process1(data, exec, parse);
 	else
 	{
+		if (exec->flag_in == 2)
+		{
+			
+		}
 		close(1);
 		if (dup2(0, 0) < 0)
 		{
@@ -73,13 +77,8 @@ void	exec_simple_cmd(t_data *data, t_exec *exec)
 	exec->fd_stdin = dup(STDOUT_FILENO);
 	exec->fd_stdout = dup(STDIN_FILENO);
 	parse = data->parser;
-	if (ft_set_redir(data, parse, exec) == false)
-	{
-		close(exec->fd_stdin);
-		close(exec->fd_stdout);
-		ft_std_manager(exec->fd_stdin, exec->fd_stdout);
-		return ;
-	}
+	if (data->parser->cmd[0])
+		ft_dup_manager(data, exec);
 	exec_simple_cmd1(data, exec, parse);
 	waitpid(exec->pid, &exec->status, 0);
 	close(STDIN_FILENO);
