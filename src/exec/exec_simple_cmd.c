@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 17:01:48 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/20 18:49:59 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 	char	**env_tab;
 	char	*cmd;
 
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, ft_ctrl_c_exec);
+	close(exec->fd_stdin);
+	close(exec->fd_stdout);
 	if (exec->flag_out != -1)
 	{
 		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
@@ -29,8 +33,6 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 			close(exec->infile);
 		if (exec->flag_out != -1)
 			close(exec->outfile);
-		close(exec->fd_stdin);
-		close(exec->fd_stdout);
 		ft_free_exit(data, g_status, NULL);
 	}
 	if (parse->cmd[0])
@@ -39,14 +41,14 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 		env_tab = get_env_tab(data, data->env);
 		execve(cmd, parse->cmd, env_tab);
 	}
-	close(exec->fd_stdin);
-	close(exec->fd_stdout);
-	ft_free_exit(data, ERR_EXEC, "Error with executing execve");
+	ft_free_exit(data, ERR_EXEC, NULL);
 }
 
 static void	exec_simple_cmd1(t_data *data, t_exec *exec, t_parser *parse)
 {
 	exec->pid = fork ();
+	if (exec->pid == -1)
+		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
 	if (exec->pid == 0)
 		child_process1(data, exec, parse);
 	else
@@ -68,11 +70,20 @@ void	exec_simple_cmd(t_data *data, t_exec *exec)
 	if (data->parser->cmd[0])
 		ft_dup_manager(data, exec);
 	exec_simple_cmd1(data, exec, parse);
-	waitpid(exec->pid, &exec->status, 0);
+	waitpid(exec->pid, &g_status, 0);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	dup2(exec->fd_stdin, STDIN_FILENO);
 	dup2(exec->fd_stdout, STDOUT_FILENO);
 	close(exec->fd_stdin);
 	close(exec->fd_stdout);
+	if (!WIFSIGNALED(g_status))
+		g_status = WEXITSTATUS(g_status);
+	else if (WIFSIGNALED(g_status))
+	{
+		if (WTERMSIG(g_status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		g_status = 128 + WTERMSIG(g_status);
+	}
 }

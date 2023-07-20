@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 14:33:05 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/20 18:49:22 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	ft_exec(t_data *data, t_exec *exec)
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
 {
-	add_history(data->input);
+	if (data->input[0])
+		add_history(data->input);
 	if (lexer(data) == false)
 		return ;
 	if (!data->lexer)
@@ -65,7 +66,6 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 		printf("minishell: error: no args expected\n");
 		return (false);
 	}
-	g_status = 0;
 	data->flag = 0;
 	data->count = 0;
 	data->env = NULL;
@@ -85,13 +85,14 @@ int	main(int argc, char **argv, char **env)
 	t_data	data;
 	t_exec	exec;
 
+	g_status = 0;
 	(void)argv;
 	if (init_var(&data, &exec, env, argc) == false)
 		return (1);
+	signal(SIGINT, ft_ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		signal(SIGINT, ft_ctrl_c);
-		signal(SIGQUIT, SIG_IGN);
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{
