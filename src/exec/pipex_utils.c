@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 10:41:12 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:05:55 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,15 @@ void	ft_std_manager(int STDIN,int STDOUT)
 	dup2(STDOUT, STDOUT_FILENO);
 	close(STDIN);
 	close(STDOUT);
+	if (!WIFSIGNALED(g_status))
+		g_status = WEXITSTATUS(g_status);
+	else if (WIFSIGNALED(g_status))
+	{
+		if (WTERMSIG(g_status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		g_status = 128 + WTERMSIG(g_status);
+	}
 }
 
 void	ft_dup_manager(t_data *data, t_exec *exec)

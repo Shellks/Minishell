@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 09:16:51 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:16:18 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 	char	**env_tab;
 	char	*cmd;
 
+	signal(SIGINT, ft_ctrl_c_exec);
+	signal(SIGQUIT, SIG_DFL);
+	close(exec->fd_stdin);
+	close(exec->fd_stdout);
 	close(exec->pipes[0]);
 	if (exec->flag_out != -1)
 	{
@@ -52,8 +56,6 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 			close(exec->infile);
 		if (exec->flag_out != -1)
 			close(exec->outfile);
-		close(exec->fd_stdin);
-		close(exec->fd_stdout);
 		close(exec->pipes[1]);
 		ft_free_exit(data, g_status, NULL);
 	}
@@ -73,20 +75,22 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	char	**env_tab;
 	char	*cmd;
 
-	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, ft_ctrl_c_exec);
+	signal(SIGQUIT, SIG_DFL);
 	close(exec->pipes[0]);
+	close(exec->fd_stdin);
+	close(exec->fd_stdout);
 	if (exec->flag_out != -1)
 	{
 		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
 			ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
-		//close(exec->outfile);
+		close(exec->outfile);
 	}
 	else
 	{
 		if (dup2(exec->pipes[1], STDOUT_FILENO) < 0)
 			ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
-		//close(exec->pipes[1]);
+		close(exec->pipes[1]);
 	}
 	if (parse->cmd[0] && is_builtin(data, parse))
 	{
@@ -94,8 +98,6 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 			close(exec->infile);
 		if (exec->flag_out != -1)
 			close(exec->outfile);
-		close(exec->fd_stdin);
-		close(exec->fd_stdout);
 		close(exec->pipes[1]);
 		ft_free_exit(data, g_status, NULL);
 	}
@@ -105,8 +107,6 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 		env_tab = get_env_tab(data,data->env);
 		execve(cmd, parse->cmd, env_tab);
 	}
-	close(exec->fd_stdin);
-	close(exec->fd_stdout);
 	close(exec->pipes[1]);
 	g_status = 0;
 	ft_free_exit(data, g_status, NULL);
