@@ -1,3 +1,26 @@
+cest quoi cette merde ?
+
+neyks in ~/Bureau/42/cercle_4/Minishell on alex ● ● λ env -i ./minishell
+Minishell > export a=a
+Le new content !! a
+Minishell > ./minishell 
+Minishell > env
+SHLVL=2
+OLDPWD=PWD=/home/neyks/Bureau/42/cercle_4/Minishell
+PWD=/home/neyks/Bureau/42/cercle_4/Minishell
+a=a
+Minishell > export a=b
+Minishell > env
+SHLVL=2
+OLDPWD=PWD=/home/neyks/Bureau/42/cercle_4/Minishell
+PWD=/home/neyks/Bureau/42/cercle_4/Minishell
+a=b
+Minishell > cd
+Malloc error
+
+Minishell > cd
+Malloc error
+
 16/07/2023
 
 Ajout d'un vrai check du chemin absolu et/ou relatif dans les process enfants

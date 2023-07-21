@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/21 12:41:53 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 13:09:22 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,31 @@ t_data	*ft_get_data(t_data *data)
 	return (data_ptr);
 }
 
-void	ft_exec(t_data *data, t_exec *exec)
+void	pipex_no_pipe(t_data *data, t_exec *exec)
 {
-	if (!data->parser->next)
+	if (ft_set_redir(data, data->parser, exec) == false)
+		return ;
+	if (data->parser->cmd[0])
 	{
-		if (ft_set_redir(data, data->parser, exec) == false)
-			return ;
-		if (data->parser->cmd[0])
+		if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
 		{
-			if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
-			{
-				ft_cd(data, data->parser->cmd);
-				return ;
-			}
-			if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
-				ft_exit(data);
-			exec_simple_cmd(data, exec);
+			ft_cd(data, data->parser->cmd);
+			return ;
 		}
+		else if (!ft_strncmp(data->parser->cmd[0], "export", 6))
+		{
+			g_status = ft_export(data, data->parser);
+			return ;
+		}
+		else if (!ft_strncmp(data->parser->cmd[0], "unset", 5))
+		{
+			g_status = ft_unset(data, data->parser);
+			return ;
+		}
+		else if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
+			ft_exit(data);
+		exec_simple_cmd(data, exec);
 	}
-	else
-		pipex(data, exec);
 }
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
@@ -56,7 +61,10 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
 	ft_fusion(data);
 	if (ft_parser(data) == false)
 		return ;
-	ft_exec(data, exec);
+	if (!data->parser->next)
+		pipex_no_pipe(data, exec);
+	else
+		pipex(data, exec);
 }
 
 static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)

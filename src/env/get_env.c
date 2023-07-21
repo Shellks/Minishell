@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 18:07:25 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:46:35 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static t_env	*get_env(t_data *data, char *env)
 	name = ft_strndup(env, len);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-	len++;
-	i = len;
 	if (!env[len])
 	{
 		new = ft_env_new(name, NULL, NOT_EQUALS);
@@ -55,6 +53,8 @@ static t_env	*get_env(t_data *data, char *env)
 	}
 	else
 	{
+		len++;
+		i = len;
 		while (env[len])
 			len++;
 		content = ft_strndup(&env[i], (len - i));

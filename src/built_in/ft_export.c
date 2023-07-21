@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/21 12:46:34 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 17:49:54 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ static void	ft_print_id_error(char *word)
 	printf("minishell: export: « %s »: invalid identifier\n", word);
 }
 
-static  bool	is_valid_char(char *name, int i)
+static  bool	is_valid_char(t_parser *parser, char *name, int i)
 {
+	if (i == 0)
+	{
+		if (name[0] >= 48 && name[0] <= 57)
+			return (ft_print_id_error(parser->cmd[1]), false);
+	}
 	if (name[i] == '_')
 		return (true);
 	if (name[i] < 48 || (name[i] > 57 && name[i] < 65))
@@ -39,12 +44,10 @@ static bool	create_new_env(t_data *data, t_parser *parser, int end, int i)
 	name = ft_strndup(parser->cmd[1], i);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-	if (name[0] >= 48 && name[0] <= 57)
-		return (ft_print_id_error(parser->cmd[1]), false);
 	while (name[++j])
-		if (is_valid_char(name, j) == false)
+		if (is_valid_char(parser, name, j) == false)
 			return (ft_print_id_error(parser->cmd[1]), false);
-	if (parser->cmd[i + 1])
+	if (parser->cmd[1][i + 1])
 	{
 		content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
 		if (!content)
@@ -63,24 +66,50 @@ static bool	create_new_env(t_data *data, t_parser *parser, int end, int i)
 	return (true);
 }
 
-static int	export_is_exist(t_data *data, t_parser *parser, int end, int i)
+static void	export_is_exist(t_data *data, t_parser *parser, t_env * env, int end)
+{
+	int		i;
+
+	i = data->count;
+	free(env->content);
+	if (parser->cmd[1][i] == '=')
+	{
+		if (env->equals == NOT_EQUALS)
+			env->equals = EQUALS;
+		if (parser->cmd[1][i + 1])
+		{
+			env->content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
+			if (!env->content)
+				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+		}
+		else
+			env->content = NULL;
+	}
+	else
+	{
+		if (env->equals == EQUALS)
+			env->equals = NOT_EQUALS;
+		env->content = NULL;
+	}
+}
+
+static bool	ft_check_export_exist(t_data *data, t_parser *parser, int end)
 {
 	t_env	*tmp_env;
+	int		i;
 
 	tmp_env = data->env;
+	i = data->count;
 	while (tmp_env)
 	{
-		if (ft_strncmp(tmp_env->name, parser->cmd[1], ft_strlen(tmp_env->name)) == 0)
+		if (ft_strncmp(tmp_env->name, parser->cmd[1], i) == 0)
 		{
-			free(tmp_env->content);
-			tmp_env->content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
-			if (!tmp_env->content)
-				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-			return (TRUE);
+			export_is_exist(data, parser, tmp_env, end);
+			return (true);
 		}
 		tmp_env = tmp_env->next;
 	}
-	return (FALSE);
+	return (false);
 }
 
 static bool	create_env_no_equals(t_data *data, t_parser *parser)
@@ -99,7 +128,7 @@ static bool	create_env_no_equals(t_data *data, t_parser *parser)
 	data->count = -1;
 	while (name[++data->count])
 	{
-		if (is_valid_char(name, data->count) == false)
+		if (is_valid_char(parser, name, data->count) == false)
 		{
 			free(name);
 			return (ft_print_id_error(parser->cmd[1]), false);
@@ -126,6 +155,8 @@ bool	ft_export(t_data *data, t_parser *parser)
 	end = (ft_strlen(tmp_parser->cmd[1]) - 1);
 	while(tmp_parser->cmd[1][data->count] && tmp_parser->cmd[1][data->count] != '=')
 		data->count++;
+	if (ft_check_export_exist(data, tmp_parser, end) == true)
+		return (true);
 	if (tmp_parser->cmd[1][data->count] != '=')
 	{
 		if (create_env_no_equals(data, tmp_parser) == true)
@@ -133,17 +164,7 @@ bool	ft_export(t_data *data, t_parser *parser)
 		else
 			return (false);
 	}
-	if (export_is_exist(data, tmp_parser, end, data->count) == TRUE)
-		return (true);
 	if (create_new_env(data, tmp_parser, end, data->count) == false)
 		return (false);
-	t_env	*tmp_env = data->env;
-		while(tmp_env)
-		{
-		printf("le name !! %s\n", tmp_env->name);
-		if (tmp_env->content)
-			printf("son contenu !! %s\n", tmp_env->content);
-		tmp_env = tmp_env->next;
-		}
 	return (true);
 }

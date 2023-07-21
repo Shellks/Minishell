@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/20 18:45:18 by nibernar         ###   ########.fr        #
+#    Updated: 2023/07/21 15:53:22 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRCS =	src/minishell.c						\
 		src/utils/ft_free.c					\
 		src/utils/get_next_line.c			\
 		src/utils/ft_close.c				\
+		src/utils/ft_get_env_tab.c			\
 		list/parser/ft_parser_add_back.c	\
 		list/parser/ft_parser_clear.c		\
 		list/parser/ft_parser_delone.c		\
