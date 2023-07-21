@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:41:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/13 16:06:06 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:15:27 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+# define START_CMD 1
+# define END_CMD 2
 # define ERR_ARGS 1
 # define ERR_INFILE 2
 # define ERR_OUTFILE 3
@@ -30,6 +32,7 @@
 # define ERR_DUP 8
 # define ERR_EXEC 9
 # define ERR_DOC 10
+# define ERR_OPEN 11
 # define ERR_CMD 127
 # define CLOSE_FILE 1
 # define CLOSE_ALL 2
@@ -39,18 +42,18 @@
 
 typedef struct s_exec
 {
-    int     flag_in;
-    int     flag_out;
-    int     infile;
-    int     outfile;
-    int     here_doc[2];
-    int		pipes[2];
-    int		status;
+	int		flag_in;
+	int		flag_out;
+	int		infile;
+	int		outfile;
+	int		pipes[2];
+	int		fd_stdin;
+	int		fd_stdout;
+	int		status;
 	int		exit_status;
 	pid_t	pid;
 	int		doc;
-    
-}   t_exec;
+}	t_exec;
 
 void	ft_close(t_exec *exec, int in_out, int pipe, int std);
 void	ft_close_free(t_exec *exec, int close, int free, int error);

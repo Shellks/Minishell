@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/15 13:26:32 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:10:42 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # include <readline/history.h>
 //Library for waitpid
 # include <sys/wait.h>
+//signal
+# include <signal.h>
 
 # define COLOR "\x1b[36;1m"
 # define RESET "\x1b[0m"
@@ -46,7 +48,7 @@
 # define ERR_MALLOC 2
 # define ERR_SYNTAX 3
 
-extern int g_status;
+extern int	g_status;
 
 typedef struct s_data
 {
@@ -61,16 +63,23 @@ typedef struct s_data
 	int			count;
 	t_lexer		*lexer;
 	t_parser	*parser;
+	t_redir		*here_doc_path;
 	int			pipe;
+	int			i;
 }			t_data;
 
+t_data	*ft_get_data(t_data *data);
 //builtin=====
 bool	ft_env(t_data *data);
-bool 	ft_echo(t_data *data);
-int 	ft_dup_fd(t_parser *parser);
-bool    ft_cd(t_data *data, char **tab);
+bool	ft_echo(t_parser *parser);
+int		ft_dup_fd(t_parser *parser);
+bool	ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
+void	ft_exit(t_data *data);
+bool	ft_unset(t_data *data, t_parser *parser);
+bool	ft_export(t_data *data, t_parser *parser);
+void	ft_export_no_args(t_data *data, t_env *env);
 //lexer fonction
 bool	lexer(t_data *data);
 bool	find_dollar(char *str);
@@ -95,28 +104,40 @@ bool	ft_parser(t_data *data);
 void	ft_fusion(t_data *data);
 void	del_node_space(t_data *data);
 void	print_parser(t_parser **parser);
-void	ft_print_syntax_error(char * word);
-//built_in fonction
-void    ft_exit(t_data *data);
-bool    ft_unset(t_data *data, t_parser *parser);
-bool    ft_export(t_data *data, t_parser *parser);
+void	ft_print_syntax_error(char *word);
 //exec fonction
+char	**get_env_tab(t_data *data, t_env *env);
+int		is_builtin(t_data *data, t_parser *parse);
 void	exec_simple_cmd(t_data *data, t_exec *exec);
-char   *expand_here_doc(t_data *data, char *str, int i);
 void	pipex(t_data *data, t_exec *exec);
+void	ft_std_manager(int STDIN, int STDOUT);
+char	*expand_here_doc(t_data *data, char *str);
+char	*ft_get_cmd(t_data *data, t_parser *parse);
+void	ft_dup_manager(t_data *data, t_exec *exec);
+void	ft_dup(t_data *data, int fd, int fd2, t_exec *exec);
+char	*expand_digit_heredoc(t_data *data, char *str, int j);
+char	*expand_status_heredoc(t_data *data, char *str, int j, char *err_code);
+void	get_here_doc_fd(t_data *data, t_redir *redir, int *fd);
 void	last_child(t_data *data, t_exec *exec, t_parser *parse);
-void	child_process(t_data *data, t_exec *exec, t_parser *parse);
 void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec);
-bool    ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
+void	child_process(t_data *data, t_exec *exec, t_parser *parse);
+bool	ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
+//Signal fonction
+void	ft_ctrl_c(int signum);
+void	ft_ctrl_c_exec(int signum);
+void	ft_ctrl_c_heredoc(int signum);
 //fonction temporaire pour free
 void	ft_free_env(t_data *data);
 void	ft_free_loop(t_data *data);
-void	ft_free_split(t_data *data);
-void	ft_free_exit(t_data	*data, int	error, char *msg);
+void	ft_free_split(char **tab);
+void	ft_free_exit(t_data *data, int error, char *msg);
 void	free_exit_env(t_data *data, char *name, char *content, int i);
 //gnl
 char	*get_next_line(int fd);
 //fonction temporaire pour close
-void    ft_close_here_doc(t_exec *exec, int *fd, int sign);
+void	ft_close_fd(int *fd);
+void	ft_close_here_doc(int *fd, int sign);
+//fonction temporaire
+void	ft_print_error(char *str1, char *str2, char *str3, char *str4);
 
 #endif

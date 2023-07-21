@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/14 20:37:39 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:04:27 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	parse_redir(t_data *data, t_lexer **lex, t_parser *lst, int *i)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	if ((*lex)->next && (*lex)->next->token == WORD)
 	{
@@ -36,7 +36,7 @@ static bool	parse_redir(t_data *data, t_lexer **lex, t_parser *lst, int *i)
 		else
 			return (false);
 	}
-	else // c'est norme ce return ??
+	else
 		return (data->flag = 1, false);
 	return (true);
 }
@@ -52,7 +52,7 @@ static t_lexer	*parse_cmd(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 	if (!lst->cmd)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	lst->redir = NULL;
-	while(lexer && len < i)
+	while (lexer && len < i)
 	{
 		if (lexer->token == WORD)
 		{
@@ -68,17 +68,18 @@ static t_lexer	*parse_cmd(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 	}
 	return (lexer);
 }
+
 bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 {
-	t_parser *new;
+	t_parser	*new;
 
-	while(lexer)
+	while (lexer)
 	{
 		lexer = parse_cmd(data, lexer, parser, i);
 		if (data->flag == 1)
 			return (ft_print_syntax_error("newline"), false);
 		if (lexer && !lexer->next && lexer->token == PIPE)
-		 	return (ft_print_syntax_error("|"), false);
+			return (ft_print_syntax_error("|"), false);
 		if (lexer && lexer->token == PIPE && lexer->next)
 		{
 			if (lexer->next && lexer->next->token == PIPE)
@@ -108,7 +109,7 @@ bool	ft_parser(t_data *data)
 	data->flag = 0;
 	i = 0;
 	if (data->lexer->token == PIPE)
-		return (ft_print_syntax_error("|"),false);
+		return (ft_print_syntax_error("|"), false);
 	del_node_space(data);
 	lexer = data->lexer;
 	new = ft_parser_new();

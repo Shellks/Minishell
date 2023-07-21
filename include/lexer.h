@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/12 13:43:21 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 16:38:59 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
-
 # define PRINT_NULL					"(NULL)"
 # define PRINT_PIPE					"PIPE"
 # define PRINT_INFILE				"INFILE"
@@ -41,7 +40,6 @@ typedef enum e_token
 	DELIMITER,
 	WORD,
 	EXPAND,
-	
 }	t_token;
 
 typedef struct s_lexer
@@ -51,7 +49,7 @@ typedef struct s_lexer
 	t_token			token;
 	struct s_lexer	*previous;
 	struct s_lexer	*next;
-}			t_lexer;
+}	t_lexer;
 
 t_lexer		*ft_lexer_last(t_lexer *lst);
 int			ft_lexer_size(t_lexer *lst);

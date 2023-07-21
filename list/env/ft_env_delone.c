@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_delone.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:32:36 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/06 12:22:51 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:30:18 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	ft_env_delone(t_env *lst)
 			lst->previous->next = lst->next;
 		if (lst->next)
 			lst->next->previous = lst->previous;
-		free(lst->name);
-        free(lst->content);
+		if (lst->name)
+			free(lst->name);
+		if (lst->content)
+			free(lst->content);
 		free(lst);
 	}
 }

@@ -6,13 +6,13 @@
 #    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/15 13:23:10 by nibernar         ###   ########.fr        #
+#    Updated: 2023/07/21 14:17:16 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CFLAGS = -Wall -Wextra -Werror -o2 -g3
+CFLAGS = -Wall -Wextra -Werror -g3
 CC = cc
 HEADER = ./include
 
@@ -24,6 +24,7 @@ SRCS =	src/minishell.c						\
 		src/lexer/ft_fusion.c				\
 		src/lexer/check_quote.c 			\
 		src/expand/ft_expand.c				\
+		src/exec/expand_here_doc_utils.c	\
 		src/exec/ft_expand_here_doc.c		\
 		src/expand/ft_expand_status.c		\
 		src/expand/ft_expand_utils.c		\
@@ -32,22 +33,26 @@ SRCS =	src/minishell.c						\
 		src/expand/ft_expand_quote_utils.c	\
 		src/parsing/parser_utils.c			\
 		src/parsing/parser.c				\
-		src/print_lexer.c					\
 		src/built_in/ft_exit.c				\
 		src/built_in/ft_echo.c				\
 		src/built_in/ft_env.c				\
 		src/built_in/ft_unset.c				\
 		src/built_in/ft_export.c			\
+		src/built_in/ft_export_utils.c		\
 		src/built_in/ft_cd.c				\
 		src/exec/ft_redirection.c			\
 		src/exec/ft_here_doc.c				\
 		src/exec/child_process.c			\
 		src/exec/pipex_utils.c				\
+		src/exec/pipex_utils_bis.c			\
 		src/exec/pipex.c					\
+		src/exec/ft_get_fd_heredoc.c		\
+		src/signal/ft_ctrl_c.c				\
 		src/exec/exec_simple_cmd.c			\
 		src/utils/ft_free.c					\
 		src/utils/get_next_line.c			\
 		src/utils/ft_close.c				\
+		src/utils/ft_error_msg.c			\
 		list/parser/ft_parser_add_back.c	\
 		list/parser/ft_parser_clear.c		\
 		list/parser/ft_parser_delone.c		\

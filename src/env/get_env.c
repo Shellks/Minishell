@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/08 09:44:49 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:07:25 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,30 @@ static t_env	*get_env(t_data *data, char *env)
 	int		i;
 
 	len = 0;
-	while (env[len] != '=')
+	while (env[len] && env[len] != '=')
 		len++;
 	name = ft_strndup(env, len);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	len++;
 	i = len;
-	while (env[len])
-		len++;
-	content = ft_strndup(&env[i], (len - i));
-	if (!content)
-		free_exit_env(data, name, NULL, 1);
-	new = ft_env_new(name, content);
-	if (!new)
-		free_exit_env(data, name, content, 2);
+	if (!env[len])
+	{
+		new = ft_env_new(name, NULL, NOT_EQUALS);
+		if (!new)
+			free_exit_env(data, name, NULL, 1);
+	}
+	else
+	{
+		while (env[len])
+			len++;
+		content = ft_strndup(&env[i], (len - i));
+		if (!content)
+			free_exit_env(data, name, NULL, 1);
+		new = ft_env_new(name, content, EQUALS);
+		if (!new)
+			free_exit_env(data, name, content, 2);
+	}
 	return (new);
 }
 

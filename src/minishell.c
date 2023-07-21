@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/15 15:08:56 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:17:36 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,72 +14,48 @@
 
 int	g_status;
 
-bool	get_built_in(t_data *data)
+t_data	*ft_get_data(t_data *data)
 {
-	if (ft_strncmp(data->parser->cmd[0], "pwd", 3) == 0)
-	{
-		printf("%s\n", data->pwd->content);
-		return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "unset", 5) == 0)
-	{
-		if (ft_unset(data, data->parser) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "export", 6) == 0)
-	{
-		if (ft_export(data, data->parser) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
-		ft_exit(data);
-	else if (ft_strncmp(data->parser->cmd[0], "env", 3) == 0)
-	{
-		if (ft_env(data) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "echo", 4) == 0)
-	{
-		if (ft_echo(data) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
-	{
-		if (ft_cd(data ,data->parser->cmd) == false)
-			return (false);
-	}
-	return (true);
+	static t_data	*data_ptr;
+
+	if (data)
+		data_ptr = data;
+	return (data_ptr);
 }
 
 void	ft_exec(t_data *data, t_exec *exec)
 {
 	if (!data->parser->next)
 	{
-		ft_set_redir(data, data->parser, exec);
-		if (data->parser->cmd[0] && !data->parser->next)
+		if (ft_set_redir(data, data->parser, exec) == false)
+			return ;
+		if (data->parser->cmd[0])
 		{
-			exec_simple_cmd(data, exec);
-			if (get_built_in(data) == false)
+			if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
+			{
+				ft_cd(data, data->parser->cmd);
 				return ;
+			}
+			if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
+				ft_exit(data);
+			exec_simple_cmd(data, exec);
 		}
-		//return ;
 	}
-	ft_set_redir(data, data->parser, exec);
-	pipex(data, exec);
+	else
+		pipex(data, exec);
 }
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
 {
-	add_history(data->input);
- 	if (lexer(data) == false)
+	if (data->input[0])
+		add_history(data->input);
+	if (lexer(data) == false)
 		return ;
 	if (!data->lexer)
 		return ;
- 	ft_fusion(data);
- 	print_lexer(&data->lexer);
+	ft_fusion(data);
 	if (ft_parser(data) == false)
 		return ;
- 	//print_parser(&data->parser);
 	ft_exec(data, exec);
 }
 
@@ -90,7 +66,6 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 		printf("minishell: error: no args expected\n");
 		return (false);
 	}
-	g_status = 0;
 	data->flag = 0;
 	data->count = 0;
 	data->env = NULL;
@@ -100,6 +75,7 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 	data->parser = NULL;
 	exec->flag_in = 0;
 	exec->flag_out = 0;
+	ft_get_data(data);
 	set_env(data, env);
 	return (true);
 }
@@ -107,25 +83,20 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
-	//t_env	*tmp;
 	t_exec	exec;
 
+	g_status = 0;
 	(void)argv;
 	if (init_var(&data, &exec, env, argc) == false)
 		return (1);
-	// tmp = data.env;
-	// while (tmp)
-	// {
-	// 	printf("%s=%s\n", tmp->name, tmp->content);
-	// 	tmp = tmp->next;
-	// }
-	//niveau malloc tout est ok reste juste les 4 sortie de exit qui sont chelou!!!!!
+	signal(SIGINT, ft_ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		data.input = readline(COLOR"Minishell > "RESET);
-		dprintf(2, "input = %s\n", data.input);
 		if (!data.input)
 		{
+			printf("Exit\n");
 			ft_free_env(&data);
 			return (0);
 		}

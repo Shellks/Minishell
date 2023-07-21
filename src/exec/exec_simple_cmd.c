@@ -6,106 +6,89 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/16 11:34:52 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:06:33 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char	*get_cmd1(char **path, char *cmd)
+static void	cmd_is_builtin(t_data *data, t_exec *exec, t_parser *parse)
 {
-	char	*temp;
-	char	*cmd2;
-	int		i;
-
-	i = 0;
-	if (access(cmd, 0) == 0)
-		return (cmd);
-	if (cmd[0] == '/')
-		return (NULL);
-	while (path[i])
+	if (parse->cmd[0] && is_builtin(data, parse))
 	{
-		temp = ft_strjoin(path[i], "/");
-		cmd2 = ft_strjoin(temp, cmd);
-		free (temp);
-		if (access(cmd2, X_OK) == 0)
-			return (cmd2);
-		free (cmd2);
-		i++;
+		if (exec->flag_in != -1)
+			close(exec->infile);
+		if (exec->flag_out != -1)
+			close(exec->outfile);
+		ft_free_exit(data, g_status, NULL);
 	}
-	return (NULL);
 }
 
-static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
+static void	child_without_pipe(t_data *data, t_exec *exec, t_parser *parse)
 {
-	char	*cmd2;
+	char	**env_tab;
+	char	*cmd;
 
-	(void)exec;
-	close(0);
-	if (dup2(1, 1) < 0)
-		ft_free_exit(data, ERR_EXEC, "Exec error1\n");
-	cmd2 = get_cmd1(data->path, parse->cmd[0]);
-	if (cmd2 == NULL)
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, ft_ctrl_c_exec);
+	close(exec->fd_stdin);
+	close(exec->fd_stdout);
+	if (exec->flag_out != -1)
 	{
-		ft_putstr_fd("Command not found2: ", 2);
-		ft_putstr_fd(parse->cmd[0], 2);
-		ft_putstr_fd("\n", 2);
-		close(1);
-		//ft_close_free(p, CLOSE_FILE, FREE_CHILD, ERR_CMD);
+		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
+			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+		close(exec->outfile);
 	}
-	execve(cmd2, parse->cmd, data->path);
-	close(1);
-	// ft_close_free(p, CLOSE_FILE, FREE_CHILD, ERR_EXEC);
+	cmd_is_builtin(data, exec, parse);
+	if (parse->cmd[0])
+	{
+		cmd = ft_get_cmd(data, parse);
+		env_tab = get_env_tab(data, data->env);
+		execve(cmd, parse->cmd, env_tab);
+	}
+	ft_free_exit(data, ERR_EXEC, NULL);
 }
 
-static void	exec_simple_cmd1(t_data *data, t_exec *exec, t_parser *parse)
-{	
-	// if (pipe(exec->pipes) == -1)
-	//  	ft_free_exit(data, ERR_EXEC, "Exec prout error\n");
-	exec->pid = fork ();
-	// if (exec->pid == -1)
-	// 	ft_close_free(p, CLOSE_ALL, FREE_PARENT, ERR_FORK);
+static void	exec_cmd_without_pipe(t_data *data, t_exec *exec, t_parser *parse)
+{
+	exec->pid = fork();
+	if (exec->pid == -1)
+		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
 	if (exec->pid == 0)
-	{
-		if (access(parse->cmd[0], R_OK) == 0)
-			ft_free_exit(data, ERR_EXEC, "Exec error\n");
-		child_process1(data, exec, parse);
-	}
+		child_without_pipe(data, exec, parse);
 	else
 	{
 		close(1);
 		if (dup2(0, 0) < 0)
-		{
 			close(0);
-			// ft_close(p, 1, 0, 1);
-			// ft_free_parent(p, ERR_DUP);
-		}
 		close(0);
 	}
 }
 
 void	exec_simple_cmd(t_data *data, t_exec *exec)
 {
-	int			STDOUT_CPY;
-	int			STDIN_CPY;
 	t_parser	*parse;
 
-	STDOUT_CPY = dup(STDOUT_FILENO);
-	STDIN_CPY = dup(STDIN_FILENO);
+	exec->fd_stdin = dup(STDOUT_FILENO);
+	exec->fd_stdout = dup(STDIN_FILENO);
 	parse = data->parser;
-	if (exec->flag_in == 1)
-	{
-		dup2(exec->infile, 0);
-	}
-	else if (exec->flag_in == 2)
-	{
-		dup2(exec->here_doc[0], 0);
-		close(exec->here_doc[1]);
-	}
-	exec_simple_cmd1(data, exec, parse);
-	waitpid(exec->pid, &exec->status, 0);
+	if (data->parser->cmd[0])
+		ft_dup_manager(data, exec);
+	exec_cmd_without_pipe(data, exec, parse);
+	waitpid(exec->pid, &g_status, 0);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
-	dup2(STDIN_CPY, STDIN_FILENO);
-	dup2(STDOUT_CPY, STDOUT_FILENO);
+	dup2(exec->fd_stdin, STDIN_FILENO);
+	dup2(exec->fd_stdout, STDOUT_FILENO);
+	close(exec->fd_stdin);
+	close(exec->fd_stdout);
+	if (!WIFSIGNALED(g_status))
+		g_status = WEXITSTATUS(g_status);
+	else if (WIFSIGNALED(g_status))
+	{
+		if (WTERMSIG(g_status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		g_status = 128 + WTERMSIG(g_status);
+	}
 }

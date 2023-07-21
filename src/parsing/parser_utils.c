@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:14:11 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 15:51:36 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:38:32 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	del_node_space(t_data *data)
 	}
 }
 
-int		count_node(t_lexer	*lexer)
+int	count_node(t_lexer	*lexer)
 {
 	t_lexer	*tmp;
-	int	i;
+	int		i;
 
 	i = 0;
 	tmp = lexer;
-	while(tmp && tmp->token != PIPE)
+	while (tmp && tmp->token != PIPE)
 	{
 		i++;
 		tmp = tmp->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_in_quote.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/12 19:12:57 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:55:20 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	check_expand_quote(t_env *env, char *str)
 	int	i;
 
 	i = 0;
-	while(str[i] != ' ' && str[i] != '$' && str[i] != '\0')
+	while (str[i] != ' ' && str[i] != '$' && str[i] != '\0')
 		i++;
 	if ((int)ft_strlen(env->name) < i)
 	{
@@ -74,7 +74,7 @@ static void	get_expand_quote(t_data *data, char *str)
 
 int	expand_in_quote(t_data *data, char *str, int i)
 {
-	t_lexer		*cur;
+	t_lexer	*cur;
 	int		j;
 
 	j = 0;
@@ -85,7 +85,8 @@ int	expand_in_quote(t_data *data, char *str, int i)
 				j++;
 		j = get_word_in_quote(data, str, j, i);
 		cur = ft_lexer_last(data->lexer);
-		if (cur->word[0] == '$' && cur->word[1] != '\0' && cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
+		if (cur->word[0] == '$' && cur->word[1] != '\0' \
+			&& cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
 			get_expand_quote(data, &cur->word[1]);
 		if (cur->word[0] == '$' && cur->word[1] == '?')
 			expand_status(data, &cur->word[1]);

@@ -3,80 +3,111 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/13 17:59:42 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:46:51 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char	*get_cmd(char **path, char *cmd)
+int	is_builtin(t_data *data, t_parser *parse)
 {
-	char	*temp;
-	char	*cmd2;
-	int		i;
+	int	len;
 
-	i = 0;
-	if (access(cmd, 0) == 0)
-		return (cmd);
-	if (cmd[0] == '/')
-		return (NULL);
-	while (path[i])
-	{
-		temp = ft_strjoin(path[i], "/");
-		cmd2 = ft_strjoin(temp, cmd);
-		free (temp);
-		//dprintf(2, "cmd2 = %s\n", cmd2);
-		if (access(cmd2, X_OK) == 0)
-			return (cmd2);
-		free (cmd2);
-		i++;
-	}
-	return (NULL);
+	len = 0;
+	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && ++len)
+		printf("%s\n", data->pwd->content);
+	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && ++len)
+		g_status = ft_unset(data, parse);
+	else if (!ft_strncmp(parse->cmd[0], "export", 6) && ++len)
+		g_status = ft_export(data, parse);
+	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && ++len)
+		ft_exit(data);
+	else if (!ft_strncmp(parse->cmd[0], "env", 3) && ++len)
+		g_status = ft_env(data);
+	else if (!ft_strncmp(parse->cmd[0], "echo", 4) && ++len)
+		g_status = ft_echo(parse);
+	else if (!ft_strncmp(parse->cmd[0], "cd", 2) && ++len)
+		g_status = ft_cd(data, parse->cmd);
+	return (len);
 }
 
 void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 {
-	char	*cmd2;
+	char	**env_tab;
+	char	*cmd;
 
+	signal(SIGINT, ft_ctrl_c_exec);
+	signal(SIGQUIT, SIG_DFL);
+	close(exec->fd_stdin);
+	close(exec->fd_stdout);
 	close(exec->pipes[0]);
-	// if (exec->outfile)
-	// 	if (dup2(exec->outfile, 1) < 0)
-	//  		ft_free_exit(data, ERR_EXEC, "Exec error0\n");
-	cmd2 = get_cmd(data->path, parse->cmd[0]);
-	if (cmd2 == NULL)
+	if (exec->flag_out != -1)
 	{
-		ft_putstr_fd("Command not found1: ", 2);
-		ft_putstr_fd(parse->cmd[0], 2);
-		ft_putstr_fd("\n", 2);
-		close(exec->pipes[1]);
-		//ft_close_free(p, CLOSE_FILE, FREE_CHILD, ERR_CMD);
+		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
+			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+		close(exec->outfile);
 	}
-	execve(cmd2, parse->cmd, data->path);
+	if (parse->cmd[0] && is_builtin(data, parse))
+	{
+		if (exec->flag_in != -1)
+			close(exec->infile);
+		if (exec->flag_out != -1)
+			close(exec->outfile);
+		close(exec->pipes[1]);
+		ft_free_exit(data, g_status, NULL);
+	}
+	if (parse->cmd[0])
+	{
+		cmd = ft_get_cmd(data, parse);
+		env_tab = get_env_tab(data, data->env);
+		execve(cmd, parse->cmd, env_tab);
+	}
 	close(exec->pipes[1]);
-	//ft_close_free(p, CLOSE_FILE, FREE_CHILD, ERR_EXEC);
+	g_status = 0;
+	ft_free_exit(data, g_status, NULL);
 }
 
 void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 {
-	char	*cmd2;
+	char	**env_tab;
+	char	*cmd;
 
-	
+	signal(SIGINT, ft_ctrl_c_exec);
+	signal(SIGQUIT, SIG_DFL);
 	close(exec->pipes[0]);
-	if (dup2(exec->pipes[1], 1) < 0)
-		ft_free_exit(data, ERR_EXEC, "Exec error1\n");
-	cmd2 = get_cmd(data->path, parse->cmd[0]);
-	if (cmd2 == NULL)
+	close(exec->fd_stdin);
+	close(exec->fd_stdout);
+	if (exec->flag_out != -1)
 	{
-		ft_putstr_fd("Command not found2: ", 2);
-		ft_putstr_fd(parse->cmd[0], 2);
-		ft_putstr_fd("\n", 2);
-		close(exec->pipes[1]);
-		//ft_close_free(p, CLOSE_FILE, FREE_CHILD, ERR_CMD);
+		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
+			ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
+		close(exec->outfile);
 	}
-	execve(cmd2, parse->cmd, data->path);
+	else
+	{
+		if (dup2(exec->pipes[1], STDOUT_FILENO) < 0)
+			ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
+		close(exec->pipes[1]);
+	}
+	if (parse->cmd[0] && is_builtin(data, parse))
+	{
+		if (exec->flag_in != -1)
+			close(exec->infile);
+		if (exec->flag_out != -1)
+			close(exec->outfile);
+		close(exec->pipes[1]);
+		ft_free_exit(data, g_status, NULL);
+	}
+	if (parse->cmd[0])
+	{
+		cmd = ft_get_cmd(data, parse);
+		env_tab = get_env_tab(data, data->env);
+		execve(cmd, parse->cmd, env_tab);
+	}
 	close(exec->pipes[1]);
-	// ft_close_free(p, CLOSE_FILE, FREE_CHILD, ERR_EXEC);
+	g_status = 0;
+	ft_free_exit(data, g_status, NULL);
 }

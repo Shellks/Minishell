@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:05:19 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/12 14:05:59 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:14:18 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ typedef struct s_redir
 typedef struct s_parser
 {
 	char			**cmd;
-	int     		*fd_input;
-    int     		*fd_output;
-    int     		pid;
+	int				*fd_input;
+	int				*fd_output;
+	int				pid;
 	t_redir			*redir;
 	struct s_parser	*next;
 }			t_parser;
 
 t_redir		*ft_redir_new(t_token token, t_quote quote);
-t_parser	*ft_parser_new();
+t_parser	*ft_parser_new(void);
 t_redir		*ft_redir_last(t_redir *lst);
 void		ft_redir_delone(t_redir *lst);
 void		ft_redir_clear(t_redir **lst);

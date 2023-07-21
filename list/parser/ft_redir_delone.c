@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redir_delone.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:27:25 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/06 14:13:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:23:35 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
