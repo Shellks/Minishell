@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/21 12:24:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 12:45:18 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 	close(exec->fd_stdout);
 	if (exec->flag_out != -1)
 	{
-	  	if (dup2(exec->outfile, STDOUT_FILENO) < 0)
-	   		ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
+			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
 		close(exec->outfile);
 	}
 	if (parse->cmd[0] && is_builtin(data, parse))
@@ -45,7 +45,7 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 }
 
 static void	exec_simple_cmd1(t_data *data, t_exec *exec, t_parser *parse)
-{	
+{
 	exec->pid = fork ();
 	if (exec->pid == -1)
 		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
@@ -55,11 +55,7 @@ static void	exec_simple_cmd1(t_data *data, t_exec *exec, t_parser *parse)
 	{
 		close(1);
 		if (dup2(0, 0) < 0)
-		{
 			close(0);
-			// ft_close(p, 1, 0, 1);
-			// ft_free_parent(p, ERR_DUP);
-		}
 		close(0);
 	}
 }
@@ -85,7 +81,6 @@ void	exec_simple_cmd(t_data *data, t_exec *exec)
 		g_status = WEXITSTATUS(g_status);
 	else if (WIFSIGNALED(g_status))
 	{
-		//printf("g_status = %d\n", g_status);
 		if (WTERMSIG(g_status) == SIGQUIT)
 			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);

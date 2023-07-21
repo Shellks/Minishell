@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer_new.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:57:28 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/12 13:43:13 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:25:55 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,3 @@ t_lexer	*ft_lexer_new(char *word, t_token token, t_quote quote)
 	new->previous = NULL;
 	return (new);
 }
-
-

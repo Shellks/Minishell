@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:21:08 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/11 20:33:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:56:00 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,3 @@ static char	*ft_join_line(char *s1, char *s2, size_t size)
 	free (s1);
 	return (join);
 }
-

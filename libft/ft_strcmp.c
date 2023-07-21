@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 19:57:30 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/09 19:58:03 by nicolasbern      ###   ########.fr       */
+/*   Updated: 2023/07/20 14:01:08 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

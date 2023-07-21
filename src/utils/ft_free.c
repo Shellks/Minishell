@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 09:52:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/19 10:32:54 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 15:00:00 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_exit_env(t_data *data, char *name, char *content, int i)
 	ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 }
 
-void	ft_free_exit(t_data	*data, int	error, char *msg)
+void	ft_free_exit(t_data *data, int error, char *msg)
 {
 	if (data->input)
 		free(data->input);

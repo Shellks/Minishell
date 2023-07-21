@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/20 18:03:18 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/20 18:45:18 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,6 @@ SRCS =	src/minishell.c						\
 		src/expand/ft_expand_quote_utils.c	\
 		src/parsing/parser_utils.c			\
 		src/parsing/parser.c				\
-		src/print_lexer.c					\
 		src/built_in/ft_exit.c				\
 		src/built_in/ft_echo.c				\
 		src/built_in/ft_env.c				\

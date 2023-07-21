@@ -6,13 +6,13 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/21 12:27:39 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 12:43:03 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char    **bubble_sort_tab(char **tab, int len)
+static char	**bubble_sort_tab(char **tab, int len)
 {
     char    *tmp;
     int     i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser_delone.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:51:50 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/07 23:00:54 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:25:33 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_parser_delone(t_parser *lst)
 	{
 		if (lst->cmd)
 		{
-			while(lst->cmd[i])
+			while (lst->cmd[i])
 			{
 				free(lst->cmd[i]);
 				i++;

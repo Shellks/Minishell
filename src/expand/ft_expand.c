@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/07 21:48:28 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 14:54:16 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 {
 	char	*tmp1;
 	char	*tmp2;
 	int		i;
-	
+
 	i = 0;
 	while (str[i] && str[i] != '$')
 		i++;
@@ -46,7 +45,7 @@ static bool	check_expand(t_data *data, t_env *env, char *s1)
 
 	(void)data;
 	i = 0;
-	while(s1[i] != '$' && s1[i] != '\0')
+	while (s1[i] != '$' && s1[i] != '\0')
 		i++;
 	if ((int)ft_strlen(env->name) < i)
 	{
@@ -81,9 +80,9 @@ static void	get_expand(t_data *data, char *str, t_lexer *src)
 		replace_false_expand_quote(data, end);
 }
 
-int		expand(t_data *data, char *str, int i)
+int	expand(t_data *data, char *str, int i)
 {
-	t_lexer		*cur;
+	t_lexer	*cur;
 	int		j;
 
 	j = 0;
@@ -94,16 +93,12 @@ int		expand(t_data *data, char *str, int i)
 				j++;
 		j = get_word(data, str, j, i);
 		cur = ft_lexer_last(data->lexer);
-		// if (!cur || !cur->word)
-		// 	break ;
 		if (cur->word[0] == '$' && cur->word[1] != '\0' && \
-		cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
-			{
-				get_expand(data, &cur->word[1], cur);
-				cur = ft_lexer_last(data->lexer);
-				// if (cur && cur->next)
-				// 	cur = cur->next;
-			}
+			cur->word[1] != '?' && ft_isdigit(cur->word[1]) != 1)
+		{
+			get_expand(data, &cur->word[1], cur);
+			cur = ft_lexer_last(data->lexer);
+		}
 		else if (cur->word[0] == '$' && cur->word[1] == '?')
 			expand_status(data, &cur->word[1]);
 		else if (cur->word[0] == '$' && ft_isdigit(cur->word[1]) == 1)

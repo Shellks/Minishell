@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/12 13:43:43 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:28:49 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ static int	skipe_space(int i, char *str, t_data *data)
 	return (i);
 }
 
-
 static int	build_cmd(int i, char *str, t_data *data)
 {
 	int	j;
 
 	j = 0;
-	while (str[i + j] && str[i + j] != ' ' && str[i + j] != 34
-	&& str[i + j] != 39 && str[i] != '\\' && check_token((i + j), str) == false)
+	while (str[i + j] && str[i + j] != ' ' && \
+			str[i + j] != 34 && str[i + j] != 39 && \
+			str[i] != '\\' && check_token((i + j), str) == false)
 	{
 		if (str[i + j] == '\\')
 			break ;

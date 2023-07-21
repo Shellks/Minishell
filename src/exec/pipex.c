@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 17:04:19 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:48:02 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 static void	last_process(t_data *data, t_exec *exec, t_parser *parse)
-{	
+{
 	if (pipe(exec->pipes) == -1)
 		ft_free_exit(data, ERR_PIPE, "Error with creating pipe\n");
 	exec->pid = fork ();
@@ -23,9 +23,8 @@ static void	last_process(t_data *data, t_exec *exec, t_parser *parse)
 		last_child(data, exec, parse);
 	else
 	{
-		//ft_close a mettre la
 		if (exec->flag_out != -1)
-		 	close(exec->outfile);
+			close(exec->outfile);
 		close(exec->pipes[0]);
 		close(exec->pipes[1]);
 	}
@@ -34,7 +33,7 @@ static void	last_process(t_data *data, t_exec *exec, t_parser *parse)
 static void	ft_parent_pattern(t_data *data, t_exec *exec)
 {
 	if (exec->flag_out != -1)
-		 	close(exec->outfile);
+		close(exec->outfile);
 	close(exec->pipes[1]);
 	if (exec->flag_in == -1)
 	{
@@ -57,9 +56,9 @@ static void	ft_parent_pattern(t_data *data, t_exec *exec)
 }
 
 static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
-{	
-	 if (pipe(exec->pipes) == -1)
-	 	ft_free_exit(data, ERR_PIPE, "Error with creating pipe\n");
+{
+	if (pipe(exec->pipes) == -1)
+		ft_free_exit(data, ERR_PIPE, "Error with creating pipe\n");
 	exec->pid = fork ();
 	if (exec->pid == -1)
 		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
@@ -68,6 +67,21 @@ static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 	else
 		ft_parent_pattern(data, exec);
 }
+
+static void	pipex_bis(t_data *data, t_exec *exec, t_parser *parse)
+{
+	if (ft_set_redir(data, parse, exec) == false)
+	{
+		ft_std_manager(exec->fd_stdin, exec->fd_stdout);
+		return ;
+	}
+	else
+		ft_dup_manager(data, exec);
+	last_process(data, exec, parse);
+	waitpid(exec->pid, &exec->status, 0);
+	ft_std_manager(exec->fd_stdin, exec->fd_stdout);
+}
+
 void	pipex(t_data *data, t_exec *exec)
 {
 	t_parser	*parse;
@@ -88,15 +102,5 @@ void	pipex(t_data *data, t_exec *exec)
 		parent_process(data, exec, parse);
 		parse = parse->next;
 	}
-	if (ft_set_redir(data, parse, exec) == false)
-	{
-		ft_std_manager(exec->fd_stdin, exec->fd_stdout);
-		return ;
-	}
-	else
-		ft_dup_manager(data, exec);
-	last_process(data, exec, parse);
-	waitpid(exec->pid, &g_status, 0);
-	ft_std_manager(exec->fd_stdin, exec->fd_stdout);
-	
+	pipex_bis(data, exec, parse);
 }

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/21 12:28:20 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 12:45:01 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 	close(exec->pipes[0]);
 	if (exec->flag_out != -1)
 	{
-	  	if (dup2(exec->outfile, STDOUT_FILENO) < 0)
-	   		ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
+			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
 		close(exec->outfile);
 	}
 	if (parse->cmd[0] && is_builtin(data, parse))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/17 23:32:51 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:07:25 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static t_env	*get_env(t_data *data, char *env)
 		new = ft_env_new(name, content, EQUALS);
 		if (!new)
 			free_exit_env(data, name, content, 2);
-
 	}
 	return (new);
 }

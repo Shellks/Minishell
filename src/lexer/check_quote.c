@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/12 13:44:46 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 18:29:42 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	get_string_quote(t_data *data, int j, int len, char quote)
 	t_lexer	*tmp;
 	char	*str;
 	int		i;
-	
+
 	tmp = NULL;
 	i = -1;
 	str = (char *)ft_calloc(sizeof(char), (len + 1));
