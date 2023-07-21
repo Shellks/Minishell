@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 16:37:56 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 12:21:24 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,43 +21,6 @@ t_data	*ft_get_data(t_data *data)
 	if (data)
 		data_ptr = data;
 	return (data_ptr);
-}
-
-bool	get_built_in(t_data *data)
-{
-	if (ft_strncmp(data->parser->cmd[0], "pwd", 3) == 0)
-	{
-		printf("%s\n", data->pwd->content);
-		return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "unset", 5) == 0)
-	{
-		if (ft_unset(data, data->parser) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "export", 6) == 0)
-	{
-		if (ft_export(data, data->parser) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
-		ft_exit(data);
-	else if (ft_strncmp(data->parser->cmd[0], "env", 3) == 0)
-	{
-		if (ft_env(data) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "echo", 4) == 0)
-	{
-		if (ft_echo(data->parser) == false)
-			return (false);
-	}
-	else if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
-	{
-		if (ft_cd(data ,data->parser->cmd) == false)
-			return (false);
-	}
-	return (true);
 }
 
 void	ft_exec(t_data *data, t_exec *exec)

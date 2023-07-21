@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/19 16:29:13 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 12:26:17 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
 void    ft_exit(t_data *data);
 bool    ft_unset(t_data *data, t_parser *parser);
+void    ft_export_no_args(t_data *data);
 bool    ft_export(t_data *data, t_parser *parser);
-void    ft_export_no_args(t_data *data, t_env *env);
 //lexer fonction
 bool	lexer(t_data *data);
 bool	find_dollar(char *str);
@@ -106,7 +106,7 @@ void	del_node_space(t_data *data);
 void	print_parser(t_parser **parser);
 void	ft_print_syntax_error(char * word);
 //exec fonction
-char    **get_env_tab(t_data *data, t_env * env);
+char    **get_env_tab(t_data *data);
 int		is_builtin(t_data *data, t_parser *parse);
 void	exec_simple_cmd(t_data *data, t_exec *exec);
 void	pipex(t_data *data, t_exec *exec);

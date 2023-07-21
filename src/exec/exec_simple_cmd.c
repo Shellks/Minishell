@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 18:23:20 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 12:24:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 	if (parse->cmd[0])
 	{
 			cmd = ft_get_cmd(data, parse);
-			env_tab = get_env_tab(data,data->env);
+			env_tab = get_env_tab(data);
 			execve(cmd, parse->cmd, env_tab);
 	}
 	ft_free_exit(data, ERR_EXEC, NULL);

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 18:16:18 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/21 12:28:20 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse)
 	if (parse->cmd[0])
 	{
 			cmd = ft_get_cmd(data, parse);
-			env_tab = get_env_tab(data,data->env);
+			env_tab = get_env_tab(data);
 			execve(cmd, parse->cmd, env_tab);
 	}
 	close(exec->pipes[1]);
@@ -104,7 +104,7 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	if (parse->cmd[0])
 	{
 		cmd = ft_get_cmd(data, parse);
-		env_tab = get_env_tab(data,data->env);
+		env_tab = get_env_tab(data);
 		execve(cmd, parse->cmd, env_tab);
 	}
 	close(exec->pipes[1]);
