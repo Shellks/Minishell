@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/21 18:08:29 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/22 10:00:11 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,16 @@ char	**get_env_tab_sort(t_data *data)
 
 void	ft_export_no_args(t_data *data)
 {
-	char	**env_tab;
+	char	**tab;
 	int		i;
 
-	env_tab = get_env_tab_sort(data);
+	tab = get_env_tab_sort(data);
 	i = -1;
-	while (env_tab[++i])
+	while (tab[++i])
 	{
-		if (ft_strlen(env_tab[i]) == 1 && env_tab[i][0] == '_')
+		if (tab[i][0] == '_' && (tab[i][1] == '=' || !tab[i][1]))
 		{
-			if (env_tab[i + 1])
+			if (tab[i + 1])
 			{
 				i++;
 				continue ;
@@ -126,7 +126,7 @@ void	ft_export_no_args(t_data *data)
 			else
 				break ; 
 		}
-		printf("declare -x %s\n", env_tab[i]);
+		printf("declare -x %s\n", tab[i]);
 	}
-	ft_free_split(env_tab);
+	ft_free_split(tab);
 }

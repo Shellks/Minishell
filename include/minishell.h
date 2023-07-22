@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/21 18:05:33 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/22 08:21:29 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ int		ft_dup_fd(t_parser *parser);
 bool	ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
-void    ft_exit(t_data *data);
-bool    ft_unset(t_data *data, t_parser *parser);
+void	ft_exit(t_data *data);
+bool	ft_unset(t_data *data, t_parser *parser);
 void	ft_export_no_args(t_data *data);
-bool    ft_export(t_data *data, t_parser *parser);
+bool	ft_export(t_data *data, t_parser *parser);
+bool	ft_check_export_exist(t_data *data, t_parser *parser, int end);
 //lexer fonction
 bool	lexer(t_data *data);
 bool	find_dollar(char *str);
@@ -137,6 +138,8 @@ char	*get_next_line(int fd);
 void	ft_close_fd(int *fd);
 void	ft_close_here_doc(int *fd, int sign);
 //fonction temporaire
+void	ft_print_export_error(char *word);
 void	ft_print_error(char *str1, char *str2, char *str3, char *str4);
+void	ft_print_fd(char *cmd, char *msg);
 
 #endif

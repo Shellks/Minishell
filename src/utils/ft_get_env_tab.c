@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:36:11 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/21 18:38:43 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/22 07:37:18 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,57 +58,5 @@ char	**get_env_tab(t_data *data)
 		tmp_env = tmp_env->next;
 		len++;
 	}
-	len = 0;
-	while (tab[len])
-	{
-		dprintf(2, "tqb de len = %s\n", tab[len]);
-		len++;
-	}
 	return (tab);
 }
-
-// char	*ft_get_word_env(t_data *data, t_env *env)
-// {
-// 		char	*tmp;
-// 		char	*str;
-
-// 		str = ft_strdup(env->name);
-// 		if (env->equals == EQUALS)
-// 		{
-// 			tmp = str;
-// 			str = ft_strjoin(tmp, "=");
-// 			if (!str)
-// 				free_exit_env(data, tmp, NULL, 1);
-// 			free(tmp);
-// 			if (env->content != NULL)
-// 			{
-// 				tmp = str;
-// 				str = ft_strjoin(tmp, env->content);
-// 				if (!str)
-// 					free_exit_env(data, tmp, NULL, 1);
-// 				free(tmp);
-// 			}
-// 		}
-// 		return (str);
-// }
-
-// char	**get_env_tab(t_data *data)
-// {
-// 	t_env	*tmp_env;
-// 	char	**tab;
-// 	int		len;
-
-// 	tmp_env = data->env;
-// 	len = ft_env_size(tmp_env);
-// 	tab = (char **)ft_calloc(sizeof(char *), len + 1);
-// 	if (!tab)
-// 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-// 	len = 0;
-// 	while (tmp_env)
-// 	{
-// 		tab[len] = ft_get_word_env(data, tmp_env);
-// 		tmp_env = tmp_env->next;
-// 		len++;
-// 	}
-// 	return (tab);
-// }

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/21 18:06:06 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/22 09:35:28 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,49 +34,49 @@ int	is_builtin(t_data *data, t_parser *parse)
 	return (len);
 }
 
-void	last_child(t_data *data, t_exec *exec, t_parser *parse)
-{
-	char	**env_tab;
-	char	*cmd;
+// void	last_child(t_data *data, t_exec *exec, t_parser *parse)
+// {
+// 	char	**env_tab;
+// 	char	*cmd;
 
-	signal(SIGINT, ft_ctrl_c_exec);
-	signal(SIGQUIT, SIG_DFL);
-	close(exec->fd_stdin);
-	close(exec->fd_stdout);
-	close(exec->pipes[0]);
-	if (exec->flag_out != -1)
-	{
-		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
-			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
-		close(exec->outfile);
-	}
-	if (parse->cmd[0] && is_builtin(data, parse))
-	{
-		if (exec->flag_in != -1)
-			close(exec->infile);
-		if (exec->flag_out != -1)
-			close(exec->outfile);
-		close(exec->pipes[1]);
-		ft_free_exit(data, g_status, NULL);
-	}
-	if (parse->cmd[0])
-	{
-			cmd = ft_get_cmd(data, parse);
-			env_tab = get_env_tab(data);
-			execve(cmd, parse->cmd, env_tab);
-	}
-	close(exec->pipes[1]);
-	g_status = 0;
-	ft_free_exit(data, g_status, NULL);
-}
+// 	signal(SIGQUIT, SIG_DFL);
+// 	signal(SIGINT, ft_ctrl_c_exec);
+// 	close(exec->fd_stdin);
+// 	close(exec->fd_stdout);
+// 	close(exec->pipes[0]);
+// 	if (exec->flag_out != -1)
+// 	{
+// 		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
+// 			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
+// 		close(exec->outfile);
+// 	}
+// 	if (parse->cmd[0] && is_builtin(data, parse))
+// 	{
+// 		if (exec->flag_in != -1)
+// 			close(exec->infile);
+// 		if (exec->flag_out != -1)
+// 			close(exec->outfile);
+// 		close(exec->pipes[1]);
+// 		ft_free_exit(data, g_status, NULL);
+// 	}
+// 	if (parse->cmd[0])
+// 	{
+// 			cmd = ft_get_cmd(data, parse);
+// 			env_tab = get_env_tab(data);
+// 			execve(cmd, parse->cmd, env_tab);
+// 	}
+// 	close(exec->pipes[1]);
+// 	g_status = 0;
+// 	ft_free_exit(data, g_status, NULL);
+// }
 
 void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 {
 	char	**env_tab;
 	char	*cmd;
 
-	signal(SIGINT, ft_ctrl_c_exec);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, ft_ctrl_c_exec);
 	close(exec->pipes[0]);
 	close(exec->fd_stdin);
 	close(exec->fd_stdout);
@@ -86,7 +86,7 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 			ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
 		close(exec->outfile);
 	}
-	else
+	else if (!parse->next)
 	{
 		if (dup2(exec->pipes[1], STDOUT_FILENO) < 0)
 			ft_free_exit(data, ERR_DUP, "Error with creating dup\n");

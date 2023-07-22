@@ -1,31 +1,22 @@
-cest quoi cette merde ?
+peut_etre un leaks quand on rappelle minishell alors quil etait demarrer sans env,
+le probleme serait le malloc du shlvl qui pourrait faire un invalid free dans ce cas precis
+a verifer !
 
-neyks in ~/Bureau/42/cercle_4/Minishell on alex ● ● λ env -i ./minishell
-Minishell > export a=a
-Le new content !! a
-Minishell > ./minishell 
-Minishell > env
-SHLVL=2
-OLDPWD=PWD=/home/neyks/Bureau/42/cercle_4/Minishell
-PWD=/home/neyks/Bureau/42/cercle_4/Minishell
-a=a
-Minishell > export a=b
-Minishell > env
-SHLVL=2
-OLDPWD=PWD=/home/neyks/Bureau/42/cercle_4/Minishell
-PWD=/home/neyks/Bureau/42/cercle_4/Minishell
-a=b
-Minishell > cd
-Malloc error
+checker tout les messages d'erreur (qu'il soit conforme a bash)
 
-Minishell > cd
-Malloc error
+checker les leaks/norme (normalement tout est deja ok jusqua parser) et les close
 
-16/07/2023
+implementer les signaux;
 
-Ajout d'un vrai check du chemin absolu et/ou relatif dans les process enfants
+regler les retour de built-in quand on n'a pas de path et les built-in critique a appelé 2x dans le parent et l'enfant exemple :
+Minishell > export 1test=
+minishell: export: « 1test= »: invalid identifier
+minishell: export: « 1test= »: invalid identifier
 
-15/07/2023
+probleme dans le parsing quand $ + caractere d'echappement on parse pas correctement;
+probleme dans le parsing quand $ isolée mais pas seul dans linput on le parse mais bash non
+
+---------------------------------------------------------------------------------------------------
 
 le code de retour 126 indique spécifiquement que la commande a été trouvée, mais n'a pas pu être exécutée.
 le code de retour 126 est une convention couramment utilisée pour représenter l'échec de l'exécution d'une commande.
@@ -33,63 +24,7 @@ le code de retour 126 est une convention couramment utilisée pour représenter 
 le code de retour 127 indique spécifiquement que la commande exécutable spécifiée n'a pas été trouvée dans le système. 
 le code de retour 127 est une convention couramment utilisée pour représenter l'absence de la commande spécifiée lors de l'exécution.
 
--------------------------------------------
 
-probleme quand < Makefile grep built > end | < end cat > ok on est pas censé recuperer le contenu de end et nous ca marche
-probleme quand redir incorrecte ??;
-les closes des fd ne sont pas tous correctement gérés; (voir photo sur mon tel);
-
-comprendre cette merde : doit falloir faire une verif si pipe entrée et egale a pipe sortie du pipe precedent, a voir
-neyks@Alex-VM:~/Bureau/42/cercle_4/Minishell$ < Makefile grep src > end | < Makefile grep env > ok | < ok cat
-                src/env/get_pwd.c                               \
-                src/env/get_env.c                               \
-                src/built_in/ft_env.c                           \
-                list/env/ft_env_add_back.c                      \
-                list/env/ft_env_add_front.c                     \
-                list/env/ft_env_clear.c                         \
-                list/env/ft_env_delone.c                        \
-                list/env/ft_env_first.c                         \
-                list/env/ft_env_last.c                          \
-                list/env/ft_env_new.c                           \
-                list/env/ft_env_size.c
-neyks@Alex-VM:~/Bureau/42/cercle_4/Minishell$ < Makefile grep src > end | < Makefile grep env > ok | < ok cat > test
-neyks@Alex-VM:~/Bureau/42/cercle_4/Minishell$ < Makefile grep src > end | < end grep env > ok | < ok cat
-
-13/07/23
-
--------------------------------------------
-
-
-implementer correctement infile, outfile,heredoc (ptit probleme de boucle inf);		OK !?
-gerer export sans option (affiche l'env trier (en ascii ???))   OK!?
-Regler probleme expand here_doc quand : $$PAGER$$LW$$LESS$$end OK !?
-regler les problemes de heredoc;    OK !?
-implementer exec sans pipe  OK!?
-implementer built_in (les notres) dans pipe OK!?
-
-checker tout les messages d'erreur (qu'il soit conforme a bash)
-
-regarder pour clear(Theo avait des leaks avec en plus, faire attention)
-
-
-checker les leaks/norme (normalement tout est deja ok jusqua parser) et les close
-
-implementer les signaux;
-
--------------------------------------------
-
-
-12/07/23
-
--------------------------------------------
-
-gerer le cas de ! apres $ exemple =
-									 echo "$!PAGER" = PAGER;
-
-
-07/07/2023
-
---------------------------------------------
 on a un leaks dans ft_expand_space de 1bytes quand un malloc(qui ne petera jamais) pete,
 je sais comment le regler mais en vrai cest mega chiant a faire faut qu'on voie si on le laisse ou
 pas, il est vraiment perdu de ouf pour le trouver cest juste de la chatte
@@ -99,27 +34,6 @@ la str tmp1 dans create expand qui est pas free mais voila le bordel pour la fre
 et j'ai galeré de ouf a faire un truc normé et qui marche mdr
 
 still reachable: 1 bytes in 1 blocks
-
----------------------------------------------
-
--verifier si ca pose probleme plus tard(les nodes vides)
-de faire : $lol(var inexistante) :
-    : Minishell > $lol $lol
-
-Redirections[0]:
-
-___________________
-
-Command[0]:
-
-char[0] : ||
-char[1] : ||
-
-
- PS = cest la fonction presente dans get_expand l.83 
- qui creer cette node vide(au cas ou besoin de patch):
- 	if (env == NULL)
-		replace_false_expand_quote(end);
 
 ---------------------------------------------
 
@@ -135,19 +49,7 @@ ou si on peut le laisser, cest quand meme stylé ce que ça gere^^
 
 ---------------------------------------------
 
-dans unset verifier comment on le gere quand il est censé pas  avoir d'env
-voir à l'exec : 
-
-neyks in ~/Bureau/42/cercle_4/Minishell on alex λ env -i unset lol
-env: «unset»: Aucun fichier ou dossier de ce type
-
----------------------------------------------
-
-surement gerer le cas des variables (ajouter une verif qui donne un bool is_readonly ou pas)
+on gere ou pas ? le cas des variables (ajouter une verif qui donne un bool is_readonly ou pas)
 en lecture seul(readonly) dans le parsing de env, a voir
 car par exemple export et unset ne doivent pas marcher quand cest appelé sur une var en readonly
 mais yen a le bash marche quand meme cest bizarre
-
----------------------------------------------
-
-Verifier la commande $< si on la parse comme il faut

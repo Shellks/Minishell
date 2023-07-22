@@ -6,47 +6,59 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/21 17:49:54 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/22 08:50:23 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_print_id_error(char *word)
+static  bool	is_valid_char(t_parser *parser, char *name)
 {
-	printf("minishell: export: « %s »: invalid identifier\n", word);
+	int	i;
+
+	i = 0;
+	while (name[i])
+	{
+		if (i == 0)
+		{
+			if (name[0] >= 48 && name[0] <= 57)
+				return (ft_print_export_error(parser->cmd[1]), false);
+		}
+		if (name[i] == '_')
+		{
+			i++;
+			continue ;
+		}
+		if (name[i] < 48 || (name[i] > 57 && name[i] < 65))
+			return (false);
+		if ((name[i] > 90 && name[i] < 97) || name[i] > 122)
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
-static  bool	is_valid_char(t_parser *parser, char *name, int i)
+static t_env	*create_empty_env(t_data *data, char *name)
 {
-	if (i == 0)
-	{
-		if (name[0] >= 48 && name[0] <= 57)
-			return (ft_print_id_error(parser->cmd[1]), false);
-	}
-	if (name[i] == '_')
-		return (true);
-	if (name[i] < 48 || (name[i] > 57 && name[i] < 65))
-		return (false);
-	if ((name[i] > 90 && name[i] < 97) || name[i] > 122)
-		return (false);
-	return (true);
+	t_env	*new;
+
+	new = ft_env_new(name, NULL, EQUALS);
+	if (!new)
+		free_exit_env(data, name, NULL, 1);
+	return (new);
 }
 
 static bool	create_new_env(t_data *data, t_parser *parser, int end, int i)
 {
-	int		j;
 	t_env	*new;
 	char	*name;
 	char	*content;
 
-	j = -1;
 	name = ft_strndup(parser->cmd[1], i);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-	while (name[++j])
-		if (is_valid_char(parser, name, j) == false)
-			return (ft_print_id_error(parser->cmd[1]), false);
+	if (is_valid_char(parser, name) == false)
+		return (ft_print_export_error(parser->cmd[1]), free(name), false);
 	if (parser->cmd[1][i + 1])
 	{
 		content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
@@ -57,59 +69,9 @@ static bool	create_new_env(t_data *data, t_parser *parser, int end, int i)
 			free_exit_env(data, name, content, 2);
 	}
 	else
-	{
-		new = ft_env_new(name, NULL, EQUALS);
-		if (!new)
-			free_exit_env(data, name, NULL, 1);
-	}
+		new = create_empty_env(data, name);
 	ft_env_add_back(&data->env, new);
 	return (true);
-}
-
-static void	export_is_exist(t_data *data, t_parser *parser, t_env * env, int end)
-{
-	int		i;
-
-	i = data->count;
-	free(env->content);
-	if (parser->cmd[1][i] == '=')
-	{
-		if (env->equals == NOT_EQUALS)
-			env->equals = EQUALS;
-		if (parser->cmd[1][i + 1])
-		{
-			env->content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
-			if (!env->content)
-				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-		}
-		else
-			env->content = NULL;
-	}
-	else
-	{
-		if (env->equals == EQUALS)
-			env->equals = NOT_EQUALS;
-		env->content = NULL;
-	}
-}
-
-static bool	ft_check_export_exist(t_data *data, t_parser *parser, int end)
-{
-	t_env	*tmp_env;
-	int		i;
-
-	tmp_env = data->env;
-	i = data->count;
-	while (tmp_env)
-	{
-		if (ft_strncmp(tmp_env->name, parser->cmd[1], i) == 0)
-		{
-			export_is_exist(data, parser, tmp_env, end);
-			return (true);
-		}
-		tmp_env = tmp_env->next;
-	}
-	return (false);
 }
 
 static bool	create_env_no_equals(t_data *data, t_parser *parser)
@@ -123,16 +85,12 @@ static bool	create_env_no_equals(t_data *data, t_parser *parser)
 	if (name[0] >= 48 && name[0] <= 57)
 	{
 		free(name);
-		return (ft_print_id_error(parser->cmd[1]), false);
+		return (ft_print_export_error(parser->cmd[1]), false);
 	}
-	data->count = -1;
-	while (name[++data->count])
+	if (is_valid_char(parser, name) == false)
 	{
-		if (is_valid_char(parser, name, data->count) == false)
-		{
-			free(name);
-			return (ft_print_id_error(parser->cmd[1]), false);
-		}
+		free(name);
+		return (ft_print_export_error(parser->cmd[1]), false);
 	}
 	new = ft_env_new(name, NULL, NOT_EQUALS);
 	if (!new)
