@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/23 00:33:07 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/23 20:30:24 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int		ft_dup_fd(t_parser *parser);
 bool	ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
+void	ft_pwd(t_data *data);
 void	ft_exit(t_data *data);
 bool	ft_unset(t_data *data, t_parser *parser);
 void	ft_export_no_args(t_data *data);
@@ -110,7 +111,7 @@ char	**get_env_tab(t_data *data);
 int		is_builtin(t_data *data, t_parser *parse);
 void	exec_simple_cmd(t_data *data, t_exec *exec);
 void	pipex(t_data *data, t_exec *exec);
-void	ft_std_manager(t_data *data, t_exec *exec, int STDIN, int STDOUT);
+void	ft_std_manager(t_data *data, int STDIN, int STDOUT);
 char	*expand_here_doc(t_data *data, char *str);
 char	*ft_get_cmd(t_data *data, t_parser *parse);
 void	ft_dup_manager(t_data *data, t_exec *exec);
@@ -131,12 +132,13 @@ void	ft_free_env(t_data *data);
 void	ft_free_loop(t_data *data);
 void	ft_free_split(char **tab);
 void	ft_free_exit(t_data *data, int error, char *msg);
+void	ft_exit_minishell(t_data *data, t_exec *exec, int sign);
 void	free_exit_env(t_data *data, char *name, char *content, int i);
 //gnl
 char	*get_next_line(int fd);
 //fonction temporaire pour close
 void	ft_close(int fd1, int fd2, int fd3);
-void	ft_close_all(t_data *data, t_exec *exec);
+void	ft_close_all(t_data *data, t_exec *exec, int sign);
 //fonction temporaire
 void	ft_print_export_error(char *word);
 void	ft_print_error(char *str1, char *str2, char *str3, char *str4);

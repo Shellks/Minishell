@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:29:26 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/22 23:24:37 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/23 18:44:45 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_close(int fd1, int fd2, int fd3)
 		close(fd3);
 }
 
-void	ft_close_all(t_data *data, t_exec *exec)
+void	ft_close_all(t_data *data, t_exec *exec, int sign)
 {
 	if (exec->flag_in == 1)
 	{
@@ -31,7 +31,8 @@ void	ft_close_all(t_data *data, t_exec *exec)
 	}
 	else if (exec->flag_in == 2)
 	{
-		exec->flag_in = 0;
+		exec->flag_in = -1;
+		close(exec->infile);
 		unlink(data->here_doc_path->redirec);
 	}
 	if (exec->flag_out == 1)
@@ -39,8 +40,11 @@ void	ft_close_all(t_data *data, t_exec *exec)
 		exec->flag_out = -1;
 		close(exec->outfile);
 	}
-	if (exec->pipes[0])
-		close(exec->pipes[0]);
-	if (exec->pipes[1])
-		close(exec->pipes[1]);
+	if (sign == IS_PIPE)
+	{
+		if (exec->pipes[0])
+			close(exec->pipes[0]);
+		if (exec->pipes[1])
+			close(exec->pipes[1]);
+	}
 }

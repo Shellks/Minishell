@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:41:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/22 23:08:57 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/23 18:36:18 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+# define IS_NOT_PIPE 0
+# define IS_PIPE 1
 # define START_CMD 1
 # define END_CMD 2
 # define ERR_ARGS 1

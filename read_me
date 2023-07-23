@@ -1,15 +1,15 @@
+cette commande nous fait sigpipe, cest une erreur de gestion de pipe mais ca ne le fait quavec les builtin et quand le buioltin est au milieu dautre pipe ?
+< Makefile < read_me cat > end > ok | < Makefile pwd | < Makefile ls
+
+bon ya l'air d'avoir des problemes de redir genre ca :
+< Makefile < read_me cat > end > ok | < Makefile pwd > ok | < Makefile ls
+je crois que ca marche tres mal et cest ptete lié au probleme au dessus
 
 peut_etre un leaks quand on rappelle minishell alors quil etait demarrer sans env,
 le probleme serait le malloc du shlvl qui pourrait faire un invalid free dans ce cas precis
 a verifer !
 
 checker les leaks/norme (normalement tout est deja ok jusqua parser) et les close
-
-
-regler les retour de built-in quand on n'a pas de path et les built-in critique a appelé 2x dans le parent et l'enfant exemple :
-Minishell > export 1test=
-minishell: export: « 1test= »: invalid identifier
-minishell: export: « 1test= »: invalid identifier
 
 probleme dans le parsing quand $ + caractere d'echappement on parse pas correctement;
 probleme dans le parsing quand $ isolée mais pas seul dans linput on le parse mais bash non

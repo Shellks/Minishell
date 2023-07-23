@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/23 00:34:25 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/23 19:00:45 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 		ft_dup(data, exec->outfile, STDOUT_FILENO);
 	if (parse->cmd[0] && is_builtin(data, parse))
 	{
-		ft_close_all(data, exec);
+		ft_close_all(data, exec, IS_NOT_PIPE);
 		ft_free_exit(data, g_status, NULL);
 	}
 	if (parse->cmd[0])
@@ -33,7 +33,7 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 			env_tab = get_env_tab(data);
 			execve(cmd, parse->cmd, env_tab);
 	}
-	ft_close_all(data, exec);
+	ft_close_all(data, exec, IS_NOT_PIPE);
 	ft_free_exit(data, ERR_EXEC, NULL);
 }
 
@@ -64,5 +64,6 @@ void	exec_simple_cmd(t_data *data, t_exec *exec)
 		ft_dup_manager(data, exec);
 	exec_simple_cmd1(data, exec, parse);
 	waitpid(exec->pid, &g_status, 0);
-	ft_std_manager(data, exec, exec->fd_stdin, exec->fd_stdout);
+	ft_std_manager(data, exec->fd_stdin, exec->fd_stdout);
+	ft_close_all(data, exec, IS_NOT_PIPE);
 }

@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print.c                                         :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 08:13:38 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/23 20:20:48 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/07/23 20:16:57 by acarlott          #+#    #+#             */
+/*   Updated: 2023/07/23 20:31:11 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_print_export_error(char *word)
+void	ft_pwd(t_data *data)
 {
-	printf("minishell: export: « %s »: invalid identifier\n", word);
-}
-void	ft_print_fd(char *cmd, char *msg)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd(data->pwd->content, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }
