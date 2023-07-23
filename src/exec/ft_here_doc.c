@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/23 09:37:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/23 11:49:30 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
 	int	fd;
 
 	signal(SIGINT, SIG_IGN);
+	dup2(exec->fd_stdin, STDIN_FILENO);
+	dup2(exec->fd_stdout, STDOUT_FILENO);
 	if (exec->flag_in == 1)
 	{
 		exec->flag_in = -1;

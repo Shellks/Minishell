@@ -1,8 +1,11 @@
+probleme avec here doc appellée dans un pipe pas en premier commande il lit le pipe
+
 peut_etre un leaks quand on rappelle minishell alors quil etait demarrer sans env,
 le probleme serait le malloc du shlvl qui pourrait faire un invalid free dans ce cas precis
 a verifer !
+ca leaks ca !
 
-checker tout les messages d'erreur (qu'il soit conforme a bash)
+checker tout les messages d'erreur (qu'il soit conforme a bash) OK !?
 
 checker les leaks/norme (normalement tout est deja ok jusqua parser) et les close
 
