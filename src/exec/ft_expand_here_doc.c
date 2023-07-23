@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_here_doc.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:28:24 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 16:41:44 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:04:02 by nicolasbern      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*replace_false_heredoc_expand(t_data *data, char *str, int *j)
 		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
 	if (str[*j + i] == '$')
 		i++;
-	while (str[*j + i] && isalnum(str[*j + i]))
+	while (str[*j + i] && ft_isalnum(str[*j + i]))
 		i++;
 	tmp2 = ft_strdup(&str[*j + i]);
 	if (!tmp2)
@@ -53,7 +53,7 @@ static char	*create_expand_here_doc(t_data *data, t_env *env, char *str, int *j)
 		free_exit_env(data, tmp1, NULL, 1);
 	free(tmp1);
 	i++;
-	while (str[i] && isalnum(str[i]))
+	while (str[i] && ft_isalnum(str[i]))
 		i++;
 	tmp1 = ft_strdup(&str[i]);
 	if (!tmp1)
@@ -72,7 +72,7 @@ static bool	check_expand_here_doc(t_env *env, char *to_find)
 	int	i;
 
 	i = 0;
-	while (to_find[i] && isalnum(to_find[i]))
+	while (to_find[i] && ft_isalnum(to_find[i]))
 		i++;
 	if ((int)ft_strlen(env->name) < i)
 	{
