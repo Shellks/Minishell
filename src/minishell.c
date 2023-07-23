@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/21 13:09:22 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/23 17:59:03 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (init_var(&data, &exec, env, argc) == false)
 		return (1);
-	signal(SIGINT, ft_ctrl_c);
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		signal(SIGINT, ft_ctrl_c);
+		signal(SIGQUIT, SIG_IGN);
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{

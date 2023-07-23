@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/23 12:25:54 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/23 17:52:18 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void	pipex(t_data *data, t_exec *exec)
 {
 	t_parser	*parse;
 
+	signal(SIGINT, SIG_IGN);
 	exec->fd_stdin = dup(STDIN_FILENO);
 	exec->fd_stdout = dup(STDOUT_FILENO);
 	parse = data->parser;
