@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/21 18:05:54 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/23 00:34:25 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,12 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, ft_ctrl_c_exec);
-	close(exec->fd_stdin);
-	close(exec->fd_stdout);
+	ft_close(exec->fd_stdin, exec->fd_stdout, -1);
 	if (exec->flag_out != -1)
-	{
-		if (dup2(exec->outfile, STDOUT_FILENO) < 0)
-			ft_free_exit(data, ERR_EXEC, "Exec error0\n");
-		close(exec->outfile);
-	}
+		ft_dup(data, exec->outfile, STDOUT_FILENO);
 	if (parse->cmd[0] && is_builtin(data, parse))
 	{
-		if (exec->flag_in != -1)
-			close(exec->infile);
-		if (exec->flag_out != -1)
-			close(exec->outfile);
+		ft_close_all(data, exec);
 		ft_free_exit(data, g_status, NULL);
 	}
 	if (parse->cmd[0])
@@ -41,6 +33,7 @@ static void	child_process1(t_data *data, t_exec *exec, t_parser *parse)
 			env_tab = get_env_tab(data);
 			execve(cmd, parse->cmd, env_tab);
 	}
+	ft_close_all(data, exec);
 	ft_free_exit(data, ERR_EXEC, NULL);
 }
 
@@ -71,19 +64,5 @@ void	exec_simple_cmd(t_data *data, t_exec *exec)
 		ft_dup_manager(data, exec);
 	exec_simple_cmd1(data, exec, parse);
 	waitpid(exec->pid, &g_status, 0);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	dup2(exec->fd_stdin, STDIN_FILENO);
-	dup2(exec->fd_stdout, STDOUT_FILENO);
-	close(exec->fd_stdin);
-	close(exec->fd_stdout);
-	if (!WIFSIGNALED(g_status))
-		g_status = WEXITSTATUS(g_status);
-	else if (WIFSIGNALED(g_status))
-	{
-		if (WTERMSIG(g_status) == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		g_status = 128 + WTERMSIG(g_status);
-	}
+	ft_std_manager(data, exec, exec->fd_stdin, exec->fd_stdout);
 }

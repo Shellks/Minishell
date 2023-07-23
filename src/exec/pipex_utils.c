@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 18:47:20 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/23 09:11:54 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ static char	*get_relative_path(t_data *data, t_parser *parse)
 		cmd = ft_strjoin(temp, parse->cmd[0]);
 		if (!cmd)
 		{
-			free (temp);
 			ft_putstr_fd("Malloc error\n", 2);
-			ft_free_exit(data, ERR_MALLOC, NULL);
+			free_exit_env(data, temp, NULL, 1);
 		}
 		free (temp);
 		if (access(cmd, X_OK) == 0)
@@ -49,9 +48,7 @@ static char	*is_relative_path(t_data *data, t_parser *parse)
 	cmd = get_relative_path(data, parse);
 	if (cmd)
 		return (cmd);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(parse->cmd[0], 2);
-	ft_putstr_fd(": no such file or directory\n", 2);
+	ft_print_fd(parse->cmd[0], ": no such file or directory\n");
 	ft_free_exit(data, 127, NULL);
 	return (NULL);
 }
@@ -64,23 +61,17 @@ static char	*is_absolute_path(t_data *data, t_parser *parse)
 		return (NULL);
 	if (stat(parse->cmd[0], &path))
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(parse->cmd[0], 2);
-		ft_putstr_fd(": no such file or directory\n", 2);
+		ft_print_fd(parse->cmd[0], ": no such file or directory\n");
 		ft_free_exit(data, 127, NULL);
 	}
 	if (S_ISDIR(path.st_mode))
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(parse->cmd[0], 2);
-		ft_putstr_fd(": is a directory\n", 2);
+		ft_print_fd(parse->cmd[0], ": is a directory\n");
 		ft_free_exit(data, 126, NULL);
 	}
 	if (!access(parse->cmd[0], X_OK))
 		return (parse->cmd[0]);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(parse->cmd[0], 2);
-	ft_putstr_fd(": permission denied\n", 2);
+	ft_print_fd(parse->cmd[0], ": permission denied\n");
 	ft_free_exit(data, 126, NULL);
 	return (NULL);
 }
@@ -95,44 +86,16 @@ char	*ft_get_cmd(t_data *data, t_parser *parse)
 	return (cmd);
 }
 
-void	ft_std_manager(int STDIN, int STDOUT)
-{
-	int	wait_all;
-
-	wait_all = 0;
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	while (wait_all != -1)
-		wait_all = waitpid(-1, NULL, 0);
-	dup2(STDIN, STDIN_FILENO);
-	dup2(STDOUT, STDOUT_FILENO);
-	close(STDIN);
-	close(STDOUT);
-	if (!WIFSIGNALED(g_status))
-		g_status = WEXITSTATUS(g_status);
-	else if (WIFSIGNALED(g_status))
-	{
-		if (WTERMSIG(g_status) == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		g_status = 128 + WTERMSIG(g_status);
-	}
-}
-
 void	ft_dup_manager(t_data *data, t_exec *exec)
 {
 	if (exec->flag_in == 1)
-	{
-		dup2(exec->infile, STDIN_FILENO);
-		close(exec->infile);
-	}
+		ft_dup(data, exec->infile, STDIN_FILENO);
 	else if (exec->flag_in == 2)
 	{
 		exec->infile = open(data->here_doc_path->redirec, O_RDONLY);
 		if (exec->infile < 0)
 			ft_free_exit(data, ERR_OPEN, "Error opening file\n");
-		dup2(exec->infile, 0);
-		close(exec->infile);
+		ft_dup(data, exec->infile, STDIN_FILENO);
 		unlink(data->here_doc_path->redirec);
 	}
 }

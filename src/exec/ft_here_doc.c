@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 16:57:30 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/23 09:37:44 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static void	child_heredoc_expand(t_data *data, t_redir *re, int pipe[2])
 	close(pipe[1]);
 }
 
-static void	child_heredoc(t_redir *re, int pipe_connect[2])
+static void	child_heredoc(t_redir *re, int pipe[2])
 {
 	char	*str;
 
-	close(pipe_connect[0]);
+	close(pipe[0]);
 	while (1)
 	{
 		str = readline("> ");
@@ -50,7 +50,7 @@ static void	child_heredoc(t_redir *re, int pipe_connect[2])
 	}
 	if (str)
 		free(str);
-	close(pipe_connect[1]);
+	close(pipe[1]);
 }
 
 static void	parent_heredoc(t_redir *re, int pipe_connect[2], int fd)
@@ -97,8 +97,7 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
 			child_heredoc(redir, pipe_connect);
 		else
 			child_heredoc_expand(data, redir, pipe_connect);
-		close(exec->fd_stdin);
-		close(exec->fd_stdout);
+		ft_close(exec->fd_stdin, exec->fd_stdout, -1);
 		ft_free_exit(data, 0, NULL);
 	}
 	get_here_doc_fd(data, redir, &fd);

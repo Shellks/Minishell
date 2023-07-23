@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:41:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 14:15:27 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/22 23:08:57 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_exec
 	int		doc;
 }	t_exec;
 
-void	ft_close(t_exec *exec, int in_out, int pipe, int std);
 void	ft_close_free(t_exec *exec, int close, int free, int error);
 void	ft_free_child(t_exec *exec, int error);
 void	ft_free_parent(t_exec *exec, int error);
