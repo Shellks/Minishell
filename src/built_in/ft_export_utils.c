@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/22 10:00:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 13:32:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,7 @@ void	ft_export_no_args(t_data *data)
 		if (tab[i][0] == '_' && (tab[i][1] == '=' || !tab[i][1]))
 		{
 			if (tab[i + 1])
-			{
-				i++;
 				continue ;
-			}
 			else
 				break ; 
 		}

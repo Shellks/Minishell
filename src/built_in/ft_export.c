@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/22 08:50:23 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 13:32:53 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static  bool	is_valid_char(t_parser *parser, char *name)
 {
 	int	i;
 
-	i = 0;
-	while (name[i])
+	i = -1;
+	while (name[++i])
 	{
 		if (i == 0)
 		{
@@ -25,15 +25,11 @@ static  bool	is_valid_char(t_parser *parser, char *name)
 				return (ft_print_export_error(parser->cmd[1]), false);
 		}
 		if (name[i] == '_')
-		{
-			i++;
 			continue ;
-		}
 		if (name[i] < 48 || (name[i] > 57 && name[i] < 65))
 			return (false);
 		if ((name[i] > 90 && name[i] < 97) || name[i] > 122)
 			return (false);
-		i++;
 	}
 	return (true);
 }
