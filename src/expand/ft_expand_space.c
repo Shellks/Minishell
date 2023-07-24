@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_space.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 10:19:03 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 14:44:51 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:10:22 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ bool	check_space_env_content(t_data *data, t_env *env, t_lexer *src)
 
 	i = 0;
 	start = 0;
+	if (!env->content)
+		return (false);
 	while (env->content[start] && env->content[start] != ' ')
 		start++;
 	if (!env->content[start])

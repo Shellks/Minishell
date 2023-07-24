@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/21 14:10:42 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:24:47 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ typedef struct s_data
 }			t_data;
 
 t_data	*ft_get_data(t_data *data);
+//env fonction
+void	create_usr_env(t_data *data);
+void	create_shlvl(t_data *data);
+void	create_pwd(t_data *data);
+void	create_old_pwd(t_data *data);
 //builtin=====
 bool	ft_env(t_data *data);
 bool	ft_echo(t_parser *parser);

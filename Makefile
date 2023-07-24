@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/21 14:17:16 by nibernar         ###   ########.fr        #
+#    Updated: 2023/07/24 11:22:15 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ HEADER = ./include
 SRCS =	src/minishell.c						\
 		src/env/get_pwd.c					\
 		src/env/get_env.c					\
+		src/env/create_new_env.c			\
 		src/lexer/lexer.c					\
 		src/lexer/lexer_bis.c				\
 		src/lexer/ft_fusion.c				\

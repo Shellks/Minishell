@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 14:54:16 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:15:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 		free(tmp1);
 	else
 	{
-		tmp2 = ft_strjoin(tmp1, env->content);
+		if (!env->content)
+			tmp2 = ft_strdup(tmp1);
+		else
+			tmp2 = ft_strjoin(tmp1, env->content);
+		
 		if (!tmp2)
-		{
-			free(tmp1);
-			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-		}
+			free_exit_env(data, tmp1, NULL, 1);
 		free(tmp1);
 		get_next_expand(data, str, tmp2, i);
 	}
