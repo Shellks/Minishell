@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:36:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 16:37:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 23:45:36 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ void	ft_std_manager(t_data *data, int STDIN, int STDOUT)
 	int	wait_all;
 
 	wait_all = 0;
-	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 	while (wait_all != -1)
-		wait_all = waitpid(-1, NULL, 0);
+		wait_all = waitpid(-1, &g_status, 0);
 	ft_dup(data, STDIN, STDIN_FILENO);
 	ft_dup(data, STDOUT, STDOUT_FILENO);
 	if (!WIFSIGNALED(g_status))

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 19:28:26 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 00:48:47 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	cmd = NULL;
 	env_tab = NULL;
 	child_process_manager(data, exec, parse);
+	if (exec->flag_in == -2 || exec->flag_out == -2)
+		ft_exit_minishell(data, exec, IS_PIPE);
 	if (parse->cmd[0] && is_builtin(data, parse))
 	{
 		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
@@ -85,7 +87,7 @@ static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 		if (exec->flag_out != -1)
 			close(exec->outfile);
 		close(exec->pipes[1]);
-		if (parse->next && exec->flag_in == -1)
+		if (parse->next && (exec->flag_in == -1 || exec->flag_in == -2))
 			ft_dup(data, exec->pipes[0], STDIN_FILENO);
 		else if (parse->next)
 		{
@@ -105,21 +107,11 @@ void	pipex(t_data *data, t_exec *exec)
 	parse = data->parser;
 	while (parse)
 	{
-		if (ft_set_redir(data, parse, exec) == false)
-		{
-			parse = parse->next;
-			if (!parse)
-				break ;
-			else
-				continue ;
-		}
-		else
-			ft_dup_manager(data, exec);
+		ft_set_redir(data, parse, exec);
+		ft_dup_manager(data, exec);
 		parent_process(data, exec, parse);
 		parse = parse->next;
 	}
-	waitpid(exec->pid, &exec->status, 0);
-	g_status = exec->status;
 	ft_std_manager(data, exec->fd_stdin, exec->fd_stdout);
 	ft_close_all(data, exec, IS_PIPE);
 }

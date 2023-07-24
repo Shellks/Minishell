@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:55:59 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 18:06:25 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:47:37 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static bool	get_infile(t_data *data, t_redir *redir, t_exec *exec)
 		ft_putstr_fd("no such file or directory: ", 2);
 		ft_putstr_fd(redir->redirec, 2);
 		ft_putstr_fd("\n", 2);
+		exec->flag_in = -2;
 		return (false);
 	}
 	exec->flag_in = 1;
@@ -53,6 +54,7 @@ static bool	get_outfile(t_redir *redir, t_exec *exec)
 		ft_putstr_fd("no such file or directory: ", 2);
 		ft_putstr_fd(redir->redirec, 2);
 		ft_putstr_fd("\n", 2);
+		exec->flag_out = -2;
 		return (false);
 	}
 	exec->flag_out = 1;

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/24 19:37:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 01:13:30 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,58 +23,71 @@ t_data	*ft_get_data(t_data *data)
 	return (data_ptr);
 }
 
-void	pipex_no_pipe(t_data *data, t_exec *exec)
+// void	pipex_no_pipe(t_data *data, t_exec *exec)
+// {
+// 	exec->fd_stdin = dup(STDOUT_FILENO);
+// 	exec->fd_stdout = dup(STDIN_FILENO);
+// 	if (ft_set_redir(data, data->parser, exec) == false)
+// 		return (ft_close(exec->fd_stdin, exec->fd_stdout, -1));
+// 	exec_simple_cmd(data, exec);
+// }
+//}
+
+bool	check_is_builtin(t_parser *parse)
 {
-	exec->fd_stdin = dup(STDOUT_FILENO);
-	exec->fd_stdout = dup(STDIN_FILENO);
-	if (ft_set_redir(data, data->parser, exec) == false)
-		return (ft_close(exec->fd_stdin, exec->fd_stdout, -1));
-	if (data->parser->cmd[0])
-	{
-		if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
-		{
-			ft_cd(data, data->parser->cmd);
-			return ;
-		}
-		else if (!ft_strncmp(data->parser->cmd[0], "export", 6))
-		{
-			g_status = ft_export(data, data->parser);
-			return ;
-		}
-		else if (!ft_strncmp(data->parser->cmd[0], "unset", 5))
-		{
-			g_status = ft_unset(data, data->parser);
-			return ;
-		}
-		else if (ft_strncmp(data->parser->cmd[0], "exit", 4) == 0)
-			ft_exit(data);
-		exec_simple_cmd(data, exec);
-	}
+	if (!ft_strncmp(parse->cmd[0], "pwd", 3))
+		return(true);
+	else if (!ft_strncmp(parse->cmd[0], "unset", 5))
+		return(true);
+	else if (!ft_strncmp(parse->cmd[0], "export", 6))
+		return(true);
+	else if (!ft_strncmp(parse->cmd[0], "exit", 4))
+		return(true);
+	else if (!ft_strncmp(parse->cmd[0], "env", 3))
+		return(true);
+	else if (!ft_strncmp(parse->cmd[0], "echo", 4))
+		return(true);
+	else if (!ft_strncmp(parse->cmd[0], "cd", 2))
+		return(true);
+	return(false);
 }
 
 void	ft_exec(t_data *data, t_exec *exec)
 {
+	t_parser *parse;
+
+	parse = data->parser;
+	if (!parse->next && parse->cmd[0] && check_is_builtin(parse))
+	{
+		exec->fd_stdin = STDIN_FILENO;
+		exec->fd_stdout = STDOUT_FILENO;
+		ft_set_redir(data, parse, exec);
+		ft_dup_manager(data, exec);
+		if (exec->flag_out == 1)
+			ft_dup(data, exec->outfile, STDOUT_FILENO);
+		is_builtin(data, parse);
+		if (exec->flag_in > 0)
+			ft_dup(data, exec->fd_stdin, STDIN_FILENO);
+		if (exec->flag_out == 1)
+			ft_dup(data, exec->fd_stdout, STDOUT_FILENO);
+		return(ft_close_all(data, exec, IS_NOT_PIPE));
+	}
 	exec->pid = fork();
+	if (exec->pid == -1)
+		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
 	if (exec->pid == 0)
 	{
-		if (!data->parser->next)
-		{
-			pipex_no_pipe(data, exec);
-			ft_close_all(data, exec, IS_NOT_PIPE);
-		}
-		else
-		{
-			pipex(data, exec);
-			ft_close_all(data, exec, IS_PIPE);
-		}
+		pipex(data, exec);
+		ft_close_all(data, exec, IS_PIPE);
 		ft_close(exec->fd_stdin, exec->fd_stdout, -1);
 		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
-		ft_free_exit(data, 0, 0);
+		ft_free_exit(data, g_status, NULL);
 	}
 	else
 	{
 		signal(SIGINT, SIG_IGN);
 		waitpid(exec->pid, &g_status, 0);
+		g_status = WEXITSTATUS(g_status);
 	}
 }
 
