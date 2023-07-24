@@ -6,13 +6,13 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/22 07:54:22 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 18:59:23 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static	void	get_path(t_data *data)
+void	get_path(t_data *data)
 {
 	t_env	*tmp;
 
@@ -36,7 +36,6 @@ static t_env	*env_content_exist(t_data *data, char *env, int i, char *name)
 	t_env	*new;
 	char	*content;
 	int		len;
-
 
 	i++;
 	len = i;
@@ -97,5 +96,4 @@ void	set_env(t_data *data, char **env)
 		ft_env_add_back(&data->env, new);
 	}
 	get_pwd(data);
-	get_path(data);
 }

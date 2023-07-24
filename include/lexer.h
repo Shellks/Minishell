@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 16:38:59 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:09:08 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef enum e_token
 	EXPAND,
 }	t_token;
 
-typedef struct s_lexer
+typedef struct	s_lexer
 {
 	char			*word;
 	t_quote			quote;

@@ -6,32 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 11:33:19 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 19:28:26 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	ft_std_manager(t_data *data, int STDIN, int STDOUT)
-{
-	int	wait_all;
-
-	wait_all = 0;
-	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
-	while (wait_all != -1)
-		wait_all = waitpid(-1, NULL, 0);
-	ft_dup(data, STDIN, STDIN_FILENO);
-	ft_dup(data, STDOUT, STDOUT_FILENO);
-	if (!WIFSIGNALED(g_status))
-		g_status = WEXITSTATUS(g_status);
-	else if (WIFSIGNALED(g_status))
-	{
-		if (WTERMSIG(g_status) == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		g_status = 128 + WTERMSIG(g_status);
-	}
-}
 
 int	is_builtin(t_data *data, t_parser *parse)
 {
@@ -55,13 +34,8 @@ int	is_builtin(t_data *data, t_parser *parse)
 	return (len);
 }
 
-void	child_process(t_data *data, t_exec *exec, t_parser *parse)
+void	child_process_manager(t_data *data, t_exec *exec, t_parser *parse)
 {
-	char	**env_tab;
-	char	*cmd;
-
-	signal(SIGINT, ft_ctrl_c_exec);
-	signal(SIGQUIT, SIG_DFL);
 	ft_close(exec->pipes[0], exec->fd_stdin, exec->fd_stdout);
 	if (exec->flag_out != -1)
 	{
@@ -70,16 +44,31 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	}
 	else if (parse->next)
 		ft_dup(data, exec->pipes[1], STDOUT_FILENO);
+	ft_close(exec->pipes[0], exec->fd_stdin, exec->fd_stdout);
+}
+
+void	child_process(t_data *data, t_exec *exec, t_parser *parse)
+{
+	char	**env_tab;
+	char	*cmd;
+
+	signal(SIGINT, ft_ctrl_c_exec);
+	signal(SIGQUIT, SIG_DFL);
+	cmd = NULL;
+	env_tab = NULL;
+	child_process_manager(data, exec, parse);
 	if (parse->cmd[0] && is_builtin(data, parse))
+	{
+		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 		ft_exit_minishell(data, exec, IS_PIPE);
+	}
 	if (parse->cmd[0])
 	{
 		cmd = ft_get_cmd(data, parse);
 		env_tab = get_env_tab(data);
 		execve(cmd, parse->cmd, env_tab);
 	}
-	g_status = 0;
-	ft_exit_minishell(data, exec, IS_PIPE);
+	ft_exit_execve_fail(data, exec, cmd, env_tab);
 }
 
 static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
@@ -121,6 +110,8 @@ void	pipex(t_data *data, t_exec *exec)
 			parse = parse->next;
 			if (!parse)
 				break ;
+			else
+				continue ;
 		}
 		else
 			ft_dup_manager(data, exec);

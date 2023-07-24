@@ -6,13 +6,13 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 13:32:53 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 14:41:04 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static  bool	is_valid_char(t_parser *parser, char *name)
+static bool	is_valid_char(t_parser *parser, char *name)
 {
 	int	i;
 
@@ -74,7 +74,7 @@ static bool	create_env_no_equals(t_data *data, t_parser *parser)
 {
 	t_env	*new;
 	char	*name;
-	
+
 	name = ft_strdup(parser->cmd[1]);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
@@ -105,9 +105,10 @@ bool	ft_export(t_data *data, t_parser *parser)
 	if (!data->env)
 		return (false);
 	if (!tmp_parser->cmd[1])
-		return(ft_export_no_args(data), true);
+		return (ft_export_no_args(data), true);
 	end = (ft_strlen(tmp_parser->cmd[1]) - 1);
-	while(tmp_parser->cmd[1][data->count] && tmp_parser->cmd[1][data->count] != '=')
+	while (tmp_parser->cmd[1][data->count] && \
+	tmp_parser->cmd[1][data->count] != '=')
 		data->count++;
 	if (ft_check_export_exist(data, tmp_parser, end) == true)
 		return (true);

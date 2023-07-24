@@ -6,7 +6,7 @@
 #    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/24 11:44:00 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/24 17:13:05 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,9 @@ SRCS =	src/minishell.c						\
 		src/built_in/ft_pwd.c				\
 		src/exec/ft_redirection.c			\
 		src/exec/ft_here_doc.c				\
-		src/exec/pipex_utils.c				\
+		src/exec/get_cmd_pipex.c			\
 		src/exec/pipex.c					\
+		src/exec/pipex_manager.c			\
 		src/exec/ft_get_fd_heredoc.c		\
 		src/signal/ft_ctrl_c.c				\
 		src/exec/exec_simple_cmd.c			\
@@ -92,7 +93,7 @@ LIBFT_LIB	=	$(addprefix $(LIBFT_PATH), $(LIBFT_FILE))
 
 
 ./src/%.o: ./src/%.c ${HEADER}/minishell.h ${LIBFT_LIB}
-		${CC} ${CFLAGS} -I ${HEADER} -g -c $< -o $@ 
+		${CC} ${CFLAGS} -I${HEADER} -g -c $< -o $@ 
 
 
 all : ${NAME}
@@ -126,6 +127,6 @@ fclean: clean
 
 re : fclean all
 
-.SILENT:
+# .SILENT:
 
 .PHONY: all clean fclean re force

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 10:19:03 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 11:10:22 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 14:59:47 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,15 +125,14 @@ bool	check_space_env_content(t_data *data, t_env *env, t_lexer *src)
 		start++;
 	if (!env->content[start])
 		return (false);
-	start = 0;
-	while (env->content[start])
+	start = -1;
+	while (env->content[++start])
 	{
 		check = space_env_loop(data, env, &start, &i);
 		if (check == BREAK)
 			break ;
 		else if (check == FALSE)
 			return (false);
-		start++;
 	}
 	if (!src->previous)
 		data->lexer = data->lexer->next;

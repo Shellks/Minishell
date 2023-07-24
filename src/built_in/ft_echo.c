@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:50:43 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/20 13:35:20 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:25:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	check_option(char **cmd, int *index)
 	return (bslash_n);
 }
 
-bool	ft_echo(t_parser *parser)
+int	ft_echo(t_parser *parser)
 {
 	int			index;
 	int			bslash_n;
@@ -50,5 +50,5 @@ bool	ft_echo(t_parser *parser)
 	}
 	if (bslash_n)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (true);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/24 11:31:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 19:37:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ t_data	*ft_get_data(t_data *data)
 
 void	pipex_no_pipe(t_data *data, t_exec *exec)
 {
+	exec->fd_stdin = dup(STDOUT_FILENO);
+	exec->fd_stdout = dup(STDIN_FILENO);
 	if (ft_set_redir(data, data->parser, exec) == false)
-		return ;
+		return (ft_close(exec->fd_stdin, exec->fd_stdout, -1));
 	if (data->parser->cmd[0])
 	{
 		if (ft_strncmp(data->parser->cmd[0], "cd", 2) == 0)
@@ -50,21 +52,50 @@ void	pipex_no_pipe(t_data *data, t_exec *exec)
 	}
 }
 
+void	ft_exec(t_data *data, t_exec *exec)
+{
+	exec->pid = fork();
+	if (exec->pid == 0)
+	{
+		if (!data->parser->next)
+		{
+			pipex_no_pipe(data, exec);
+			ft_close_all(data, exec, IS_NOT_PIPE);
+		}
+		else
+		{
+			pipex(data, exec);
+			ft_close_all(data, exec, IS_PIPE);
+		}
+		ft_close(exec->fd_stdin, exec->fd_stdout, -1);
+		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+		ft_free_exit(data, 0, 0);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(exec->pid, &g_status, 0);
+	}
+}
+
 void	ft_mini_loop(t_data *data, t_exec *exec)
 {
 	if (data->input[0])
 		add_history(data->input);
 	if (lexer(data) == false)
 		return ;
+	// (void)exec;
+	// while (data->lexer)
+	// {
+	// 	printf("data->lexer = |%s|\n", data->lexer->word);
+	// 	data->lexer = data->lexer->next;
+	// }
 	if (!data->lexer)
 		return ;
 	ft_fusion(data);
 	if (ft_parser(data) == false)
 		return ;
-	if (!data->parser->next)
-		pipex_no_pipe(data, exec);
-	else
-		pipex(data, exec);
+	ft_exec(data, exec);
 }
 
 static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
@@ -104,7 +135,7 @@ int	main(int argc, char **argv, char **env)
 		data.input = readline(COLOR"Minishell > "RESET);
 		if (!data.input)
 		{
-			printf("Exit\n");
+			printf("exit\n");
 			ft_free_env(&data);
 			return (0);
 		}

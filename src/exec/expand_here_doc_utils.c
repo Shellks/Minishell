@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   expand_here_doc_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 22:05:11 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 16:43:44 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:02:27 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+char	*replace_false_heredoc_expand(t_data *data, char *str, int *j)
+{
+	char	*tmp1;
+	char	*tmp2;
+	int		i;
+
+	i = 0;
+	tmp1 = ft_strndup(str, *j);
+	if (!tmp1)
+		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+	if (str[*j + i] == '$')
+		i++;
+	while (str[*j + i] && ft_isalnum(str[*j + i]))
+		i++;
+	tmp2 = ft_strdup(&str[*j + i]);
+	if (!tmp2)
+		free_exit_env(data, tmp1, NULL, 1);
+	free(str);
+	str = ft_strjoin(tmp1, tmp2);
+	if (!str)
+		free_exit_env(data, tmp1, tmp2, 2);
+	free(tmp1);
+	free(tmp2);
+	return (str);
+}
 
 char	*expand_status_heredoc(t_data *data, char *str, int j, char *err_code)
 {

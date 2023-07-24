@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/24 11:31:26 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 19:28:14 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 //signal
 # include <signal.h>
 
-# define COLOR "\x1b[36;1m"
-# define RESET "\x1b[0m"
+# define COLOR "\001\x1b[36;1m\002"
+# define RESET "\001\x1b[0m\002"
 # define BUFFER_SIZE 10
 # define NONE 0
 # define REDIR 1
@@ -73,9 +73,10 @@ void	create_usr_env(t_data *data);
 void	create_shlvl(t_data *data);
 void	create_pwd(t_data *data);
 void	create_old_pwd(t_data *data);
+void	get_path(t_data *data);
 //builtin=====
 bool	ft_env(t_data *data);
-bool	ft_echo(t_parser *parser);
+int		ft_echo(t_parser *parser);
 int		ft_dup_fd(t_parser *parser);
 bool	ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
@@ -105,6 +106,7 @@ bool	check_backslah_quote(t_data *data, char *str, int *i);
 void	replace_false_expand_quote(t_data *data, t_lexer *end);
 void	get_next_expand(t_data *data, char *str, char *tmp2, int i);
 bool	check_space_env_content(t_data *data, t_env *env, t_lexer *src);
+void	child_heredoc_expand(t_data *data, t_redir *re, int pipe[2]);
 //parser fonction
 bool	ft_parser(t_data *data);
 void	ft_fusion(t_data *data);
@@ -122,6 +124,7 @@ char	*ft_get_cmd(t_data *data, t_parser *parse);
 void	ft_dup_manager(t_data *data, t_exec *exec);
 void	ft_dup(t_data *data, int fd1, int fd2);
 char	*expand_digit_heredoc(t_data *data, char *str, int j);
+char	*replace_false_heredoc_expand(t_data *data, char *str, int *j);
 char	*expand_status_heredoc(t_data *data, char *str, int j, char *err_code);
 void	get_here_doc_fd(t_data *data, t_redir *redir, int *fd);
 void	last_child(t_data *data, t_exec *exec, t_parser *parse);
@@ -148,5 +151,6 @@ void	ft_close_all(t_data *data, t_exec *exec, int sign);
 void	ft_print_export_error(char *word);
 void	ft_print_error(char *str1, char *str2, char *str3, char *str4);
 void	ft_print_fd(char *cmd, char *msg);
+void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab);
 
 #endif

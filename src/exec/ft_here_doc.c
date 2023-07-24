@@ -6,33 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 11:33:04 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 15:03:03 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static void	child_heredoc_expand(t_data *data, t_redir *re, int pipe[2])
-{
-	char	*str;
-
-	close(pipe[0]);
-	while (1)
-	{
-		str = readline("> ");
-		if (!str)
-			break ;
-		if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0)
-			break ;
-		str = expand_here_doc(data, str);
-		ft_putstr_fd(str, pipe[1]);
-		ft_putstr_fd("\n", pipe[1]);
-		free (str);
-	}
-	if (str)
-		free(str);
-	close(pipe[1]);
-}
 
 static void	child_heredoc(t_redir *re, int pipe[2])
 {
@@ -61,6 +39,7 @@ static void	child_hd_manager(t_data *data, t_redir *re, t_exec *ex, int pipe[2])
 	else
 		child_heredoc_expand(data, re, pipe);
 	ft_close(ex->fd_stdin, ex->fd_stdout, -1);
+	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 	ft_free_exit(data, 0, NULL);
 }
 
@@ -113,8 +92,6 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
 
 	signal(SIGINT, SIG_IGN);
 	heredoc_fd_manager(exec, START_CMD);
-	// dup2(exec->fd_stdin, STDIN_FILENO);
-	// dup2(exec->fd_stdout, STDOUT_FILENO);
 	if (exec->flag_in == 1)
 	{
 		exec->flag_in = -1;

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 08:13:38 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/23 20:20:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 14:52:38 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_print_export_error(char *word)
 {
 	printf("minishell: export: « %s »: invalid identifier\n", word);
 }
+
 void	ft_print_fd(char *cmd, char *msg)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);

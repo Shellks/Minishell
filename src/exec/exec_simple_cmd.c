@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/24 11:44:57 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 19:34:15 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@
 // 	}
 // }
 
+void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab)
+{
+	if (cmd)
+		free(cmd);
+	if (tab)
+		ft_free_split(tab);
+	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+	ft_exit_minishell(data, exec, IS_NOT_PIPE);
+}
+
 static void	child_without_pipe(t_data *data, t_exec *exec, t_parser *parse)
 {
 	char	**env_tab;
@@ -31,51 +41,41 @@ static void	child_without_pipe(t_data *data, t_exec *exec, t_parser *parse)
 
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, ft_ctrl_c_exec);
+	cmd = NULL;
+	env_tab = NULL;
 	ft_close(exec->fd_stdin, exec->fd_stdout, -1);
 	if (exec->flag_out != -1)
 		ft_dup(data, exec->outfile, STDOUT_FILENO);
 	if (parse->cmd[0] && is_builtin(data, parse))
 	{
-		ft_close_all(data, exec, IS_NOT_PIPE);
-		ft_free_exit(data, g_status, NULL);
+		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+		ft_exit_minishell(data, exec, IS_NOT_PIPE);
 	}
 	if (parse->cmd[0])
 	{
-			cmd = ft_get_cmd(data, parse);
-			env_tab = get_env_tab(data);
-			execve(cmd, parse->cmd, env_tab);
+		cmd = ft_get_cmd(data, parse);
+		env_tab = get_env_tab(data);
+		execve(cmd, parse->cmd, env_tab);
 	}
-	ft_close_all(data, exec, IS_NOT_PIPE);
-	ft_free_exit(data, ERR_EXEC, NULL);
-}
-
-static void	exec_cmd_without_pipe(t_data *data, t_exec *exec, t_parser *parse)
-{
-	exec->pid = fork();
-	if (exec->pid == -1)
-		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
-	if (exec->pid == 0)
-		child_without_pipe(data, exec, parse);
-	else
-	{
-		close(1);
-		if (dup2(0, 0) < 0)
-			close(0);
-		close(0);
-	}
+	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+	ft_exit_execve_fail(data, exec, cmd, env_tab);
 }
 
 void	exec_simple_cmd(t_data *data, t_exec *exec)
 {
 	t_parser	*parse;
 
-	exec->fd_stdin = dup(STDOUT_FILENO);
-	exec->fd_stdout = dup(STDIN_FILENO);
+	signal(SIGINT, SIG_IGN);
 	parse = data->parser;
 	if (data->parser->cmd[0])
 		ft_dup_manager(data, exec);
-	exec_cmd_without_pipe(data, exec, parse);
+	exec->pid = fork();
+	if (exec->pid == -1)
+		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
+	if (exec->pid == 0)
+		child_without_pipe(data, exec, parse);
 	waitpid(exec->pid, &g_status, 0);
 	ft_std_manager(data, exec->fd_stdin, exec->fd_stdout);
 	ft_close_all(data, exec, IS_NOT_PIPE);
+	ft_close(exec->fd_stdin, exec->fd_stdout, -1);
 }

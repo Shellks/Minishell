@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:19:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 11:15:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 15:04:11 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	create_expand(t_data *data, t_env *env, char *str, t_lexer *src)
 			tmp2 = ft_strdup(tmp1);
 		else
 			tmp2 = ft_strjoin(tmp1, env->content);
-		
 		if (!tmp2)
 			free_exit_env(data, tmp1, NULL, 1);
 		free(tmp1);

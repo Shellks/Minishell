@@ -6,15 +6,15 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 08:20:02 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/22 08:20:48 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 14:39:28 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	export_is_exist(t_data *data, t_parser *parser, t_env * env, int end)
+static void	export_is_exist(t_data *data, t_parser *parser, t_env *env, int end)
 {
-	int		i;
+	int	i;
 
 	i = data->count;
 	free(env->content);

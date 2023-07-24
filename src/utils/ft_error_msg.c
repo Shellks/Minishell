@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error_msg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:12:46 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/21 13:15:02 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:56:10 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	ft_free_split(char	**tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+}
 
 void	ft_print_error(char *str1, char *str2, char *str3, char *str4)
 {

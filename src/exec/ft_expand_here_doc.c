@@ -6,37 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:28:24 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 11:32:20 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 15:02:14 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static char	*replace_false_heredoc_expand(t_data *data, char *str, int *j)
-{
-	char	*tmp1;
-	char	*tmp2;
-	int		i;
-
-	i = 0;
-	tmp1 = ft_strndup(str, *j);
-	if (!tmp1)
-		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-	if (str[*j + i] == '$')
-		i++;
-	while (str[*j + i] && ft_isalnum(str[*j + i]))
-		i++;
-	tmp2 = ft_strdup(&str[*j + i]);
-	if (!tmp2)
-		free_exit_env(data, tmp1, NULL, 1);
-	free(str);
-	str = ft_strjoin(tmp1, tmp2);
-	if (!str)
-		free_exit_env(data, tmp1, tmp2, 2);
-	free(tmp1);
-	free(tmp2);
-	return (str);
-}
 
 static char	*create_expand_here_doc(t_data *data, t_env *env, char *str, int *j)
 {
@@ -132,4 +106,26 @@ char	*expand_here_doc(t_data *data, char *str)
 	}
 	free(err_code);
 	return (str);
+}
+
+void	child_heredoc_expand(t_data *data, t_redir *re, int pipe[2])
+{
+	char	*str;
+
+	close(pipe[0]);
+	while (1)
+	{
+		str = readline("> ");
+		if (!str)
+			break ;
+		if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0)
+			break ;
+		str = expand_here_doc(data, str);
+		ft_putstr_fd(str, pipe[1]);
+		ft_putstr_fd("\n", pipe[1]);
+		free (str);
+	}
+	if (str)
+		free(str);
+	close(pipe[1]);
 }

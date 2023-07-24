@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 13:32:06 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 14:38:17 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static char	**bubble_sort_tab(char **tab, int len)
 		{
 			if (ft_strcmp(tab[j], tab[j + 1]) > 0)
 			{
-					tmp = tab[j];
-					tab[j] = tab[j + 1];
-					tab[j + 1] = tmp;
+				tmp = tab[j];
+				tab[j] = tab[j + 1];
+				tab[j + 1] = tmp;
 			}
 			j++;
 		}
@@ -121,7 +121,7 @@ void	ft_export_no_args(t_data *data)
 			if (tab[i + 1])
 				continue ;
 			else
-				break ; 
+				break ;
 		}
 		printf("declare -x %s\n", tab[i]);
 	}
