@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 13:42:40 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 18:07:25 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/22 07:54:22 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,31 @@ static	void	get_path(t_data *data)
 	}
 }
 
+static t_env	*env_content_exist(t_data *data, char *env, int i, char *name)
+{
+	t_env	*new;
+	char	*content;
+	int		len;
+
+
+	i++;
+	len = i;
+	while (env[i])
+		i++;
+	content = ft_strndup(&env[len], (i - len));
+	if (!content)
+		free_exit_env(data, name, NULL, 1);
+	new = ft_env_new(name, content, EQUALS);
+	if (!new)
+		free_exit_env(data, name, content, 2);
+	return (new);
+}
+
 static t_env	*get_env(t_data *data, char *env)
 {
 	t_env	*new;
 	char	*name;
-	char	*content;
 	int		len;
-	int		i;
 
 	len = 0;
 	while (env[len] && env[len] != '=')
@@ -45,8 +63,6 @@ static t_env	*get_env(t_data *data, char *env)
 	name = ft_strndup(env, len);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-	len++;
-	i = len;
 	if (!env[len])
 	{
 		new = ft_env_new(name, NULL, NOT_EQUALS);
@@ -54,16 +70,7 @@ static t_env	*get_env(t_data *data, char *env)
 			free_exit_env(data, name, NULL, 1);
 	}
 	else
-	{
-		while (env[len])
-			len++;
-		content = ft_strndup(&env[i], (len - i));
-		if (!content)
-			free_exit_env(data, name, NULL, 1);
-		new = ft_env_new(name, content, EQUALS);
-		if (!new)
-			free_exit_env(data, name, content, 2);
-	}
+		new = env_content_exist(data, env, len, name);
 	return (new);
 }
 

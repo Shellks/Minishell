@@ -1,0 +1,56 @@
+cette commande nous fait sigpipe, cest une erreur de gestion de pipe mais ca ne le fait quavec les builtin et quand le buioltin est au milieu dautre pipe ?
+< Makefile < read_me cat > end > ok | < Makefile pwd | < Makefile ls
+
+bon ya l'air d'avoir des problemes de redir genre ca :
+< Makefile < read_me cat > end > ok | < Makefile pwd > ok | < Makefile ls
+je crois que ca marche tres mal et cest ptete lié au probleme au dessus
+
+peut_etre un leaks quand on rappelle minishell alors quil etait demarrer sans env,
+le probleme serait le malloc du shlvl qui pourrait faire un invalid free dans ce cas precis
+a verifer !
+
+checker les leaks/norme (normalement tout est deja ok jusqua parser) et les close
+
+probleme dans le parsing quand $ + caractere d'echappement on parse pas correctement;
+probleme dans le parsing quand $ isolée mais pas seul dans linput on le parse mais bash non
+
+implementer les signaux; OK !?
+checker tout les messages d'erreur (qu'il soit conforme a bash) OK !?
+probleme avec here doc appellée dans un pipe pas en premier commande il lit le pipe OK !?
+---------------------------------------------------------------------------------------------------
+
+le code de retour 126 indique spécifiquement que la commande a été trouvée, mais n'a pas pu être exécutée.
+le code de retour 126 est une convention couramment utilisée pour représenter l'échec de l'exécution d'une commande.
+
+le code de retour 127 indique spécifiquement que la commande exécutable spécifiée n'a pas été trouvée dans le système. 
+le code de retour 127 est une convention couramment utilisée pour représenter l'absence de la commande spécifiée lors de l'exécution.
+
+
+on a un leaks dans ft_expand_space de 1bytes quand un malloc(qui ne petera jamais) pete,
+je sais comment le regler mais en vrai cest mega chiant a faire faut qu'on voie si on le laisse ou
+pas, il est vraiment perdu de ouf pour le trouver cest juste de la chatte
+
+ft_expand_space : les deux malloc(la lst et la str) cest
+la str tmp1 dans create expand qui est pas free mais voila le bordel pour la free faut restructurer toute la fonction
+et j'ai galeré de ouf a faire un truc normé et qui marche mdr
+
+still reachable: 1 bytes in 1 blocks
+
+---------------------------------------------
+
+Je viens de voir ca sur la page du projet :
+
+Ne pas interpréter de quotes (guillemets) non fermés ou de 
+caractères spéciaux non demandés dans le sujet, 
+tels que \ (le backslash) ou ; (le point-virgule).
+
+le probleme cest que j'ai implanté la gestion du \ (le backslash) et
+ca marche vraiment niquel, a voir si il faut que je l'enleve
+ou si on peut le laisser, cest quand meme stylé ce que ça gere^^
+
+---------------------------------------------
+
+on gere ou pas ? le cas des variables (ajouter une verif qui donne un bool is_readonly ou pas)
+en lecture seul(readonly) dans le parsing de env, a voir
+car par exemple export et unset ne doivent pas marcher quand cest appelé sur une var en readonly
+mais yen a le bash marche quand meme cest bizarre

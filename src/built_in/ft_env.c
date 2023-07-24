@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:42:09 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/20 18:14:41 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:00:51 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ bool	ft_env(t_data *data)
 {
 	t_env	*tmp;
 
-	tmp = NULL;
-	tmp = data->env;
+	tmp = ft_env_first(data->env);
 	while (tmp)
 	{
 		if (tmp->equals != NOT_EQUALS)

@@ -6,7 +6,7 @@
 #    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/24 11:22:15 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/24 11:44:00 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,20 +40,23 @@ SRCS =	src/minishell.c						\
 		src/built_in/ft_unset.c				\
 		src/built_in/ft_export.c			\
 		src/built_in/ft_export_utils.c		\
+		src/built_in/ft_export_exist.c		\
 		src/built_in/ft_cd.c				\
+		src/built_in/ft_pwd.c				\
 		src/exec/ft_redirection.c			\
 		src/exec/ft_here_doc.c				\
-		src/exec/child_process.c			\
 		src/exec/pipex_utils.c				\
-		src/exec/pipex_utils_bis.c			\
 		src/exec/pipex.c					\
 		src/exec/ft_get_fd_heredoc.c		\
 		src/signal/ft_ctrl_c.c				\
 		src/exec/exec_simple_cmd.c			\
+		src/utils/ft_print.c				\
 		src/utils/ft_free.c					\
 		src/utils/get_next_line.c			\
 		src/utils/ft_close.c				\
 		src/utils/ft_error_msg.c			\
+		src/utils/ft_get_env_tab.c			\
+		src/utils/ft_dup.c					\
 		list/parser/ft_parser_add_back.c	\
 		list/parser/ft_parser_clear.c		\
 		list/parser/ft_parser_delone.c		\

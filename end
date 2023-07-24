@@ -1,0 +1,13 @@
+		src/env/get_pwd.c					\
+		src/env/get_env.c					\
+		src/env/create_new_env.c			\
+		src/built_in/ft_env.c				\
+		src/utils/ft_get_env_tab.c			\
+		list/env/ft_env_add_back.c			\
+		list/env/ft_env_add_front.c			\
+		list/env/ft_env_clear.c				\
+		list/env/ft_env_delone.c			\
+		list/env/ft_env_first.c				\
+		list/env/ft_env_last.c				\
+		list/env/ft_env_new.c				\
+		list/env/ft_env_size.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 18:22:18 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:00:11 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,88 +14,119 @@
 
 static char	**bubble_sort_tab(char **tab, int len)
 {
-	char	*to_sort;
 	char	*tmp;
 	int		i;
+	int		j;
 
 	i = 0;
-	to_sort = tab[i];
 	while (tab[i] && i < len)
 	{
-		to_sort = tab[i];
-		if (ft_strcmp(tab[i], to_sort) > 0)
+		j = 0;
+		while (j < len - i - 1)
 		{
-			tmp = tab[i];
-			tab[i] = to_sort;
-			to_sort = tmp;
+			if (ft_strcmp(tab[j], tab[j + 1]) > 0)
+			{
+					tmp = tab[j];
+					tab[j] = tab[j + 1];
+					tab[j + 1] = tmp;
+			}
+			j++;
 		}
 		i++;
 	}
 	return (tab);
 }
 
-char	**get_env_tab(t_data *data, t_env *env)
+static char	*get_content_tab(t_data *data, t_env *env, char	*str)
+{
+	char	*tmp;
+
+	tmp = str;
+	str = ft_strjoin(tmp, "\"");
+	if (!str)
+		free_exit_env(data, tmp, NULL, 1);
+	free (tmp);
+	tmp = str;
+	if (env->content != NULL)
+	{
+		str = ft_strjoin(tmp, env->content);
+		if (!str)
+			free_exit_env(data, tmp, NULL, 1);
+		free (tmp);
+		tmp = str;
+	}
+	str = ft_strjoin(tmp, "\"");
+	if (!str)
+		free_exit_env(data, tmp, NULL, 1);
+	free (tmp);
+	return (str);
+}
+
+static char	*get_string_tab_export(t_data *data, t_env *env)
 {
 	char	*str;
+
+	if (env->equals == EQUALS)
+	{
+		str = ft_strjoin(env->name, "=");
+		if (!str)
+			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+		str = get_content_tab(data, env, str);
+	}
+	else
+	{
+		str = ft_strdup(env->name);
+		if (!str)
+			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+	}
+	return (str);
+}
+
+char	**get_env_tab_sort(t_data *data)
+{
+	t_env	*tmp_env;
 	char	**tab;
 	int		len;
 
-	len = ft_env_size(env);
+	tmp_env = data->env;
+	len = ft_env_size(tmp_env);
 	tab = (char **)ft_calloc(sizeof(char *), len + 1);
 	if (!tab)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	len = 0;
-	while (env)
+	while (tmp_env)
 	{
-		if (env->equals == EQUALS)
-		{
-			str = ft_strjoin(env->name, "=");
-			if (!str)
-				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-			tab[len] = ft_strjoin(str, env->content);
-			if (!tab[len])
-				free_exit_env(data, str, NULL, 1);
-			free (str);
-		}
-		else
-		{
-			tab[len] = ft_strdup(env->name);
-			if (!tab[len])
-				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-		}
-		env = env->next;
+		tab[len] = get_string_tab_export(data, tmp_env);
+		tmp_env = tmp_env->next;
 		len++;
 	}
+	len = 0;
+	while (tab[len])
+		len++;
+	tab = bubble_sort_tab(tab, len);
 	return (tab);
 }
 
-void	ft_export_no_args(t_data *data, t_env *env)
+void	ft_export_no_args(t_data *data)
 {
-	char	**env_tab;
-	t_env	*tmp_env;
+	char	**tab;
 	int		i;
-	int		len;
 
-	tmp_env = env;
-	env_tab = get_env_tab(data, tmp_env);
-	len = 0;
-	while (env_tab[len])
-		len++;
-	env_tab = bubble_sort_tab(env_tab, len);
-	i = 0;
-	while (env_tab[i])
+	tab = get_env_tab_sort(data);
+	i = -1;
+	while (tab[++i])
 	{
-		if (ft_strlen(env_tab[i]) == 1 && env_tab[i][0] == '_')
+		if (tab[i][0] == '_' && (tab[i][1] == '=' || !tab[i][1]))
 		{
-			if (env_tab[i + 1])
+			if (tab[i + 1])
 			{
 				i++;
 				continue ;
 			}
 			else
-				break ;
+				break ; 
 		}
-		printf("declare -x %s\n", env_tab[i]);
-		i++;
+		printf("declare -x %s\n", tab[i]);
 	}
+	ft_free_split(tab);
 }

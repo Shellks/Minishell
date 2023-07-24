@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_here_doc.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:28:24 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/23 15:04:02 by nicolasbern      ###   ########.fr       */
+/*   Updated: 2023/07/24 11:32:20 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,6 @@ char	*expand_here_doc(t_data *data, char *str)
 		else
 			str = get_expand_here_doc(data, str, &str[j + 1], &j);
 	}
+	free(err_code);
 	return (str);
 }

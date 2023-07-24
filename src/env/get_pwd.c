@@ -6,48 +6,58 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:05:05 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 11:23:19 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 11:42:39 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	set_new_env(t_data *data, int flag)
+static void	set_new_env(t_data *data, int flag_pwd, int flag_shlvl, int flag_usr)
 {
-	if (flag == 0)
+	if (flag_shlvl == 0)
+		create_shlvl(data);
+	if (flag_pwd == 0)
 	{
 		create_old_pwd(data);
 		create_pwd(data);
 	}
-	if (flag == 1)
+	if (flag_pwd == 1)
 		create_old_pwd(data);
-	if (flag == 2)
+	if (flag_pwd == 2)
 		create_pwd(data);
-	create_shlvl(data);
-	create_usr_env(data);
+	if (flag_usr == 0)
+		create_usr_env(data);
 }
 
 void	get_pwd(t_data *data)
 {
 	t_env	*tmp;
-	int		flag;
+	int		flag_pwd;
+	int		flag_shlvl;
+	int		flag_usr;
 
-	flag = 0;
+	flag_pwd = 0;
+	flag_shlvl = 0;
+	flag_usr = 0;
 	tmp = data->env;
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->name, "PWD", 3) == 0)
 		{
-			flag += 1;
+			flag_pwd += 1;
 			data->pwd = tmp;
 		}
 		if (ft_strncmp(tmp->name, "OLDPWD", 6) == 0)
 		{
-			flag += 2;
+			flag_pwd += 2;
 			data->old_pwd = tmp;
 		}
+		if (ft_strncmp(tmp->name, "SHLVL", 5) == 0)
+			flag_shlvl += 1;
+		if (ft_strncmp(tmp->name, "_", 5) == 0)
+			flag_usr += 1;
 		tmp = tmp->next;
 	}
-	if (flag != 3)
-		set_new_env(data, flag);
+	if (flag_pwd != 3 || flag_shlvl != 1 || flag_usr != 1)
+		set_new_env(data, flag_pwd, flag_shlvl, flag_usr);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/21 13:35:01 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:33:04 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static void	child_heredoc_expand(t_data *data, t_redir *re, int pipe[2])
 	close(pipe[1]);
 }
 
-static void	child_heredoc(t_redir *re, int pipe_connect[2])
+static void	child_heredoc(t_redir *re, int pipe[2])
 {
 	char	*str;
 
-	close(pipe_connect[0]);
+	close(pipe[0]);
 	while (1)
 	{
 		str = readline("> ");
@@ -50,7 +50,18 @@ static void	child_heredoc(t_redir *re, int pipe_connect[2])
 	}
 	if (str)
 		free(str);
-	close(pipe_connect[1]);
+	close(pipe[1]);
+}
+
+static void	child_hd_manager(t_data *data, t_redir *re, t_exec *ex, int pipe[2])
+{
+	signal(SIGINT, ft_ctrl_c_heredoc);
+	if (re->quote != NONE)
+		child_heredoc(re, pipe);
+	else
+		child_heredoc_expand(data, re, pipe);
+	ft_close(ex->fd_stdin, ex->fd_stdout, -1);
+	ft_free_exit(data, 0, NULL);
 }
 
 static void	parent_heredoc(t_redir *re, int pipe_connect[2], int fd)
@@ -74,18 +85,24 @@ static void	parent_heredoc(t_redir *re, int pipe_connect[2], int fd)
 	close(pipe_connect[0]);
 }
 
-void	get_child_hered(t_data *data, t_redir *redir, t_exec *exec, int *pipe)
+void	heredoc_fd_manager(t_exec *exec, int sign)
 {
-	if (exec->pid == 0)
+	int	tmp_stdin;
+	int	tmp_stdout;
+
+	tmp_stdin = -1;
+	tmp_stdout = -1;
+	if (sign == START_CMD)
 	{
-		signal(SIGINT, ft_ctrl_c_heredoc);
-		if (redir->quote != NONE)
-			child_heredoc(redir, pipe);
-		else
-			child_heredoc_expand(data, redir, pipe);
-		close(exec->fd_stdin);
-		close(exec->fd_stdout);
-		ft_free_exit(data, 0, NULL);
+		tmp_stdin = STDIN_FILENO;
+		tmp_stdout = STDOUT_FILENO;
+		dup2(exec->fd_stdin, STDIN_FILENO);
+		dup2(exec->fd_stdout, STDOUT_FILENO);
+	}
+	else if (sign == END_CMD)
+	{
+		dup2(tmp_stdin, STDIN_FILENO);
+		dup2(tmp_stdout, STDOUT_FILENO);
 	}
 }
 
@@ -95,6 +112,9 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
 	int	fd;
 
 	signal(SIGINT, SIG_IGN);
+	heredoc_fd_manager(exec, START_CMD);
+	// dup2(exec->fd_stdin, STDIN_FILENO);
+	// dup2(exec->fd_stdout, STDOUT_FILENO);
 	if (exec->flag_in == 1)
 	{
 		exec->flag_in = -1;
@@ -105,9 +125,11 @@ void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec)
 	exec->pid = fork();
 	if (exec->pid == -1)
 		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");
-	get_child_hered(data, redir, exec, pipe_connect);
+	if (exec->pid == 0)
+		child_hd_manager(data, redir, exec, pipe_connect);
 	get_here_doc_fd(data, redir, &fd);
 	parent_heredoc(redir, pipe_connect, fd);
 	waitpid(exec->pid, &g_status, 0);
 	exec->flag_in = 2;
+	heredoc_fd_manager(exec, END_CMD);
 }
