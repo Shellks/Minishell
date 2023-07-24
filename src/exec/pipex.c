@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/23 20:22:46 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 10:16:56 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	pipex(t_data *data, t_exec *exec)
 		{
 			parse = parse->next;
 			if (!parse)
-				return ;
+				break ;
 		}
 		else
 			ft_dup_manager(data, exec);
