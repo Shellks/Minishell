@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:02:38 by nibernar          #+#    #+#             */
-/*   Updated: 2022/11/23 10:02:08 by nibernar         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 17:19:48 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,9 @@
 int	ft_isalnum(int c)
 {
 	return ((ft_isalpha(c)) || (ft_isdigit(c)));
+}
+
+int	ft_isalnum_modif(int c)
+{
+	return ((ft_isalpha(c)) || (ft_isdigit(c)) || (c == '?'));
 }

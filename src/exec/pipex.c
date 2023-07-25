@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 00:48:47 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 14:38:09 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	pipex(t_data *data, t_exec *exec)
 		parent_process(data, exec, parse);
 		parse = parse->next;
 	}
+	waitpid(exec->pid, &g_status, 0);
 	ft_std_manager(data, exec->fd_stdin, exec->fd_stdout);
 	ft_close_all(data, exec, IS_PIPE);
 }

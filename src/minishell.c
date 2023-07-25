@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/25 01:13:30 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 19:05:32 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,28 @@ t_data	*ft_get_data(t_data *data)
 	return (data_ptr);
 }
 
-// void	pipex_no_pipe(t_data *data, t_exec *exec)
-// {
-// 	exec->fd_stdin = dup(STDOUT_FILENO);
-// 	exec->fd_stdout = dup(STDIN_FILENO);
-// 	if (ft_set_redir(data, data->parser, exec) == false)
-// 		return (ft_close(exec->fd_stdin, exec->fd_stdout, -1));
-// 	exec_simple_cmd(data, exec);
-// }
-//}
-
 bool	check_is_builtin(t_parser *parse)
 {
 	if (!ft_strncmp(parse->cmd[0], "pwd", 3))
-		return(true);
+		return (true);
 	else if (!ft_strncmp(parse->cmd[0], "unset", 5))
-		return(true);
+		return (true);
 	else if (!ft_strncmp(parse->cmd[0], "export", 6))
-		return(true);
+		return (true);
 	else if (!ft_strncmp(parse->cmd[0], "exit", 4))
-		return(true);
+		return (true);
 	else if (!ft_strncmp(parse->cmd[0], "env", 3))
-		return(true);
+		return (true);
 	else if (!ft_strncmp(parse->cmd[0], "echo", 4))
-		return(true);
+		return (true);
 	else if (!ft_strncmp(parse->cmd[0], "cd", 2))
-		return(true);
-	return(false);
+		return (true);
+	return (false);
 }
 
 void	ft_exec(t_data *data, t_exec *exec)
 {
-	t_parser *parse;
+	t_parser	*parse;
 
 	parse = data->parser;
 	if (!parse->next && parse->cmd[0] && check_is_builtin(parse))
@@ -70,7 +60,7 @@ void	ft_exec(t_data *data, t_exec *exec)
 			ft_dup(data, exec->fd_stdin, STDIN_FILENO);
 		if (exec->flag_out == 1)
 			ft_dup(data, exec->fd_stdout, STDOUT_FILENO);
-		return(ft_close_all(data, exec, IS_NOT_PIPE));
+		return (ft_close_all(data, exec, IS_NOT_PIPE));
 	}
 	exec->pid = fork();
 	if (exec->pid == -1)
@@ -97,12 +87,6 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
 		add_history(data->input);
 	if (lexer(data) == false)
 		return ;
-	// (void)exec;
-	// while (data->lexer)
-	// {
-	// 	printf("data->lexer = |%s|\n", data->lexer->word);
-	// 	data->lexer = data->lexer->next;
-	// }
 	if (!data->lexer)
 		return ;
 	ft_fusion(data);

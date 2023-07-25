@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:09:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 18:29:42 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:49:38 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,19 @@ int	check_quote(t_data *data, int i)
 {
 	char	quote;
 	int		j;
+	int		check_quote;
 
+	check_quote = 0;
 	quote = data->input[i];
 	j = (i + 1);
 	i++;
 	while (data->input[i] && data->input[i] != quote)
-	{
 		i++;
-	}
 	if (data->input[i] == quote && quote == 34)
 	{
-		expand_in_quote(data, &data->input[j], (i - j));
+		check_quote = expand_in_quote(data, &data->input[j], (i - j));
+		if (check_quote == 0)
+			get_string_quote(data, (j - 1), (i - j), quote);
 		return (i + 1);
 	}
 	else if (data->input[i] == quote && quote == 39)
