@@ -6,11 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/25 23:39:15 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 00:45:12 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
- #include "../../include/minishell.h"
+//#include "../../include/minishell.h"
 
 // // static void	cmd_is_builtin(t_data *data, t_exec *exec, t_parser *parse)
 // // {
@@ -23,7 +23,6 @@
 // // 		ft_free_exit(data, g_status, NULL);
 // // 	}
 // // }
-
 
 
 // static void	child_without_pipe(t_data *data, t_exec *exec, t_parser *parse)

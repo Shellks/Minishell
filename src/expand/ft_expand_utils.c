@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:07:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 14:42:39 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:43:13 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,12 @@ int	get_word(t_data *data, char *str, int start, int stop)
 	tmp = NULL;
 	i++;
 	while (str[i] && str[i] != '=' && str[i] != '$' && str[i] != ' ' \
-			&& str[i] != 28 && i < stop)
+			&& str[i] != 28 && i < stop && ft_isalnum_modif(str[i]))
+	{
+		if ((i - 1) != start && str[i] == '?')
+			break ;
 		i++;
+	}
 	i -= start;
 	tmp = ft_strndup(&str[start], i);
 	if (!tmp)

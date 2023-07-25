@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lalex-ku <lalex-ku@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:02:38 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/25 17:19:48 by nibernar         ###   ########.fr       */
+/*   Created: 2022/06/22 17:32:45 by lalex-ku          #+#    #+#             */
+/*   Updated: 2022/06/22 17:32:50 by lalex-ku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 
-int	ft_isalnum(int c)
+int	main(int argc, char const *argv[])
 {
-	return ((ft_isalpha(c)) || (ft_isdigit(c)));
-}
+	int	pid;
 
-int	ft_isalnum_modif(int c)
-{
-	return ((ft_isalpha(c)) || (ft_isdigit(c)) || (c == '?'));
+	pid = fork();
+	open("infile", O_RDONLY);
+	while (1)
+	{
+		printf("Helloo miniHELL %i\n", pid);
+		sleep(1);
+	}
+	return (0);
 }

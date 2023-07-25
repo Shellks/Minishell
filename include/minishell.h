@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/25 16:00:26 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 00:45:09 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_data
 	char		**path;
 	char		*cmd_path;
 	char		*input;
+	char		*temp;
 	int			flag;
 	int			quote_error;
 	int			count;
@@ -78,7 +79,7 @@ void	get_path(t_data *data);
 bool	ft_env(t_data *data);
 int		ft_echo(t_parser *parser);
 int		ft_dup_fd(t_parser *parser);
-bool	ft_cd(t_data *data, char **tab);
+int		ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
 void	ft_pwd(t_data *data);
@@ -156,6 +157,7 @@ void	ft_print_exit_error(char *cmd);
 void	ft_print_export_error(char *word);
 void	ft_print_error(char *str1, char *str2, char *str3, char *str4);
 void	ft_print_fd(char *cmd, char *msg);
+void	ft_print_fds(char *cmd, char *msg);
 void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab);
 
 #endif

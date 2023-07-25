@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_quote_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 11:12:18 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 17:47:05 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,12 @@ int	get_word_in_quote(t_data *data, char *str, int start, int stop)
 	if (check_backslah_quote(data, str, &i) == true)
 		return (i);
 	while (str[i] && str[i] != '=' && str[i] != '$' && str[i] != ' ' \
-	&& str[i] != 28 && str[i] != '\\' && i < stop)
+	&& str[i] != 28 && str[i] != '\\' && i < stop && ft_isalnum_modif(str[i]))
+	{
+		if ((i - 1) != start && str[i] == '?')
+			break ;
 		i++;
+	}
 	i -= start;
 	tmp = ft_strndup(&str[start], i);
 	if (!tmp)

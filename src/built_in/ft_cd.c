@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:38:10 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/25 18:44:49 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 00:45:13 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static bool	cd_and_actualise_env(t_data *data, char *target)
 	return (true);
 }
 
-bool	ft_cd(t_data *data, char **tab)
+int	ft_cd(t_data *data, char **tab)
 {
 	char	*target;
 
@@ -89,7 +89,7 @@ bool	ft_cd(t_data *data, char **tab)
 	if (ft_strlen_tab(tab) > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
-		return (true);
+		return (1);
 	}
 	else if (ft_strlen_tab(tab) == 1 || ft_strcmp(tab[1], "~") == 0)
 		target = get_target_env(data->env, "HOME");
@@ -102,8 +102,8 @@ bool	ft_cd(t_data *data, char **tab)
 	if (cd_and_actualise_env(data, target) == false)
 	{
 		free(target);
-		return (true);
+		return (1);
 	}
 	free(target);
-	return (false);
+	return (0);
 }
