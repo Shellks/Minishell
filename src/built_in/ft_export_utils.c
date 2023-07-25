@@ -6,124 +6,90 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 14:38:17 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 15:16:41 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char	**bubble_sort_tab(char **tab, int len)
+static void	export_is_exist(t_data *data, char *parse, t_env *env, int end)
 {
-	char	*tmp;
-	int		i;
-	int		j;
+	int	i;
 
-	i = 0;
-	while (tab[i] && i < len)
+	i = data->count;
+	free(env->content);
+	if (parse[i] == '=')
 	{
-		j = 0;
-		while (j < len - i - 1)
+		if (env->equals == NOT_EQUALS)
+			env->equals = EQUALS;
+		if (parse[i + 1])
 		{
-			if (ft_strcmp(tab[j], tab[j + 1]) > 0)
-			{
-				tmp = tab[j];
-				tab[j] = tab[j + 1];
-				tab[j + 1] = tmp;
-			}
-			j++;
+			env->content = ft_strndup(&parse[i + 1], (end - i));
+			if (!env->content)
+				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 		}
-		i++;
-	}
-	return (tab);
-}
-
-static char	*get_content_tab(t_data *data, t_env *env, char	*str)
-{
-	char	*tmp;
-
-	tmp = str;
-	str = ft_strjoin(tmp, "\"");
-	if (!str)
-		free_exit_env(data, tmp, NULL, 1);
-	free (tmp);
-	tmp = str;
-	if (env->content != NULL)
-	{
-		str = ft_strjoin(tmp, env->content);
-		if (!str)
-			free_exit_env(data, tmp, NULL, 1);
-		free (tmp);
-		tmp = str;
-	}
-	str = ft_strjoin(tmp, "\"");
-	if (!str)
-		free_exit_env(data, tmp, NULL, 1);
-	free (tmp);
-	return (str);
-}
-
-static char	*get_string_tab_export(t_data *data, t_env *env)
-{
-	char	*str;
-
-	if (env->equals == EQUALS)
-	{
-		str = ft_strjoin(env->name, "=");
-		if (!str)
-			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-		str = get_content_tab(data, env, str);
+		else
+			env->content = NULL;
 	}
 	else
 	{
-		str = ft_strdup(env->name);
-		if (!str)
-			ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+		if (env->equals == EQUALS)
+			env->equals = NOT_EQUALS;
+		env->content = NULL;
 	}
-	return (str);
 }
 
-char	**get_env_tab_sort(t_data *data)
+bool	ft_check_export_exist(t_data *data, char *parse, int end)
 {
-	t_env	*tmp_env;
-	char	**tab;
-	int		len;
-
-	tmp_env = data->env;
-	len = ft_env_size(tmp_env);
-	tab = (char **)ft_calloc(sizeof(char *), len + 1);
-	if (!tab)
-		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-	len = 0;
-	while (tmp_env)
-	{
-		tab[len] = get_string_tab_export(data, tmp_env);
-		tmp_env = tmp_env->next;
-		len++;
-	}
-	len = 0;
-	while (tab[len])
-		len++;
-	tab = bubble_sort_tab(tab, len);
-	return (tab);
-}
-
-void	ft_export_no_args(t_data *data)
-{
-	char	**tab;
+	t_env	*env;
 	int		i;
 
-	tab = get_env_tab_sort(data);
-	i = -1;
-	while (tab[++i])
+	(void)end;
+	env = data->env;
+	i = data->count;
+	while (env)
 	{
-		if (tab[i][0] == '_' && (tab[i][1] == '=' || !tab[i][1]))
+		if (ft_strncmp(env->name, parse, ft_strlen(env->name)) == 0 && \
+		(int)ft_strlen(env->name) == data->count)
 		{
-			if (tab[i + 1])
-				continue ;
-			else
-				break ;
+			export_is_exist(data, parse, env, end);
+			return (true);
 		}
-		printf("declare -x %s\n", tab[i]);
+		env = env->next;
 	}
-	ft_free_split(tab);
+	return (false);
+}
+
+bool	is_valid_char(char *name)
+{
+	int	i;
+
+	i = -1;
+	while (name[++i])
+	{
+		if (i == 0)
+		{
+			if (name[0] == '=')
+				return (false);
+			if (name[0] >= 48 && name[0] <= 57)
+				return (false);
+		}
+		if (name[i] == '_')
+			continue ;
+		if (name[i] < 48 || (name[i] > 57 && name[i] < 65))
+			return (false);
+		if ((name[i] > 90 && name[i] < 97) || name[i] > 122)
+			return (false);
+	}
+	return (true);
+}
+
+t_env	*create_empty_env(t_data *data, char *name)
+{
+	t_env	*new;
+
+	new = ft_env_new(name, NULL, EQUALS);
+	if (!new)
+		free_exit_env(data, name, NULL, 1);
+	return (new);
 }

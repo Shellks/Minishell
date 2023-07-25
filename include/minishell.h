@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/24 19:28:14 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 16:00:26 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,14 @@ void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
 void	ft_pwd(t_data *data);
 void	ft_exit(t_data *data);
-bool	ft_unset(t_data *data, t_parser *parser);
-void	ft_export_no_args(t_data *data);
-bool	ft_export(t_data *data, t_parser *parser);
-bool	ft_check_export_exist(t_data *data, t_parser *parser, int end);
+void	ft_unset(t_data *data, t_parser *parser);
+//builtin_export
+bool	is_valid_char(char *name);
+void	ft_print_export_sort(t_data *data);
+void	ft_export(t_data *data, t_parser *parser);
+t_env	*create_empty_env(t_data *data, char *name);
+bool	ft_check_export_exist(t_data *data, char *parse, int end);
+bool	export_join_content(t_data *data, char *parse, int end);
 //lexer fonction
 bool	lexer(t_data *data);
 bool	find_dollar(char *str);
@@ -148,6 +152,7 @@ char	*get_next_line(int fd);
 void	ft_close(int fd1, int fd2, int fd3);
 void	ft_close_all(t_data *data, t_exec *exec, int sign);
 //fonction temporaire
+void	ft_print_exit_error(char *cmd);
 void	ft_print_export_error(char *word);
 void	ft_print_error(char *str1, char *str2, char *str3, char *str4);
 void	ft_print_fd(char *cmd, char *msg);

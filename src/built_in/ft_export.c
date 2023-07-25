@@ -6,58 +6,26 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 14:41:04 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 15:04:21 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static bool	is_valid_char(t_parser *parser, char *name)
-{
-	int	i;
-
-	i = -1;
-	while (name[++i])
-	{
-		if (i == 0)
-		{
-			if (name[0] >= 48 && name[0] <= 57)
-				return (ft_print_export_error(parser->cmd[1]), false);
-		}
-		if (name[i] == '_')
-			continue ;
-		if (name[i] < 48 || (name[i] > 57 && name[i] < 65))
-			return (false);
-		if ((name[i] > 90 && name[i] < 97) || name[i] > 122)
-			return (false);
-	}
-	return (true);
-}
-
-static t_env	*create_empty_env(t_data *data, char *name)
-{
-	t_env	*new;
-
-	new = ft_env_new(name, NULL, EQUALS);
-	if (!new)
-		free_exit_env(data, name, NULL, 1);
-	return (new);
-}
-
-static bool	create_new_env(t_data *data, t_parser *parser, int end, int i)
+static bool	create_new_env(t_data *data, char *parse, int end, int i)
 {
 	t_env	*new;
 	char	*name;
 	char	*content;
 
-	name = ft_strndup(parser->cmd[1], i);
+	name = ft_strndup(parse, i);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-	if (is_valid_char(parser, name) == false)
-		return (ft_print_export_error(parser->cmd[1]), free(name), false);
-	if (parser->cmd[1][i + 1])
+	if (is_valid_char(name) == false)
+		return (ft_print_export_error(parse), free(name), false);
+	if (parse[i + 1])
 	{
-		content = ft_strndup(&parser->cmd[1][i + 1], (end - i));
+		content = ft_strndup(&parse[i + 1], (end - i));
 		if (!content)
 			free_exit_env(data, name, NULL, 1);
 		new = ft_env_new(name, content, EQUALS);
@@ -70,23 +38,23 @@ static bool	create_new_env(t_data *data, t_parser *parser, int end, int i)
 	return (true);
 }
 
-static bool	create_env_no_equals(t_data *data, t_parser *parser)
+static bool	create_env_no_equals(t_data *data, char *parse)
 {
 	t_env	*new;
 	char	*name;
 
-	name = ft_strdup(parser->cmd[1]);
+	name = ft_strdup(parse);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 	if (name[0] >= 48 && name[0] <= 57)
 	{
 		free(name);
-		return (ft_print_export_error(parser->cmd[1]), false);
+		return (ft_print_export_error(parse), false);
 	}
-	if (is_valid_char(parser, name) == false)
+	if (is_valid_char(name) == false)
 	{
 		free(name);
-		return (ft_print_export_error(parser->cmd[1]), false);
+		return (ft_print_export_error(parse), false);
 	}
 	new = ft_env_new(name, NULL, NOT_EQUALS);
 	if (!new)
@@ -95,31 +63,56 @@ static bool	create_env_no_equals(t_data *data, t_parser *parser)
 	return (true);
 }
 
-bool	ft_export(t_data *data, t_parser *parser)
+void	ft_export_loop(t_data *data, char *parser, int end)
 {
-	t_parser	*tmp_parser;
-	int			end;
-
-	data->count = 0;
-	tmp_parser = parser;
-	if (!data->env)
-		return (false);
-	if (!tmp_parser->cmd[1])
-		return (ft_export_no_args(data), true);
-	end = (ft_strlen(tmp_parser->cmd[1]) - 1);
-	while (tmp_parser->cmd[1][data->count] && \
-	tmp_parser->cmd[1][data->count] != '=')
-		data->count++;
-	if (ft_check_export_exist(data, tmp_parser, end) == true)
-		return (true);
-	if (tmp_parser->cmd[1][data->count] != '=')
+	if (ft_check_export_exist(data, parser, end) == true)
+		return ;
+	if (parser[data->count] != '=')
 	{
-		if (create_env_no_equals(data, tmp_parser) == true)
-			return (true);
-		else
-			return (false);
+		if (create_env_no_equals(data, parser) == false)
+			g_status = 1;
+		return ;
 	}
-	if (create_new_env(data, tmp_parser, end, data->count) == false)
-		return (false);
-	return (true);
+	if (parser[data->count] == '=' && parser[data->count - 1] == '+')
+	{
+		if (parser[0] == '+' && parser[1] == '=')
+		{
+			ft_print_export_error(parser);
+			g_status = 1;
+			return ;
+		}
+		if (export_join_content(data, parser, end) == false)
+			g_status = 1;
+		return ;
+	}
+	if (create_new_env(data, parser, end, data->count) == false)
+		g_status = 1;
+}
+
+void	ft_export(t_data *data, t_parser *parser)
+{
+	int			end;
+	int			i;
+
+	if (!data->env)
+		return ;
+	if (!parser->cmd[1])
+		return (ft_print_export_sort(data));
+	i = 0;
+	while(parser->cmd[++i])
+	{
+		data->count = 0;
+		if (parser->cmd[i][0] == '=' || \
+		(parser->cmd[i][0] == '+' && parser->cmd[i][1] == '='))
+		{
+			ft_print_export_error(parser->cmd[i]);
+			g_status = 1;
+			continue ;
+		}
+		end = (ft_strlen(parser->cmd[i]) - 1);
+		while (parser->cmd[i][data->count] && \
+		parser->cmd[i][data->count] != '=')
+			data->count++;
+		ft_export_loop(data, parser->cmd[i], end);
+	}
 }

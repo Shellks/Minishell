@@ -6,7 +6,7 @@
 #    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/24 17:13:05 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/25 15:16:57 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ SRCS =	src/minishell.c						\
 		src/built_in/ft_unset.c				\
 		src/built_in/ft_export.c			\
 		src/built_in/ft_export_utils.c		\
-		src/built_in/ft_export_exist.c		\
+		src/built_in/ft_export_join.c		\
+		src/built_in/ft_print_export.c		\
 		src/built_in/ft_cd.c				\
 		src/built_in/ft_pwd.c				\
 		src/exec/ft_redirection.c			\

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 00:48:47 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 15:39:47 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	is_builtin(t_data *data, t_parser *parse)
 	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && ++len)
 		ft_pwd(data);
 	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && ++len)
-		g_status = ft_unset(data, parse);
+		ft_unset(data, parse);
 	else if (!ft_strncmp(parse->cmd[0], "export", 6) && ++len)
-		g_status = ft_export(data, parse);
+		ft_export(data, parse);
 	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && ++len)
 		ft_exit(data);
 	else if (!ft_strncmp(parse->cmd[0], "env", 3) && ++len)
@@ -58,7 +58,10 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	env_tab = NULL;
 	child_process_manager(data, exec, parse);
 	if (exec->flag_in == -2 || exec->flag_out == -2)
+	{
+		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 		ft_exit_minishell(data, exec, IS_PIPE);
+	}
 	if (parse->cmd[0] && is_builtin(data, parse))
 	{
 		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
@@ -112,6 +115,7 @@ void	pipex(t_data *data, t_exec *exec)
 		parent_process(data, exec, parse);
 		parse = parse->next;
 	}
+	waitpid(exec->pid, &g_status, 0);
 	ft_std_manager(data, exec->fd_stdin, exec->fd_stdout);
 	ft_close_all(data, exec, IS_PIPE);
 }

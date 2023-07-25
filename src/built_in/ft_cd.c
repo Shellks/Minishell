@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:38:10 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/20 18:20:59 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:44:49 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ bool	ft_cd(t_data *data, char **tab)
 	if (ft_strlen_tab(tab) > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
-		return (false);
+		return (true);
 	}
 	else if (ft_strlen_tab(tab) == 1 || ft_strcmp(tab[1], "~") == 0)
 		target = get_target_env(data->env, "HOME");
@@ -102,8 +102,8 @@ bool	ft_cd(t_data *data, char **tab)
 	if (cd_and_actualise_env(data, target) == false)
 	{
 		free(target);
-		return (false);
+		return (true);
 	}
 	free(target);
-	return (true);
+	return (false);
 }

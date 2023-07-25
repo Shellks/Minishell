@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:15:36 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 18:19:16 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:39:25 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	unset_loop(t_data *data, t_env *env, t_parser *parser, int i)
 	}
 }
 
-bool	ft_unset(t_data *data, t_parser *parser)
+void	ft_unset(t_data *data, t_parser *parser)
 {
 	t_env		*tmp_env;
 	t_parser	*tmp_parser;
@@ -39,16 +39,20 @@ bool	ft_unset(t_data *data, t_parser *parser)
 	tmp_parser = parser;
 	if (!tmp_parser->cmd[i])
 	{
-		printf("unset: not enough arguments\n");
-		return (false);
+		g_status = 0;
+		return ;
 	}
 	if (!tmp_env)
-		return (false);
+	{
+		g_status = 1;
+		return ;
+	}
 	while (tmp_parser->cmd[i])
 	{
 		tmp_env = data->env;
 		unset_loop(data, tmp_env, tmp_parser, i);
 		i++;
 	}
-	return (true);
+	g_status = 0;
+	return ;
 }
