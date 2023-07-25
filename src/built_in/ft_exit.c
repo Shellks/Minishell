@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:23:30 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 18:43:50 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 20:13:01 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ static void	check_overflow_exit(t_data *data, char *cmd)
 {
 	int	max;
 	int	last;
-	int	i;
 
-	i = 0;
 	max = 19;
 	last = 7;
 	if (cmd[0] == '-')

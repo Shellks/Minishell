@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 13:22:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/25 10:35:19 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 23:39:15 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,7 @@
 // // 	}
 // // }
 
-void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab)
-{
-	if (cmd)
-		free(cmd);
-	if (tab)
-		ft_free_split(tab);
-	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
-	ft_exit_minishell(data, exec, IS_NOT_PIPE);
-}
+
 
 // static void	child_without_pipe(t_data *data, t_exec *exec, t_parser *parse)
 // {

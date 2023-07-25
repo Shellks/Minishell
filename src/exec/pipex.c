@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 15:39:47 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 23:47:49 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	child_process_manager(data, exec, parse);
 	if (exec->flag_in == -2 || exec->flag_out == -2)
 	{
+		g_status = 1;
 		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 		ft_exit_minishell(data, exec, IS_PIPE);
 	}

@@ -6,13 +6,23 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/25 11:17:13 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 00:35:09 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int	g_status;
+
+void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab)
+{
+	if (cmd)
+		free(cmd);
+	if (tab)
+		ft_free_split(tab);
+	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+	ft_exit_minishell(data, exec, IS_NOT_PIPE);
+}
 
 t_data	*ft_get_data(t_data *data)
 {
@@ -52,16 +62,22 @@ bool	check_is_builtin(t_parser *parse)
 	return(false);
 }
 
-void	ft_exec(t_data *data, t_exec *exec)
+bool	ft_built_in_process(t_data *data, t_exec *exec)
 {
 	t_parser *parse;
+
 
 	parse = data->parser;
 	if (!parse->next && parse->cmd[0] && check_is_builtin(parse))
 	{
-		exec->fd_stdin = STDIN_FILENO;
-		exec->fd_stdout = STDOUT_FILENO;
-		ft_set_redir(data, parse, exec);
+		exec->fd_stdin = dup(STDIN_FILENO);
+		exec->fd_stdout = dup(STDOUT_FILENO);
+		if (ft_set_redir(data, parse, exec) == false)
+		{
+			g_status = 1;
+			ft_close(exec->fd_stdin, exec->fd_stdout, -1);
+			return  (true);
+		}
 		ft_dup_manager(data, exec);
 		if (exec->flag_out == 1)
 			ft_dup(data, exec->outfile, STDOUT_FILENO);
@@ -70,8 +86,16 @@ void	ft_exec(t_data *data, t_exec *exec)
 			ft_dup(data, exec->fd_stdin, STDIN_FILENO);
 		if (exec->flag_out == 1)
 			ft_dup(data, exec->fd_stdout, STDOUT_FILENO);
-		return(ft_close_all(data, exec, IS_NOT_PIPE));
+		ft_close(exec->fd_stdin, exec->fd_stdout, -1);
+		return (true);
 	}
+	return (false);
+}
+
+void	ft_exec(t_data *data, t_exec *exec)
+{
+	if (ft_built_in_process(data, exec) == true)
+		return ;
 	exec->pid = fork();
 	if (exec->pid == -1)
 		ft_free_exit(data, ERR_FORK, "Error with creating fork\n");

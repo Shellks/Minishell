@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 10:19:18 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 15:16:41 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/25 20:17:55 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ static void	export_is_exist(t_data *data, char *parse, t_env *env, int end)
 bool	ft_check_export_exist(t_data *data, char *parse, int end)
 {
 	t_env	*env;
-	int		i;
 
-	(void)end;
 	env = data->env;
-	i = data->count;
 	while (env)
 	{
 		if (ft_strncmp(env->name, parse, ft_strlen(env->name)) == 0 && \
