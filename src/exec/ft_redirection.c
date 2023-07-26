@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:55:59 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 02:40:43 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 15:40:48 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ static void	ft_redir_error(t_redir *redir, t_exec *exec)
 {
 	struct stat	path;
 
-	if (stat(redir->redirec, &path))
+	if (!redir->redirec[0])
+		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+	else if (stat(redir->redirec, &path))
 	{
 		ft_putstr_fd("minishell: no such file or directory: ", 2);
 		ft_putstr_fd(redir->redirec, 2);

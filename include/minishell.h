@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 02:20:06 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 18:09:52 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
 void	ft_pwd(t_data *data);
-void	ft_exit(t_data *data);
+void	ft_exit(t_data *data, t_parser *parser);
 void	ft_unset(t_data *data, t_parser *parser);
 //builtin_export
 bool	is_valid_char(char *name);

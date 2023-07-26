@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 19:04:27 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:50:16 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 	{
 		lexer = parse_cmd(data, lexer, parser, i);
 		if (data->flag == 1)
-			return (ft_print_syntax_error("newline"), false);
+			return (ft_print_syntax_error("newline"), g_status = 2, false);
 		if (lexer && !lexer->next && lexer->token == PIPE)
-			return (ft_print_syntax_error("|"), false);
+			return (ft_print_syntax_error("|"), g_status = 2, false);
 		if (lexer && lexer->token == PIPE && lexer->next)
 		{
 			if (lexer->next && lexer->next->token == PIPE)
-				return (ft_print_syntax_error("|"), false);
+				return (ft_print_syntax_error("|"), g_status = 2, false);
 			new = ft_parser_new();
 			if (!new)
 				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
@@ -94,6 +94,8 @@ bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 		}
 		else
 			break ;
+		//if(lexer->quote == DOUBLE || lexer->quote == SINGLE)
+		new->sign = lexer->quote;
 	}
 	return (true);
 }
@@ -109,12 +111,13 @@ bool	ft_parser(t_data *data)
 	data->flag = 0;
 	i = 0;
 	if (data->lexer->token == PIPE)
-		return (ft_print_syntax_error("|"), false);
+		return (ft_print_syntax_error("|"), g_status = 2, false);
 	del_node_space(data);
 	lexer = data->lexer;
 	new = ft_parser_new();
 	if (!new)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
+	new->sign = data->lexer->quote;
 	ft_parser_add_back(&data->parser, new);
 	parser = data->parser;
 	i = count_node(lexer);

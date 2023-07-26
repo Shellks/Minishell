@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:14:11 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/20 14:38:32 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:51:11 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	ft_print_syntax_error(char *word)
 {
-	printf("minishell: parse error near `%s'\n", word);
+	ft_putstr_fd("minishell: syntax error near unexpected token `", \
+	STDERR_FILENO);
+	ft_putstr_fd(word, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 void	del_node_space(t_data *data)

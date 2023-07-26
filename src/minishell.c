@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 02:21:07 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 18:21:07 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,19 @@ t_data	*ft_get_data(t_data *data)
 
 bool	check_is_builtin(t_parser *parse)
 {
-	if (!ft_strncmp(parse->cmd[0], "pwd", 3))
+	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && (int)ft_strlen(parse->cmd[0]) == 3)
 		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "unset", 5))
+	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && (int)ft_strlen(parse->cmd[0]) == 5)
 		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "export", 6))
+	else if (!ft_strncmp(parse->cmd[0], "export", 6 )&& (int)ft_strlen(parse->cmd[0]) == 6)
 		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "exit", 4))
+	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && (int)ft_strlen(parse->cmd[0]) == 4)
 		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "env", 3))
+	else if (!ft_strncmp(parse->cmd[0], "env", 3) && (int)ft_strlen(parse->cmd[0]) == 3)
 		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "echo", 4))
+	else if (!ft_strncmp(parse->cmd[0], "echo", 4) && (int)ft_strlen(parse->cmd[0]) == 4)
 		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "cd", 2))
+	else if (!ft_strncmp(parse->cmd[0], "cd", 2) && (int)ft_strlen(parse->cmd[0]) == 2)
 		return (true);
 	return (false);
 }

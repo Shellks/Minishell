@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 02:23:28 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 18:09:16 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,26 @@ int	is_builtin(t_data *data, t_parser *parse)
 	int	len;
 
 	len = 0;
-	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && ++len)
+	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && \
+	(int)ft_strlen(parse->cmd[0]) == 3 && ++len)
 		ft_pwd(data);
-	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && ++len)
+	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && \
+	(int)ft_strlen(parse->cmd[0]) == 5 && ++len)
 		ft_unset(data, parse);
-	else if (!ft_strncmp(parse->cmd[0], "export", 6) && ++len)
+	else if (!ft_strncmp(parse->cmd[0], "export", 6) && \
+	(int)ft_strlen(parse->cmd[0]) == 6 && ++len)
 		ft_export(data, parse);
-	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && ++len)
-		ft_exit(data);
-	else if (!ft_strncmp(parse->cmd[0], "env", 3) && ++len)
+	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && \
+	(int)ft_strlen(parse->cmd[0]) == 4 && ++len)
+		ft_exit(data, parse);
+	else if (!ft_strncmp(parse->cmd[0], "env", 3) && \
+	(int)ft_strlen(parse->cmd[0]) == 3 && ++len)
 		g_status = ft_env(data);
-	else if (!ft_strncmp(parse->cmd[0], "echo", 4) && ++len)
+	else if (!ft_strncmp(parse->cmd[0], "echo", 4) && \
+	(int)ft_strlen(parse->cmd[0]) == 4 && ++len)
 		g_status = ft_echo(parse);
-	else if (!ft_strncmp(parse->cmd[0], "cd", 2) && ++len)
+	else if (!ft_strncmp(parse->cmd[0], "cd", 2) && \
+	(int)ft_strlen(parse->cmd[0]) == 2 && ++len)
 		g_status = ft_cd(data, parse->cmd);
 	return (len);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_pipex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 11:25:47 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 15:59:23 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static char	*get_relative_path(t_data *data, t_parser *parse)
 			free_exit_env(data, data->temp, NULL, 1);
 		}
 		free (data->temp);
-		if (cmd[ft_strlen(cmd) - 1] == '/' && !cmd[ft_strlen(cmd)])
+		if (cmd[ft_strlen(cmd) - 1] == '/' && (parse->sign == 2 || parse->sign == 1))
 			return (NULL);
 		if (access(cmd, X_OK) == 0)
-			return (cmd);
+			return (g_status = 0, cmd);
 		free (cmd);
 	}
 	return (NULL);

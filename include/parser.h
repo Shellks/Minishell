@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:05:19 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 14:14:18 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:15:16 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_redir
 
 typedef struct s_parser
 {
+	int				sign;
 	char			**cmd;
 	int				*fd_input;
 	int				*fd_output;

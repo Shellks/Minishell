@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:23:30 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 20:13:01 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 18:11:03 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static void	check_overflow_exit(t_data *data, char *cmd)
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_print_exit_error(cmd);
 		ft_free_env(data);
-		exit (2);
+		g_status = 2;
+		exit (g_status);
 	}
 	return ;
 }
@@ -47,17 +48,19 @@ static void	is_exit_digit(t_data *data, char *cmd)
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_free_env(data);
-		exit (res % 256);
+		g_status = res;
+		exit (g_status);
 	}
 	else
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_free_env(data);
-		exit (res);
+		g_status = res % 256;
+		exit (g_status);
 	}
 }
 
-static void	check_exit_args(t_data *data, char *cmd)
+static bool	check_exit_args(t_data *data, char *cmd, t_parser *parser)
 {
 	int	j;
 
@@ -75,25 +78,29 @@ static void	check_exit_args(t_data *data, char *cmd)
 			ft_putstr_fd(cmd, STDERR_FILENO);
 			ft_putstr_fd("': numeric argument required\n", STDERR_FILENO);
 			ft_free_env(data);
-			exit (2);
+			g_status = 2;
+			exit (g_status);
 		}
 	}
-	is_exit_digit(data, cmd);
-}
-
-void	ft_exit(t_data *data)
-{
-	if (data->parser->cmd[1] && data->parser->cmd[2])
+	if (parser->cmd[1] && parser->cmd[2])
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
 		g_status = 1;
-		return ;
+		return (false);
 	}
+	dprintf(2, "g_status = %d\n", g_status);
+	is_exit_digit(data, cmd);
+	return (true);
+}
+
+void	ft_exit(t_data *data, t_parser *parser)
+{
 	if (data->parser->cmd[1])
-		check_exit_args(data, data->parser->cmd[1]);
+		if (check_exit_args(data, data->parser->cmd[1], parser) == false)
+			return ;
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	ft_free_env(data);
-	exit (g_status);
+	exit(g_status);
 }

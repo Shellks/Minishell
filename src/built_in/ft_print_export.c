@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:00:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 11:27:38 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 16:07:33 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ void	ft_print_export_sort(t_data *data)
 			else
 				break ;
 		}
-		ft_putstr_fd("declare -x ", STDIN_FILENO);
-		ft_putstr_fd(tab[i], STDIN_FILENO);
-		ft_putstr_fd("\n", STDIN_FILENO);
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(tab[i], 1);
+		ft_putstr_fd("\n", 1);
 	}
 	ft_free_split(tab);
 }
