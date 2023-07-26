@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 00:45:23 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 02:23:28 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@ int	is_builtin(t_data *data, t_parser *parse)
 void	child_process_manager(t_data *data, t_exec *exec, t_parser *parse)
 {
 	ft_close(exec->pipes[0], exec->fd_stdin, exec->fd_stdout);
-	if (exec->flag_out != -1)
+	if (exec->flag_out != -1 && exec->flag_out != -2)
 	{
 		ft_dup(data, exec->outfile, STDOUT_FILENO);
 		close(exec->pipes[1]);
 	}
 	else if (parse->next)
+	{
 		ft_dup(data, exec->pipes[1], STDOUT_FILENO);
+	}
 	ft_close(exec->pipes[0], exec->fd_stdin, exec->fd_stdout);
 }
 
@@ -88,7 +90,7 @@ static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 		child_process(data, exec, parse);
 	else
 	{
-		if (exec->flag_out != -1)
+		if (exec->flag_out > 0)
 			close(exec->outfile);
 		close(exec->pipes[1]);
 		if (parse->next && (exec->flag_in == -1 || exec->flag_in == -2))

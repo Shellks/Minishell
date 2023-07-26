@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 00:45:09 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 02:20:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	get_here_doc_fd(t_data *data, t_redir *redir, int *fd);
 void	last_child(t_data *data, t_exec *exec, t_parser *parse);
 void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec);
 void	child_process(t_data *data, t_exec *exec, t_parser *parse);
-bool	ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
+void	ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
 //Signal fonction
 void	ft_ctrl_c(int signum);
 void	ft_ctrl_c_exec(int signum);

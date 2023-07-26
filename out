@@ -1,4 +1,0 @@
-drwxr-xr-x  2 nibernar 2022_lyon   4096 Jul 25 11:01 include
--rwxr-xr-x  1 nibernar 2022_lyon 173656 Jul 25 15:02 minishell
-drwxr-xr-x  4 nibernar 2022_lyon   4096 Jul 25 15:01 tester_minishell
--rw-r--r--  1 nibernar 2022_lyon    137 Jul 20 11:44 valgrind_ignore

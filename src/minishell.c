@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 00:45:14 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 02:21:07 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ bool	ft_built_in_process(t_data *data, t_exec *exec)
 	{
 		exec->fd_stdin = dup(STDIN_FILENO);
 		exec->fd_stdout = dup(STDOUT_FILENO);
-		if (ft_set_redir(data, parse, exec) == false)
+		ft_set_redir(data, parse, exec);
+		if (exec->flag_in == -2 || exec->flag_out == -2)
 		{
 			g_status = 1;
-			ft_close(exec->fd_stdin, exec->fd_stdout, -1);
-			return  (true);
+			return (ft_close(exec->fd_stdin, exec->fd_stdout, -1), true);
 		}
 		ft_dup_manager(data, exec);
 		if (exec->flag_out == 1)
@@ -76,8 +76,7 @@ bool	ft_built_in_process(t_data *data, t_exec *exec)
 			ft_dup(data, exec->fd_stdin, STDIN_FILENO);
 		if (exec->flag_out == 1)
 			ft_dup(data, exec->fd_stdout, STDOUT_FILENO);
-		ft_close(exec->fd_stdin, exec->fd_stdout, -1);
-		return (true);
+		return (ft_close(exec->fd_stdin, exec->fd_stdout, -1), true);
 	}
 	return (false);
 }

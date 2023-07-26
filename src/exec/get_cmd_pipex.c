@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_pipex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 15:16:29 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/26 02:47:50 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static char	*get_relative_path(t_data *data, t_parser *parse)
 			free_exit_env(data, data->temp, NULL, 1);
 		}
 		free (data->temp);
-		if (cmd[ft_strlen(cmd) - 1] == '/' && !cmd[ft_strlen(cmd)])
-			return (NULL);
+		// if (cmd[ft_strlen(cmd) - 1] == '/' && !cmd[ft_strlen(cmd)])
+		// 	return (NULL);
 		if (access(cmd, X_OK) == 0)
 			return (cmd);
 		free (cmd);
@@ -72,9 +72,12 @@ static char	*is_absolute_path(t_data *data, t_parser *parse)
 		ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 		ft_free_exit(data, 126, NULL);
 	}
-	if (!access(parse->cmd[0], X_OK))
-		return (parse->cmd[0]);
-	ft_print_fd(parse->cmd[0], ": permission denied\n");
+	else if (S_ISREG(path.st_mode))
+	{
+		if (!access(parse->cmd[0], X_OK))
+			return (parse->cmd[0]);
+		ft_print_fd(parse->cmd[0], ": permission denied\n");
+	}
 	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 	ft_free_exit(data, 126, NULL);
 	return (NULL);

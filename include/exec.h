@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:41:35 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/23 18:36:18 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 02:00:43 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ typedef struct s_exec
 	int		pipes[2];
 	int		fd_stdin;
 	int		fd_stdout;
-	int		status;
 	int		exit_status;
 	pid_t	pid;
-	int		doc;
 }	t_exec;
 
 void	ft_close_free(t_exec *exec, int close, int free, int error);

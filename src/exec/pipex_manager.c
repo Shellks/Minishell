@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:36:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 00:45:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 01:30:32 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	ft_dup_manager(t_data *data, t_exec *exec)
 {
 	if (exec->flag_in == 1)
+	{
 		ft_dup(data, exec->infile, STDIN_FILENO);
+	}
 	else if (exec->flag_in == 2)
 	{
 		exec->infile = open(data->here_doc_path->redirec, O_RDONLY);

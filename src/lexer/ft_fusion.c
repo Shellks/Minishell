@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fusion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 19:07:20 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/26 00:52:02 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_fusion(t_data *data)
 	cur = data->lexer;
 	while (cur && cur->next)
 	{
-		dprintf(2, "str : %s  next_str : %s\n", cur->word, cur->next->word);
+		//dprintf(2, "str : %s  next_str : %s\n", cur->word, cur->next->word);
 		if (cur->token == WORD && cur->next->token == WORD)
 		{
 			if (cur->quote == NONE && cur->next->quote != NONE)
