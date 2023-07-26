@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 18:02:56 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 15:28:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 11:47:14 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,19 @@ static void	create_expand_quote(t_data *data, t_env *env, char *str)
 	tmp1 = ft_strndup(str, i);
 	if (!tmp1)
 		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-	tmp2 = ft_strjoin(tmp1, env->content);
-	if (!tmp2)
-		free_exit_env(data, tmp1, NULL, 1);
-	free(tmp1);
-	if (str[i])
-		get_next_expand(data, str, tmp2, i);
+	if (env->content)
+	{
+		tmp2 = ft_strjoin(tmp1, env->content);
+		if (!tmp2)
+			free_exit_env(data, tmp1, NULL, 1);
+		dprintf(2, "Test\n");
+		free(tmp1);
+		if (str[i])
+			get_next_expand(data, str, tmp2, i);
+	}
+	else
+		if (str[i])
+			get_next_expand(data, str, tmp1, i);
 }
 
 static bool	check_expand_quote(t_env *env, char *str)

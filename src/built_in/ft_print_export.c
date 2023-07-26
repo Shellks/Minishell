@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:00:39 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 20:32:31 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 11:27:38 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void	ft_print_export_sort(t_data *data)
 		ft_putstr_fd("declare -x ", STDIN_FILENO);
 		ft_putstr_fd(tab[i], STDIN_FILENO);
 		ft_putstr_fd("\n", STDIN_FILENO);
-		printf("declare -x %s\n", tab[i]);
 	}
 	ft_free_split(tab);
 }
