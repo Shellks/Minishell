@@ -3,35 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fusion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 16:40:18 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 00:02:13 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// void	ft_del_dollar(t_data *data)
-// {
-// 	t_lexer	*cur;
+void	ft_del_dollar(t_data *data)
+{
+	t_lexer	*cur;
 
-// 	cur = data->lexer;
-// 	while (cur && cur->next)
-// 	{
-// 		if (cur->token == WORD && cur->next->token == WORD)
-// 			if (cur->word && cur->word[0] == '$' && !cur->word[1])
-// 				ft_lexer_delone(cur);
-// 		cur = cur->next;
-// 	}	
-// }
+	cur = data->lexer;
+	while (cur && cur->next)
+	{
+		if (cur->token == WORD && cur->next->token == WORD)
+			if (cur->word && cur->word[0] == '$' && !cur->word[1])
+			{
+				ft_lexer_delone(cur);
+				if (data->lexer == cur && !data->lexer->previous)
+					data->lexer = data->lexer->next;
+			}
+		cur = cur->next;
+	}	
+}
 
 void	ft_fusion(t_data *data)
 {
 	t_lexer	*cur;
 	char	*str;
 
-	//ft_del_dollar(data);
+	ft_del_dollar(data);
 	cur = data->lexer;
 	while (cur && cur->next)
 	{

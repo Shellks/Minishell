@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 18:21:07 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:10:22 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab)
 	if (tab)
 		ft_free_split(tab);
 	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
-	ft_exit_minishell(data, exec, IS_NOT_PIPE);
+	ft_close_all(data, exec, IS_PIPE);
+	ft_child_exit(data, exec, IS_NOT_PIPE);
 }
 
 t_data	*ft_get_data(t_data *data)

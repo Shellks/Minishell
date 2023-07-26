@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 09:52:17 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 14:56:07 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 23:10:12 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ void	free_exit_env(t_data *data, char *name, char *content, int i)
 	ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 }
 
-void	ft_exit_minishell(t_data *data, t_exec *exec, int sign)
+void	ft_child_exit(t_data *data, t_exec *exec, int sign)
 {
+	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 	if (sign == IS_PIPE)
 		ft_close_all(data, exec, IS_PIPE);
 	else if (sign == IS_NOT_PIPE)

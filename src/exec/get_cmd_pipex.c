@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_pipex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 15:59:23 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:42:55 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*get_relative_path(t_data *data, t_parser *parse)
 		}
 		free (data->temp);
 		if (cmd[ft_strlen(cmd) - 1] == '/' && (parse->sign == 2 || parse->sign == 1))
-			return (NULL);
+			return (free(cmd), NULL);
 		if (access(cmd, X_OK) == 0)
 			return (g_status = 0, cmd);
 		free (cmd);
@@ -41,7 +41,7 @@ static char	*get_relative_path(t_data *data, t_parser *parse)
 	return (NULL);
 }
 
-static char	*is_relative_path(t_data *data, t_parser *parse)
+static char	*is_relative_path(t_data *data, t_parser *parse, t_exec *exec)
 {
 	char	*cmd;
 
@@ -49,12 +49,13 @@ static char	*is_relative_path(t_data *data, t_parser *parse)
 	if (cmd)
 		return (cmd);
 	ft_print_fd(parse->cmd[0], " not found\n");
+	ft_close_all(data, exec, IS_PIPE);
 	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 	ft_free_exit(data, 127, NULL);
 	return (NULL);
 }
 
-static char	*is_absolute_path(t_data *data, t_parser *parse)
+static char	*is_absolute_path(t_data *data, t_parser *parse, t_exec *exec)
 {
 	struct stat	path;
 
@@ -79,17 +80,18 @@ static char	*is_absolute_path(t_data *data, t_parser *parse)
 		ft_print_fd(parse->cmd[0], ": permission denied\n");
 	}
 	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+	ft_close_all(data, exec, IS_PIPE);
 	ft_free_exit(data, 126, NULL);
 	return (NULL);
 }
 
-char	*ft_get_cmd(t_data *data, t_parser *parse)
+char	*ft_get_cmd(t_data *data, t_parser *parse, t_exec *exec)
 {
 	char	*cmd;
 
 	get_path(data);
-	cmd = is_absolute_path(data, parse);
+	cmd = is_absolute_path(data, parse, exec);
 	if (!cmd)
-		cmd = is_relative_path(data, parse);
+		cmd = is_relative_path(data, parse, exec);
 	return (cmd);
 }
