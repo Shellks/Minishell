@@ -6,21 +6,12 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:33:37 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/25 18:44:52 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:03:58 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
-# define PRINT_NULL					"(NULL)"
-# define PRINT_PIPE					"PIPE"
-# define PRINT_INFILE				"INFILE"
-# define PRINT_HERE_DOC				"HERE_DOC"
-# define PRINT_OUTFILE				"OUTFILE"
-# define PRINT_OUTFILE_APPEND		"OUTFILE_APPEND"
-# define PRINT_DELIMITER			"SPACE"
-# define PRINT_WORD					"WORD"
-# define PRINT_EXPAND				"EXPAND"
 
 typedef enum e_quote
 {
@@ -31,7 +22,7 @@ typedef enum e_quote
 
 typedef enum e_token
 {
-	NULL,
+	NOTHING,
 	PIPE,
 	INFILE,
 	HERE_DOC,

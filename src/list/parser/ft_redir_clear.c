@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dup.c                                           :+:      :+:    :+:   */
+/*   ft_redir_clear.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 22:18:45 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 22:03:40 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/07/06 13:26:40 by acarlott          #+#    #+#             */
+/*   Updated: 2023/07/27 12:46:45 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
 
-void	ft_dup(t_data *data, int fd1, int fd2)
+void	ft_redir_clear(t_redir **lst)
 {
-	if (dup2(fd1, fd2) == -1)
+	t_redir	*tmp;
+
+	if (!lst)
+		return ;
+	while (*lst)
 	{
-		close(fd1);
-		ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
+		tmp = (*lst)->next;
+		ft_redir_delone(*lst);
+		*lst = tmp;
 	}
-	close(fd1);
+	*lst = 0;
 }

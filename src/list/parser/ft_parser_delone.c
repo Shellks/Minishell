@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dup.c                                           :+:      :+:    :+:   */
+/*   ft_parser_delone.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 22:18:45 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 22:03:40 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/06/14 17:51:50 by nibernar          #+#    #+#             */
+/*   Updated: 2023/07/27 12:46:26 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
 
-void	ft_dup(t_data *data, int fd1, int fd2)
+void	ft_parser_delone(t_parser *lst)
 {
-	if (dup2(fd1, fd2) == -1)
+	int	i;
+
+	i = 0;
+	if (lst)
 	{
-		close(fd1);
-		ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
+		if (lst->cmd)
+		{
+			while (lst->cmd[i])
+			{
+				free(lst->cmd[i]);
+				i++;
+			}
+			free(lst->cmd);
+		}
+		free(lst);
 	}
-	close(fd1);
 }

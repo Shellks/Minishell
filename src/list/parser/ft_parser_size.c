@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dup.c                                           :+:      :+:    :+:   */
+/*   ft_parser_size.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 22:18:45 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 22:03:40 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2023/06/14 18:01:00 by nibernar          #+#    #+#             */
+/*   Updated: 2023/07/27 12:46:37 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
 
-void	ft_dup(t_data *data, int fd1, int fd2)
+int	ft_parser_size(t_parser *lst)
 {
-	if (dup2(fd1, fd2) == -1)
+	int	size;
+
+	size = 0;
+	while (lst)
 	{
-		close(fd1);
-		ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
+		lst = lst->next;
+		size++;
 	}
-	close(fd1);
+	return (size);
 }

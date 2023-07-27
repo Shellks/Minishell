@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 20:47:17 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:30:46 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ bool	ft_parser(t_data *data)
 	i = 0;
 	if (data->lexer->token == PIPE)
 		return (ft_print_syntax_error("|"), g_status = 2, false);
-	del_node_space(data);
 	lexer = data->lexer;
 	new = ft_parser_new();
 	if (!new)

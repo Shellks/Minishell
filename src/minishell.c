@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 18:21:07 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:16:36 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab)
 	if (tab)
 		ft_free_split(tab);
 	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
-	ft_exit_minishell(data, exec, IS_NOT_PIPE);
+	ft_close_all(data, exec, IS_PIPE);
+	ft_child_exit(data, exec, IS_NOT_PIPE);
 }
 
 t_data	*ft_get_data(t_data *data)
@@ -33,29 +34,35 @@ t_data	*ft_get_data(t_data *data)
 	return (data_ptr);
 }
 
-bool	check_is_builtin(t_parser *parse)
-{
-	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && (int)ft_strlen(parse->cmd[0]) == 3)
-		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && (int)ft_strlen(parse->cmd[0]) == 5)
-		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "export", 6 )&& (int)ft_strlen(parse->cmd[0]) == 6)
-		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && (int)ft_strlen(parse->cmd[0]) == 4)
-		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "env", 3) && (int)ft_strlen(parse->cmd[0]) == 3)
-		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "echo", 4) && (int)ft_strlen(parse->cmd[0]) == 4)
-		return (true);
-	else if (!ft_strncmp(parse->cmd[0], "cd", 2) && (int)ft_strlen(parse->cmd[0]) == 2)
-		return (true);
-	return (false);
+// bool	check_is_builtin(t_parser *parse)
+// {
+// 	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && \
+// 	(int)ft_strlen(parse->cmd[0]) == 3)
+// 		return (true);
+// 	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && \
+// 	(int)ft_strlen(parse->cmd[0]) == 5)
+// 		return (true);
+// 	else if (!ft_strncmp(parse->cmd[0], "export", 6) && \
+// 	(int)ft_strlen(parse->cmd[0]) == 6)
+// 		return (true);
+// 	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && \
+// 	(int)ft_strlen(parse->cmd[0]) == 4)
+// 		return (true);
+// 	else if (!ft_strncmp(parse->cmd[0], "env", 3) && \
+// 	(int)ft_strlen(parse->cmd[0]) == 3)
+// 		return (true);
+// 	else if (!ft_strncmp(parse->cmd[0], "echo", 4) && \
+// 	(int)ft_strlen(parse->cmd[0]) == 4)
+// 		return (true);
+// 	else if (!ft_strncmp(parse->cmd[0], "cd", 2) && \
+// 	(int)ft_strlen(parse->cmd[0]) == 2)
+// 		return (true);
+// 	return (false);
 }
 
 bool	ft_built_in_process(t_data *data, t_exec *exec)
 {
 	t_parser	*parse;
-
 
 	parse = data->parser;
 	if (!parse->next && parse->cmd[0] && check_is_builtin(parse))
@@ -113,6 +120,8 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
 	if (!data->lexer)
 		return ;
 	ft_fusion(data);
+	if (!data->lexer)
+		return ;
 	if (ft_parser(data) == false)
 		return ;
 	ft_exec(data, exec);

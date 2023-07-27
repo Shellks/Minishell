@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 18:09:52 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:12:05 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	create_pwd(t_data *data);
 void	create_old_pwd(t_data *data);
 void	get_path(t_data *data);
 //builtin=====
+bool	check_is_builtin(t_parser *parse);
 bool	ft_env(t_data *data);
 int		ft_echo(t_parser *parser);
 int		ft_dup_fd(t_parser *parser);
@@ -125,7 +126,7 @@ void	exec_simple_cmd(t_data *data, t_exec *exec);
 void	pipex(t_data *data, t_exec *exec);
 void	ft_std_manager(t_data *data, int STDIN, int STDOUT);
 char	*expand_here_doc(t_data *data, char *str);
-char	*ft_get_cmd(t_data *data, t_parser *parse);
+char	*ft_get_cmd(t_data *data, t_parser *parse, t_exec *exec);
 void	ft_dup_manager(t_data *data, t_exec *exec);
 void	ft_dup(t_data *data, int fd1, int fd2);
 char	*expand_digit_heredoc(t_data *data, char *str, int j);
@@ -145,7 +146,7 @@ void	ft_free_env(t_data *data);
 void	ft_free_loop(t_data *data);
 void	ft_free_split(char **tab);
 void	ft_free_exit(t_data *data, int error, char *msg);
-void	ft_exit_minishell(t_data *data, t_exec *exec, int sign);
+void	ft_child_exit(t_data *data, t_exec *exec, int sign);
 void	free_exit_env(t_data *data, char *name, char *content, int i);
 //gnl
 char	*get_next_line(int fd);

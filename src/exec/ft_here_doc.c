@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 15:03:03 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/26 22:58:34 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	child_hd_manager(t_data *data, t_redir *re, t_exec *ex, int pipe[2])
 		child_heredoc_expand(data, re, pipe);
 	ft_close(ex->fd_stdin, ex->fd_stdout, -1);
 	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+	if (ex->flag_out == 1)
+		close(ex->outfile);
 	ft_free_exit(data, 0, NULL);
 }
 

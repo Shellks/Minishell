@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dup.c                                           :+:      :+:    :+:   */
+/*   ft_env_last.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 22:18:45 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 22:03:40 by acarlott         ###   ########lyon.fr   */
+/*   Created: 2022/11/22 14:14:13 by nibernar          #+#    #+#             */
+/*   Updated: 2023/07/27 12:50:20 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
 
-void	ft_dup(t_data *data, int fd1, int fd2)
+t_env	*ft_env_last(t_env *lst)
 {
-	if (dup2(fd1, fd2) == -1)
-	{
-		close(fd1);
-		ft_free_exit(data, ERR_DUP, "Error with creating dup\n");
-	}
-	close(fd1);
+	if (!lst)
+		return (0);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }

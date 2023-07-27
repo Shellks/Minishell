@@ -1,38 +1,7 @@
-probleme de close : 
-qunad : << x cat et que on quitte minishell :
-==55555== FILE DESCRIPTORS: 3 open at exit.
-==55555== Open file descriptor 1: /dev/pts/1
-==55555==    at 0x49C08CB: dup2 (syscall-template.S:78)
-==55555==    by 0x40948C: ft_dup (ft_dup.c:17)
-==55555==    by 0x407D4A: ft_std_manager (pipex.c:24)
-==55555==    by 0x40870D: exec_simple_cmd (exec_simple_cmd.c:77)
-==55555==    by 0x4014AD: pipex_no_pipe (minishell.c:51)
-==55555==    by 0x401562: ft_mini_loop (minishell.c:67)
-==55555==    by 0x401654: main (minishell.c:113)
-==55555== 
-==55555== Open file descriptor 0: /dev/pts/1
-==55555==    at 0x49C08CB: dup2 (syscall-template.S:78)
-==55555==    by 0x40948C: ft_dup (ft_dup.c:17)
-==55555==    by 0x407D39: ft_std_manager (pipex.c:23)
-==55555==    by 0x40870D: exec_simple_cmd (exec_simple_cmd.c:77)
-==55555==    by 0x4014AD: pipex_no_pipe (minishell.c:51)
-==55555==    by 0x401562: ft_mini_loop (minishell.c:67)
-==55555==    by 0x401654: main (minishell.c:113)
-
-peut_etre un leaks quand on rappelle minishell alors quil etait demarrer sans env,
-le probleme serait le malloc du shlvl qui pourrait faire un invalid free dans ce cas precis
-a verifer !
-
-checker les leaks/norme (normalement tout est deja ok jusqua parser) et les close
-
+unset ne retourne pas derreur ? jamais ?
 probleme dans le parsing quand $ + caractere d'echappement on parse pas correctement;
 probleme dans le parsing quand $ isolée mais pas seul dans linput on le parse mais bash non
-
-cette commande nous fait sigpipe, cest une erreur de gestion de pipe mais ca ne le fait quavec les builtin et quand le buioltin est au milieu dautre pipe ?
-< Makefile < read_me cat > end > ok | < Makefile pwd | < Makefile ls
-implementer les signaux; OK !?
 checker tout les messages d'erreur (qu'il soit conforme a bash) OK !?
-probleme avec here doc appellée dans un pipe pas en premier commande il lit le pipe OK !?
 ---------------------------------------------------------------------------------------------------
 
 le code de retour 126 indique spécifiquement que la commande a été trouvée, mais n'a pas pu être exécutée.
@@ -63,10 +32,3 @@ tels que \ (le backslash) ou ; (le point-virgule).
 le probleme cest que j'ai implanté la gestion du \ (le backslash) et
 ca marche vraiment niquel, a voir si il faut que je l'enleve
 ou si on peut le laisser, cest quand meme stylé ce que ça gere^^
-
----------------------------------------------
-
-on gere ou pas ? le cas des variables (ajouter une verif qui donne un bool is_readonly ou pas)
-en lecture seul(readonly) dans le parsing de env, a voir
-car par exemple export et unset ne doivent pas marcher quand cest appelé sur une var en readonly
-mais yen a le bash marche quand meme cest bizarre
