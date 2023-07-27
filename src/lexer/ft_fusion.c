@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 09:35:43 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 11:21:54 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_del_empty_node(t_data *data)
 {
 	t_lexer	*cur;
+	t_lexer *tmp;
 
 	cur = data->lexer;
 	while (cur)
@@ -23,9 +24,20 @@ void	ft_del_empty_node(t_data *data)
 		{
 			if (cur->quote == NONE && !cur->word[0])
 			{
-				ft_lexer_delone(cur);
-				if (data->lexer == cur && !data->lexer->previous)
+				if (!cur->previous)
 					data->lexer = data->lexer->next;
+				tmp = cur->next;
+				ft_lexer_delone(cur);
+				cur = tmp;
+				// if (cur->next && cur->next->token == PIPE)
+				// {
+				// 	if (!cur->previous)
+				// 		data->lexer = data->lexer->next;
+				// 	tmp = cur->next;
+				// 	ft_lexer_delone(cur);
+				// 	cur = tmp;
+				// }
+				continue ;
 			}
 		}
 		cur = cur->next;
@@ -35,6 +47,7 @@ void	ft_del_empty_node(t_data *data)
 void	ft_del_dollar(t_data *data)
 {
 	t_lexer	*cur;
+	t_lexer *tmp;
 
 	cur = data->lexer;
 	while (cur && cur->next)
@@ -44,9 +57,12 @@ void	ft_del_dollar(t_data *data)
 			if (cur->word && cur->word[0] == '$' && !cur->word[1] && \
 			cur->quote == NONE)
 			{
-				ft_lexer_delone(cur);
-				if (data->lexer == cur && !data->lexer->previous)
+				if (!cur->previous)
 					data->lexer = data->lexer->next;
+				tmp = cur->next;
+				ft_lexer_delone(cur);
+				cur = tmp;
+				continue ;
 			}
 		}
 		cur = cur->next;
@@ -58,6 +74,7 @@ void	ft_fusion(t_data *data)
 	t_lexer	*cur;
 	char	*str;
 
+	del_node_space(data);
 	ft_del_empty_node(data);
 	ft_del_dollar(data);
 	cur = data->lexer;

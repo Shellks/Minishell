@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 09:20:30 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 11:19:17 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,14 @@ void	ft_mini_loop(t_data *data, t_exec *exec)
 	if (!data->lexer)
 		return ;
 	ft_fusion(data);
+	if (!data->lexer)
+		return ;
+	// while (data->lexer)
+	// {
+	// 	printf("data->type = %d\n", data->lexer->token);
+	// 	data->lexer = data->lexer->next;
+	// }
+	// return ;
 	if (ft_parser(data) == false)
 		return ;
 	ft_exec(data, exec);
