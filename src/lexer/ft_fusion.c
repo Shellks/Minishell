@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 14:28:10 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:41:35 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,20 @@ void	ft_del_empty_node(t_data *data)
 	t_lexer	*cur;
 	t_lexer	*tmp;
 	int		redir_flag;
+	int		pipe_flag;
 
 	cur = data->lexer;
+	pipe_flag = 0;
+	redir_flag = 0;
 	while (cur)
 	{
+		if (cur->previous && cur->token == PIPE)
+			pipe_flag = 1;
 		if (cur->token >= 2 && cur->token <= 5)
 			redir_flag = 1;
 		if (cur->token == WORD && redir_flag != 1)
 		{
-			if (cur->quote == NONE && !cur->word[0] && cur->next)
+			if (cur->quote == NONE && !cur->word[0] && pipe_flag == 0)
 			{
 				if (!cur->previous)
 					data->lexer = data->lexer->next;
@@ -42,6 +47,7 @@ void	ft_del_empty_node(t_data *data)
 					ft_lexer_delone(cur);
 					cur = tmp;
 				}
+				pipe_flag = 0;
 				redir_flag = 0;
 				continue ;
 			}

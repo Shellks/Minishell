@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 13:24:06 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:40:44 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ void	ft_exec(t_data *data, t_exec *exec)
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
 {
+	t_lexer	*check_space;
+
+	check_space = data->lexer;
 	if (data->input[0])
 		add_history(data->input);
 	if (lexer(data) == false)

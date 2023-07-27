@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 14:26:28 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:41:07 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	create_new_env(t_data *data, char *parse, int end, int i)
 	name = ft_strndup(parse, i);
 	if (!name)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
-	if (is_valid_char(name) == false)
+	if (is_valid_char(name) == false || !parse[0])
 		return (ft_print_export_error(parse), free(name), false);
 	if (parse[i + 1])
 	{
@@ -51,7 +51,7 @@ static bool	create_env_no_equals(t_data *data, char *parse)
 		free(name);
 		return (ft_print_export_error(parse), false);
 	}
-	if (is_valid_char(name) == false)
+	if (is_valid_char(name) == false || !parse[0])
 	{
 		free(name);
 		return (ft_print_export_error(parse), false);
