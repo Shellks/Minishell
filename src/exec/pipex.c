@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 02:26:57 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 09:19:31 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ static void	parent_process(t_data *data, t_exec *exec, t_parser *parse)
 
 void	pipex(t_data *data, t_exec *exec)
 {
+	int			error;
 	t_parser	*parse;
 
 	signal(SIGINT, SIG_IGN);
@@ -115,7 +116,7 @@ void	pipex(t_data *data, t_exec *exec)
 	}
 	waitpid(exec->pid, &g_status, 0);
 	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
-	while (waitpid(-1, &g_status, 0) > 0)
+	while (waitpid(-1, &error, 0) > 0)
 		;
 	ft_std_manager(data, exec->fd_stdin, exec->fd_stdout);
 	ft_close_all(data, exec, IS_PIPE);

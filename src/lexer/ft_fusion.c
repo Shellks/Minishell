@@ -6,11 +6,31 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:06:43 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 00:02:13 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 09:35:43 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	ft_del_empty_node(t_data *data)
+{
+	t_lexer	*cur;
+
+	cur = data->lexer;
+	while (cur)
+	{
+		if (cur->token == WORD)
+		{
+			if (cur->quote == NONE && !cur->word[0])
+			{
+				ft_lexer_delone(cur);
+				if (data->lexer == cur && !data->lexer->previous)
+					data->lexer = data->lexer->next;
+			}
+		}
+		cur = cur->next;
+	}
+}
 
 void	ft_del_dollar(t_data *data)
 {
@@ -20,14 +40,17 @@ void	ft_del_dollar(t_data *data)
 	while (cur && cur->next)
 	{
 		if (cur->token == WORD && cur->next->token == WORD)
-			if (cur->word && cur->word[0] == '$' && !cur->word[1])
+		{
+			if (cur->word && cur->word[0] == '$' && !cur->word[1] && \
+			cur->quote == NONE)
 			{
 				ft_lexer_delone(cur);
 				if (data->lexer == cur && !data->lexer->previous)
 					data->lexer = data->lexer->next;
 			}
+		}
 		cur = cur->next;
-	}	
+	}
 }
 
 void	ft_fusion(t_data *data)
@@ -35,6 +58,7 @@ void	ft_fusion(t_data *data)
 	t_lexer	*cur;
 	char	*str;
 
+	ft_del_empty_node(data);
 	ft_del_dollar(data);
 	cur = data->lexer;
 	while (cur && cur->next)

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 01:59:12 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 09:20:30 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_exec(t_data *data, t_exec *exec)
 	{
 		signal(SIGINT, SIG_IGN);
 		waitpid(exec->pid, &g_status, 0);
+		//dprintf(2, "g_status = %d\n", g_status);
 		g_status = WEXITSTATUS(g_status);
 	}
 }
