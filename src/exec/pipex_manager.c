@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:36:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 01:03:13 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 01:39:10 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	ft_std_manager(t_data *data, int STDIN, int STDOUT)
 	int	wait_all;
 
 	wait_all = 1;
-	printf("Test\n");
 	//ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 	while (wait_all != -1)
 		wait_all = waitpid(-1, NULL, 0);

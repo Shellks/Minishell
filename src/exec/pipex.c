@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 00:51:44 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 02:26:57 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	{
 		cmd = ft_get_cmd(data, parse, exec);
 		env_tab = get_env_tab(data);
+		ft_close(exec->pipes[0], exec->pipes[1], -1);
 		execve(cmd, parse->cmd, env_tab);
 	}
 	ft_exit_execve_fail(data, exec, cmd, env_tab);
@@ -102,9 +103,9 @@ void	pipex(t_data *data, t_exec *exec)
 	t_parser	*parse;
 
 	signal(SIGINT, SIG_IGN);
+	parse = data->parser;
 	exec->fd_stdin = dup(STDIN_FILENO);
 	exec->fd_stdout = dup(STDOUT_FILENO);
-	parse = data->parser;
 	while (parse)
 	{
 		ft_set_redir(data, parse, exec);
@@ -113,6 +114,9 @@ void	pipex(t_data *data, t_exec *exec)
 		parse = parse->next;
 	}
 	waitpid(exec->pid, &g_status, 0);
+	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+	while (waitpid(-1, &g_status, 0) > 0)
+		;
 	ft_std_manager(data, exec->fd_stdin, exec->fd_stdout);
 	ft_close_all(data, exec, IS_PIPE);
 }
