@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:15:36 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 14:41:12 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:06:26 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static bool	ft_check_unset(t_parser *parser, int i)
 	return (true);
 }
 
-void	ft_unset(t_data *data, t_parser *parser)
+int	ft_unset(t_data *data, t_parser *parser)
 {
 	t_env		*tmp_env;
 	t_parser	*tmp_parser;
@@ -58,15 +58,9 @@ void	ft_unset(t_data *data, t_parser *parser)
 	tmp_env = data->env;
 	tmp_parser = parser;
 	if (!tmp_parser->cmd[1])
-	{
-		g_status = 0;
-		return ;
-	}
+		return (g_status = 0, FALSE);
 	if (!tmp_env)
-	{
-		g_status = 1;
-		return ;
-	}
+		return (g_status = 1, FALSE);
 	i = 0;
 	while (tmp_parser->cmd[++i])
 	{
@@ -76,7 +70,7 @@ void	ft_unset(t_data *data, t_parser *parser)
 		unset_loop(data, tmp_env, tmp_parser, i);
 	}
 	if (g_status == 1 || g_status == 2)
-		return ;
+		return (TRUE);
 	g_status = 0;
-	return ;
+	return (TRUE);
 }

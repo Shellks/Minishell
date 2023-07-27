@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 14:41:07 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:11:46 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ void	ft_export(t_data *data, t_parser *parser)
 	int			end;
 	int			i;
 
-	if (!data->env)
-		return ;
 	if (!parser->cmd[1])
 		return (ft_print_export_sort(data));
 	i = 0;

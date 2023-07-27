@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 14:41:42 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:29:50 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static t_lexer	*parse_cmd(t_data *data, t_lexer *lexer, t_parser *lst, int i)
 	return (lexer);
 }
 
-bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
+static bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 {
 	t_parser	*new;
 
@@ -85,8 +85,6 @@ bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 			if (lexer->next && lexer->next->token == PIPE)
 				return (ft_print_syntax_error("|"), g_status = 2, false);
 			new = ft_parser_new();
-			if (!new)
-				ft_free_exit(data, ERR_MALLOC, "Malloc error\n");
 			ft_parser_add_back(&data->parser, new);
 			parser = parser->next;
 			lexer = lexer->next;

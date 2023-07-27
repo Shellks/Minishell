@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 14:23:07 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:05:59 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
 void	ft_pwd(t_data *data);
 void	ft_exit(t_data *data, t_parser *parser);
-void	ft_unset(t_data *data, t_parser *parser);
+int		ft_unset(t_data *data, t_parser *parser);
 //builtin_export
 bool	is_valid_char(char *name);
 void	ft_print_export_sort(t_data *data);
