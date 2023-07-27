@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 15:11:46 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:43:23 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static bool	create_env_no_equals(t_data *data, char *parse)
 	return (true);
 }
 
-void	ft_export_loop(t_data *data, char *parser, int end)
+static void	ft_export_loop(t_data *data, char *parser, int end)
 {
 	if (ft_check_export_exist(data, parser, end) == true)
 		return ;

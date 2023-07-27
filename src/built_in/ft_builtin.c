@@ -6,13 +6,13 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:10:21 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 14:25:56 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:40:08 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-bool	check_is_builtin(t_parser *parse)
+static bool	check_is_builtin(t_parser *parse)
 {
 	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && \
 	(int)ft_strlen(parse->cmd[0]) == 3)

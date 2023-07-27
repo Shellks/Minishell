@@ -6,7 +6,7 @@
 #    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:01:55 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/27 11:14:44 by nibernar         ###   ########.fr        #
+#    Updated: 2023/07/27 16:36:26 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,9 +61,9 @@ OBJ			=	${SRCS:.c=.o}
 
 NAME		=	libft.a
 
-HEADER		=	./include
+HEADER		=	libft.h
 
-CC			=	gcc
+CC			=	cc
 
 FLAG		=	-Wall -Wextra -Werror
 
@@ -71,13 +71,14 @@ RAN			=	ranlib
 
 RM			=	rm -f
 
+all			:	${NAME}
+
 %.o			:	%.c ${HEADER} Makefile
-				${CC} ${FLAG} -c $< -o ${<:.c=.o} -I ${HEADER}/libft.h
+				${CC} ${FLAG} -c $< -o ${<:.c=.o} -I ${HEADER}
 
 ${NAME}		:	${OBJ}
 				ar rc ${NAME} ${OBJ}
 
-all			:	${NAME}
 
 clean		:
 				${RM} ${OBJ}
@@ -87,6 +88,6 @@ fclean		:	clean
 
 re			:	fclean all
 
-.SILENT		:
+#.SILENT		:
 
 .PHONY		:	all clean fclean re bonus

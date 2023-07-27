@@ -6,7 +6,7 @@
 #    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/27 13:14:20 by nibernar         ###   ########.fr        #
+#    Updated: 2023/07/27 16:46:34 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,14 @@ NAME = minishell
 
 CFLAGS = -Wall -Wextra -Werror -g3
 CC = cc
-HEADER = ./include
+
+HEADER_PATH = ./include/
+HEADER_FILES = env.h exec.h lexer.h minishell.h parser.h
+HEADERS = $(addprefix $(HEADER_PATH), $(HEADER_FILES))
+
+LIBFT_PATH	=	./libft/
+LIBFT_FILE	=	libft.a
+LIBFT_LIB	=	$(addprefix $(LIBFT_PATH), $(LIBFT_FILE))
 
 SRCS =	src/minishell.c							\
 		src/env/get_pwd.c						\
@@ -85,49 +92,32 @@ SRCS =	src/minishell.c							\
 		src/list/env/ft_env_first.c				\
 		src/list/env/ft_env_last.c				\
 		src/list/env/ft_env_new.c				\
-		src/list/env/ft_env_size.c				\
+		src/list/env/ft_env_size.c
 
 OBJS = ${SRCS:.c=.o}
 
-LIBFT_PATH	=	./libft/
-LIBFT_FILE	=	libft.a
-LIBFT_LIB	=	$(addprefix $(LIBFT_PATH), $(LIBFT_FILE))
+all : lib ${NAME}
+
+./src/%.o: ./src/%.c ${HEADERS} ${LIBFT_LIB}
+	${CC} ${CFLAGS} -I ${HEADER_PATH} -g -c $< -o $@
 
 
-./src/%.o: ./src/%.c ${HEADER}/minishell.h ${LIBFT_LIB}
-		${CC} ${CFLAGS} -I${HEADER}/minishell.h -g -c $< -o $@
-
-all : ${NAME}
-
-lib: force
-	@echo "\033[0;33m\nCOMPILING $(LIBFT_PATH)\n"
-	@make -C $(LIBFT_PATH)
-	@echo "\033[1;32mLIBFT created\n"
-
-	
-${NAME} : lib ${OBJS}
-	echo "\033[1;34m\nCreate: \033[1;33mMinishell"
+${NAME} : ${OBJS}
 	${CC} ${CFLAGS} ${OBJS} ${LIBFT_LIB} -o ${NAME} -lreadline
-	echo "\033[1;32mSucces !\n\033[0m"
-
-
 	
 force :
 
+lib: force
+	@make -C $(LIBFT_PATH)
+
 clean :
-	echo "\033[1;31m\nClean: \033[1;36mAll .o"
-	make clean -C ${LIBFT_PATH}
+	make clean -sC ${LIBFT_PATH}
 	${RM} ${OBJS} 
-	echo "\033[1;32mDelete !\n"
 
 fclean: clean
-	echo "\033[1;31mClean: \033[1;36mAll.a && executable"
-	make fclean -C ${LIBFT_PATH}
+	make fclean -sC ${LIBFT_PATH}
 	${RM} ${NAME}
-	echo "\033[1;32mDelete !\n"
 
 re : fclean all
-
-# .SILENT:
 
 .PHONY: all clean fclean re force

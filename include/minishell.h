@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 15:05:59 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:40:32 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	create_pwd(t_data *data);
 void	create_old_pwd(t_data *data);
 void	get_path(t_data *data);
 //builtin=====
-bool	check_is_builtin(t_parser *parse);
 bool	ft_built_in_process(t_data *data, t_exec *exec);
 bool	ft_env(t_data *data);
 int		ft_echo(t_parser *parser);
