@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nicolasbernard <nicolasbernard@student.    +#+  +:+       +#+         #
+#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:01:55 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/09 20:09:50 by nicolasbern      ###   ########.fr        #
+#    Updated: 2023/07/27 11:14:44 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,6 @@ RM			=	rm -f
 
 ${NAME}		:	${OBJ}
 				ar rc ${NAME} ${OBJ}
-				${RAN} ${NAME}
 
 all			:	${NAME}
 

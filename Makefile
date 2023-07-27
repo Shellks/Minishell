@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/25 15:16:57 by acarlott         ###   ########lyon.fr    #
+#    Updated: 2023/07/27 11:15:02 by nibernar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +105,7 @@ lib: force
 	@echo "\033[1;32mLIBFT created\n"
 
 	
-${NAME} : lib ${OBJS} ${LIBFT_LIB}
+${NAME} : lib ${OBJS}
 	echo "\033[1;34m\nCreate: \033[1;33mMinishell"
 	${CC} ${CFLAGS} ${OBJS} ${LIBFT_LIB} -o ${NAME} -lreadline
 	echo "\033[1;32mSucces !\n\033[0m"
