@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 11:14:11 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 13:07:12 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ bool	parser_loop(t_data *data, t_lexer *lexer, t_parser *parser, int i)
 		}
 		else
 			break ;
-		//if(lexer->quote == DOUBLE || lexer->quote == SINGLE)
 		new->sign = lexer->quote;
 	}
 	return (true);
@@ -112,6 +111,7 @@ bool	ft_parser(t_data *data)
 	i = 0;
 	if (data->lexer->token == PIPE)
 		return (ft_print_syntax_error("|"), g_status = 2, false);
+	del_node_space(data);
 	lexer = data->lexer;
 	new = ft_parser_new();
 	if (!new)
