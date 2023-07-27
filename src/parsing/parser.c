@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:55:17 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 13:07:12 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 14:19:30 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ bool	ft_parser(t_data *data)
 	if (data->lexer->token == PIPE)
 		return (ft_print_syntax_error("|"), g_status = 2, false);
 	del_node_space(data);
+	if (!data->lexer)
+		return (false);
 	lexer = data->lexer;
 	new = ft_parser_new();
 	if (!new)

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 13:07:03 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 14:19:11 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@ void	ft_exec(t_data *data, t_exec *exec)
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
 {
+	t_lexer	*check_space;
+
+	check_space = data->lexer;
 	if (data->input[0])
 		add_history(data->input);
 	if (lexer(data) == false)

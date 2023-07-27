@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:15:36 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 18:16:58 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:28:41 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static bool	ft_check_unset(t_parser *parser, int i)
 		g_status = 2;
 		return (false);
 	}
-	else if (is_valid_char(parser->cmd[i]) == false)
+	else if (is_valid_char(parser->cmd[i]) == false || (!parser->cmd[i][0]))
 	{
 		ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 		ft_putstr_fd(parser->cmd[i], STDERR_FILENO);

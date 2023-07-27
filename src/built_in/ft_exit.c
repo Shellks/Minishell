@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:23:30 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 13:17:00 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 13:21:42 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static bool	check_exit_args(t_data *data, char *cmd, t_parser *parser)
 		g_status = 1;
 		return (false);
 	}
-	dprintf(2, "g_status = %d\n", g_status);
+	//dprintf(2, "g_status = %d\n", g_status);
 	is_exit_digit(data, cmd);
 	return (true);
 }
@@ -98,7 +98,7 @@ static bool	check_exit_args(t_data *data, char *cmd, t_parser *parser)
 void	ft_exit(t_data *data, t_parser *parser)
 {
 	if (parser->cmd[1])
-		if (check_exit_args(data, data->parser->cmd[1], parser) == false)
+		if (check_exit_args(data, parser->cmd[1], parser) == false)
 			return ;
 	//dprintf(2, "g_status = %d\n", g_status);
 	ft_putstr_fd("exit\n", STDERR_FILENO);
