@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 07:11:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 17:47:05 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:55:59 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,33 +91,31 @@ void	replace_false_expand_quote(t_data *data, t_lexer *end)
 	}
 }
 
-int	get_word_in_quote(t_data *data, char *str, int start, int stop)
+int	get_word_in_quote(t_data *d, char *s, int start, int stop)
 {
 	t_lexer	*new;
-	int		i;
-	char	*tmp;
 
-	i = start;
-	tmp = NULL;
-	if (check_backslah_quote(data, str, &i) == true)
-		return (i);
-	while (str[i] && str[i] != '=' && str[i] != '$' && str[i] != ' ' \
-	&& str[i] != 28 && str[i] != '\\' && i < stop && ft_isalnum_modif(str[i]))
+	d->i = start;
+	d->temp = NULL;
+	if (check_backslah_quote(d, s, &d->i) == true)
+		return (d->i);
+	while (s[d->i] && s[d->i] != '=' && s[d->i] != '$' && s[d->i] != ' ' && \
+	s[d->i] != 28 && s[d->i] != '\\' && d->i < stop && ft_isalnum_mod(s[d->i]))
 	{
-		if ((i - 1) != start && str[i] == '?')
+		if ((d->i - 1) != start && s[d->i] == '?')
 			break ;
-		i++;
+		d->i++;
 	}
-	i -= start;
-	tmp = ft_strndup(&str[start], i);
-	if (!tmp)
-		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
-	new = ft_lexer_new(tmp, WORD, DOUBLE);
+	d->i -= start;
+	d->temp = ft_strndup(&s[start], d->i);
+	if (!d->temp)
+		ft_free_exit(d, ERR_MALLOC, "Malloc_error\n");
+	new = ft_lexer_new(d->temp, WORD, DOUBLE);
 	if (!new)
 	{
-		free(tmp);
-		ft_free_exit(data, ERR_MALLOC, "Malloc_error\n");
+		free(d->temp);
+		ft_free_exit(d, ERR_MALLOC, "Malloc_error\n");
 	}
-	ft_lexer_add_back(&data->lexer, new);
-	return (i += start);
+	ft_lexer_add_back(&d->lexer, new);
+	return (d->i += start);
 }

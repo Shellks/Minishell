@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 13:12:05 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:23:07 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	create_old_pwd(t_data *data);
 void	get_path(t_data *data);
 //builtin=====
 bool	check_is_builtin(t_parser *parse);
+bool	ft_built_in_process(t_data *data, t_exec *exec);
 bool	ft_env(t_data *data);
 int		ft_echo(t_parser *parser);
 int		ft_dup_fd(t_parser *parser);
@@ -101,8 +102,8 @@ void	print_lexer(t_lexer **lexer);
 int		check_quote(t_data *data, int i);
 int		build_token(int i, char *str, t_data *data);
 int		get_anti_slash(int i, char *str, t_data *data);
-int		get_word(t_data *data, char *str, int start, int stop);
-int		get_word_in_quote(t_data *data, char *str, int start, int stop);
+int		get_word(t_data *d, char *str, int start, int stop);
+int		get_word_in_quote(t_data *d, char *s, int start, int stop);
 //expand fonction
 int		expand(t_data *data, char *str, int i);
 void	expand_status(t_data *data, char *str);
@@ -137,6 +138,7 @@ void	last_child(t_data *data, t_exec *exec, t_parser *parse);
 void	get_heredoc(t_data *data, t_redir *redir, t_exec *exec);
 void	child_process(t_data *data, t_exec *exec, t_parser *parse);
 void	ft_set_redir(t_data *data, t_parser *parser, t_exec *exec);
+void	ft_redir_error(t_redir *redir, t_exec *exec);
 //Signal fonction
 void	ft_ctrl_c(int signum);
 void	ft_ctrl_c_exec(int signum);

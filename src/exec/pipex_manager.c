@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:36:51 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 01:39:10 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 14:22:37 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ void	ft_dup_manager(t_data *data, t_exec *exec)
 
 void	ft_std_manager(t_data *data, int STDIN, int STDOUT)
 {
-	int	wait_all;
-
-	wait_all = 1;
-	//ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
-	while (wait_all != -1)
-		wait_all = waitpid(-1, NULL, 0);
 	ft_dup(data, STDIN, STDIN_FILENO);
 	ft_dup(data, STDOUT, STDOUT_FILENO);
 	if (!WIFSIGNALED(g_status))
@@ -47,4 +41,37 @@ void	ft_std_manager(t_data *data, int STDIN, int STDOUT)
 		ft_putstr_fd("\n", STDERR_FILENO);
 		g_status = 128 + WTERMSIG(g_status);
 	}
+}
+
+void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab)
+{
+	if (cmd)
+		free(cmd);
+	if (tab)
+		ft_free_split(tab);
+	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
+	ft_close_all(data, exec, IS_PIPE);
+	ft_child_exit(data, exec, IS_NOT_PIPE);
+}
+
+void	ft_redir_error(t_redir *redir, t_exec *exec)
+{
+	struct stat	path;
+
+	if (!redir->redirec[0])
+		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+	else if (stat(redir->redirec, &path))
+	{
+		ft_putstr_fd("minishell: no such file or directory: ", 2);
+		ft_putstr_fd(redir->redirec, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	else
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(redir->redirec, 2);
+		ft_putstr_fd(" permission denied\n", 2);
+	}
+	g_status = 1;
+	exec->exit_status = 1;
 }

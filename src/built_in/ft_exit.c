@@ -6,11 +6,19 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:23:30 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 18:11:03 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:38:06 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void	ft_print_fd_exit(char *cmd)
+{
+	ft_putstr_fd("exit\n", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: `", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd("': numeric argument required\n", STDERR_FILENO);
+}
 
 static void	check_overflow_exit(t_data *data, char *cmd)
 {
@@ -62,21 +70,16 @@ static void	is_exit_digit(t_data *data, char *cmd)
 
 static bool	check_exit_args(t_data *data, char *cmd, t_parser *parser)
 {
-	int	j;
-
-	j = 0;
-	while (cmd[j])
+	data->i = 0;
+	while (cmd[data->i])
 	{
-		if (j == 0 && (cmd[0] == '+' || cmd[0] == '-'))
-			j++;
-		if (cmd[j] >= 48 && cmd[j] <= 57)
-			j++;
+		if (data->i == 0 && (cmd[0] == '+' || cmd[0] == '-'))
+			data->i++;
+		if (cmd[data->i] >= 48 && cmd[data->i] <= 57)
+			data->i++;
 		else
 		{
-			ft_putstr_fd("exit\n", STDERR_FILENO);
-			ft_putstr_fd("minishell: exit: `", STDERR_FILENO);
-			ft_putstr_fd(cmd, STDERR_FILENO);
-			ft_putstr_fd("': numeric argument required\n", STDERR_FILENO);
+			ft_print_fd_exit(cmd);
 			ft_free_env(data);
 			g_status = 2;
 			exit (g_status);
@@ -85,19 +88,17 @@ static bool	check_exit_args(t_data *data, char *cmd, t_parser *parser)
 	if (parser->cmd[1] && parser->cmd[2])
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		g_status = 1;
 		return (false);
 	}
-	dprintf(2, "g_status = %d\n", g_status);
 	is_exit_digit(data, cmd);
 	return (true);
 }
 
 void	ft_exit(t_data *data, t_parser *parser)
 {
-	if (data->parser->cmd[1])
+	if (parser->cmd[1])
 		if (check_exit_args(data, data->parser->cmd[1], parser) == false)
 			return ;
 	ft_putstr_fd("exit\n", STDERR_FILENO);

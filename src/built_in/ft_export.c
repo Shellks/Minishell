@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 10:51:54 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/25 15:04:21 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 14:26:28 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_export(t_data *data, t_parser *parser)
 	if (!parser->cmd[1])
 		return (ft_print_export_sort(data));
 	i = 0;
-	while(parser->cmd[++i])
+	while (parser->cmd[++i])
 	{
 		data->count = 0;
 		if (parser->cmd[i][0] == '=' || \

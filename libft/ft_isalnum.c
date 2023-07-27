@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:02:38 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/25 17:19:48 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:56:12 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_isalnum(int c)
 	return ((ft_isalpha(c)) || (ft_isdigit(c)));
 }
 
-int	ft_isalnum_modif(int c)
+int	ft_isalnum_mod(int c)
 {
 	return ((ft_isalpha(c)) || (ft_isdigit(c)) || (c == '?'));
 }

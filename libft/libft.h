@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 19:57:04 by nicolasbern       #+#    #+#             */
-/*   Updated: 2023/07/25 17:20:05 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:56:16 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_list
 
 void	ft_bzero(void *s, size_t n);
 int		ft_isalnum(int c);
-int		ft_isalnum_modif(int c);
+int		ft_isalnum_mod(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);

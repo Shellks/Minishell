@@ -6,7 +6,7 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/26 13:56:05 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:28:40 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	lexer_loop(t_data *data, int *i)
 		*i = check_quote(data, *i);
 		if (data->quote_error == FALSE)
 		{
-			ft_putstr_fd("minishell: parse error: quote unclosed\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: parse error: quote unclosed\n", \
+			STDERR_FILENO);
 			g_status = 2;
 			return (-1);
 		}

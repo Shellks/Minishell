@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_pipex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:57:32 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 22:42:55 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 14:19:49 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char	*get_relative_path(t_data *data, t_parser *parse)
+static char	*get_relative_path(t_data *data, t_parser *p)
 {
 	char	*cmd;
 
@@ -25,14 +25,14 @@ static char	*get_relative_path(t_data *data, t_parser *parse)
 			ft_putstr_fd("Malloc error\n", 2);
 			ft_free_exit(data, ERR_MALLOC, NULL);
 		}
-		cmd = ft_strjoin(data->temp, parse->cmd[0]);
+		cmd = ft_strjoin(data->temp, p->cmd[0]);
 		if (!cmd)
 		{
 			ft_putstr_fd("Malloc error\n", 2);
 			free_exit_env(data, data->temp, NULL, 1);
 		}
 		free (data->temp);
-		if (cmd[ft_strlen(cmd) - 1] == '/' && (parse->sign == 2 || parse->sign == 1))
+		if (cmd[ft_strlen(cmd) - 1] == '/' && (p->sign == 2 || p->sign == 1))
 			return (free(cmd), NULL);
 		if (access(cmd, X_OK) == 0)
 			return (g_status = 0, cmd);
@@ -81,8 +81,7 @@ static char	*is_absolute_path(t_data *data, t_parser *parse, t_exec *exec)
 	}
 	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
 	ft_close_all(data, exec, IS_PIPE);
-	ft_free_exit(data, 126, NULL);
-	return (NULL);
+	return (ft_free_exit(data, 126, NULL), NULL);
 }
 
 char	*ft_get_cmd(t_data *data, t_parser *parse, t_exec *exec)

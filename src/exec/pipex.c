@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 11:04:18 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/27 13:10:55 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	env_tab = NULL;
 	child_process_manager(data, exec, parse);
 	if (parse->cmd[0] && is_builtin(data, parse))
-	{
-		g_status = 1;
 		ft_child_exit(data, exec, IS_PIPE);
-	}
 	else if (parse->cmd[0])
 	{
 		cmd = ft_get_cmd(data, parse, exec);

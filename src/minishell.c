@@ -6,24 +6,13 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 13:16:36 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:24:06 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int	g_status;
-
-void	ft_exit_execve_fail(t_data *data, t_exec *exec, char *cmd, char **tab)
-{
-	if (cmd)
-		free(cmd);
-	if (tab)
-		ft_free_split(tab);
-	ft_close(STDIN_FILENO, STDOUT_FILENO, -1);
-	ft_close_all(data, exec, IS_PIPE);
-	ft_child_exit(data, exec, IS_NOT_PIPE);
-}
 
 t_data	*ft_get_data(t_data *data)
 {
@@ -32,60 +21,6 @@ t_data	*ft_get_data(t_data *data)
 	if (data)
 		data_ptr = data;
 	return (data_ptr);
-}
-
-// bool	check_is_builtin(t_parser *parse)
-// {
-// 	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && \
-// 	(int)ft_strlen(parse->cmd[0]) == 3)
-// 		return (true);
-// 	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && \
-// 	(int)ft_strlen(parse->cmd[0]) == 5)
-// 		return (true);
-// 	else if (!ft_strncmp(parse->cmd[0], "export", 6) && \
-// 	(int)ft_strlen(parse->cmd[0]) == 6)
-// 		return (true);
-// 	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && \
-// 	(int)ft_strlen(parse->cmd[0]) == 4)
-// 		return (true);
-// 	else if (!ft_strncmp(parse->cmd[0], "env", 3) && \
-// 	(int)ft_strlen(parse->cmd[0]) == 3)
-// 		return (true);
-// 	else if (!ft_strncmp(parse->cmd[0], "echo", 4) && \
-// 	(int)ft_strlen(parse->cmd[0]) == 4)
-// 		return (true);
-// 	else if (!ft_strncmp(parse->cmd[0], "cd", 2) && \
-// 	(int)ft_strlen(parse->cmd[0]) == 2)
-// 		return (true);
-// 	return (false);
-}
-
-bool	ft_built_in_process(t_data *data, t_exec *exec)
-{
-	t_parser	*parse;
-
-	parse = data->parser;
-	if (!parse->next && parse->cmd[0] && check_is_builtin(parse))
-	{
-		exec->fd_stdin = dup(STDIN_FILENO);
-		exec->fd_stdout = dup(STDOUT_FILENO);
-		ft_set_redir(data, parse, exec);
-		if (exec->flag_in == -2 || exec->flag_out == -2)
-		{
-			g_status = 1;
-			return (ft_close(exec->fd_stdin, exec->fd_stdout, -1), true);
-		}
-		ft_dup_manager(data, exec);
-		if (exec->flag_out == 1)
-			ft_dup(data, exec->outfile, STDOUT_FILENO);
-		is_builtin(data, parse);
-		if (exec->flag_in > 0)
-			ft_dup(data, exec->fd_stdin, STDIN_FILENO);
-		if (exec->flag_out == 1)
-			ft_dup(data, exec->fd_stdout, STDOUT_FILENO);
-		return (ft_close(exec->fd_stdin, exec->fd_stdout, -1), true);
-	}
-	return (false);
 }
 
 void	ft_exec(t_data *data, t_exec *exec)

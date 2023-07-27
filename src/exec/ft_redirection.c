@@ -6,37 +6,14 @@
 /*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 10:55:59 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 15:40:48 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:24:31 by nibernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_redir_error(t_redir *redir, t_exec *exec)
-{
-	struct stat	path;
-
-	if (!redir->redirec[0])
-		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
-	else if (stat(redir->redirec, &path))
-	{
-		ft_putstr_fd("minishell: no such file or directory: ", 2);
-		ft_putstr_fd(redir->redirec, 2);
-		ft_putstr_fd("\n", 2);
-	}
-	else
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(redir->redirec, 2);
-		ft_putstr_fd(" permission denied\n", 2);
-	}
-	g_status = 1;
-	exec->exit_status = 1;
-}
-
 static bool	get_infile(t_data *data, t_redir *redir, t_exec *exec)
 {
-
 	if (!redir->redirec)
 		return (false);
 	if (exec->flag_in == 1)
@@ -135,7 +112,7 @@ void	ft_set_redir(t_data *data, t_parser *parser, t_exec *exec)
 	while (tmp_redir)
 	{
 		if (redir_loop(data, exec, tmp_redir) == false)
-			break;
+			break ;
 		tmp_redir = tmp_redir->next;
 	}
 }
