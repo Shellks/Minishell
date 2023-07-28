@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_bis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:31:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/20 18:18:20 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:39:44 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	get_anti_slash(int i, char *str, t_data *data)
 	tmp = ft_strndup(&str[i + 1], 1);
 	if (!tmp)
 		ft_free_exit(data, ERR_MALLOC, "Malloc error \n");
-	new = ft_lexer_new(tmp, WORD, NONE);
+	new = ft_lexer_new(tmp, WORD, SLASH);
 	if (!new)
 	{
 		free(tmp);

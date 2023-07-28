@@ -6,40 +6,11 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:39:33 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 13:10:55 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/28 12:09:39 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	is_builtin(t_data *data, t_parser *parse)
-{
-	int	len;
-
-	len = 0;
-	if (!ft_strncmp(parse->cmd[0], "pwd", 3) && \
-	(int)ft_strlen(parse->cmd[0]) == 3 && ++len)
-		ft_pwd(data);
-	else if (!ft_strncmp(parse->cmd[0], "unset", 5) && \
-	(int)ft_strlen(parse->cmd[0]) == 5 && ++len)
-		ft_unset(data, parse);
-	else if (!ft_strncmp(parse->cmd[0], "export", 6) && \
-	(int)ft_strlen(parse->cmd[0]) == 6 && ++len)
-		ft_export(data, parse);
-	else if (!ft_strncmp(parse->cmd[0], "exit", 4) && \
-	(int)ft_strlen(parse->cmd[0]) == 4 && ++len)
-		ft_exit(data, parse);
-	else if (!ft_strncmp(parse->cmd[0], "env", 3) && \
-	(int)ft_strlen(parse->cmd[0]) == 3 && ++len)
-		g_status = ft_env(data);
-	else if (!ft_strncmp(parse->cmd[0], "echo", 4) && \
-	(int)ft_strlen(parse->cmd[0]) == 4 && ++len)
-		g_status = ft_echo(parse);
-	else if (!ft_strncmp(parse->cmd[0], "cd", 2) && \
-	(int)ft_strlen(parse->cmd[0]) == 2 && ++len)
-		g_status = ft_cd(data, parse->cmd);
-	return (len);
-}
 
 static void	child_process_manager(t_data *data, t_exec *exec, t_parser *parse)
 {
@@ -62,7 +33,7 @@ void	child_process(t_data *data, t_exec *exec, t_parser *parse)
 	cmd = NULL;
 	env_tab = NULL;
 	child_process_manager(data, exec, parse);
-	if (parse->cmd[0] && is_builtin(data, parse))
+	if (parse->cmd[0] && is_builtin(data, parse, exec))
 		ft_child_exit(data, exec, IS_PIPE);
 	else if (parse->cmd[0])
 	{

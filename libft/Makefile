@@ -3,12 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:01:55 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/27 16:36:26 by nibernar         ###   ########.fr        #
+#    Updated: 2023/07/28 11:31:39 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
+
+HEADER_PATH = ./include/
+HEADER_FILES = libft.h
+HEADERS = $(addprefix $(HEADER_PATH), $(HEADER_FILES))
 
 SRCS		=	ft_bzero.c		\
 				ft_isalnum.c	\
@@ -73,8 +77,8 @@ RM			=	rm -f
 
 all			:	${NAME}
 
-%.o			:	%.c ${HEADER} Makefile
-				${CC} ${FLAG} -c $< -o ${<:.c=.o} -I ${HEADER}
+%.o			:	%.c ${HEADERS}
+				${CC} ${FLAG} -c $< -o ${<:.c=.o} -I${HEADER_PATH}
 
 ${NAME}		:	${OBJ}
 				ar rc ${NAME} ${OBJ}
@@ -88,6 +92,6 @@ fclean		:	clean
 
 re			:	fclean all
 
-#.SILENT		:
+.SILENT		:
 
 .PHONY		:	all clean fclean re bonus

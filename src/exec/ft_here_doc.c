@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:46:49 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/26 22:58:34 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/28 11:56:06 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	child_heredoc(t_redir *re, int pipe[2])
 		str = readline("> ");
 		if (!str)
 			break ;
-		if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0)
+		if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0 &&
+		ft_strlen(str) == ft_strlen(re->redirec))
 			break ;
 		free (str);
 	}

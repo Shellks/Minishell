@@ -3,21 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 13:23:30 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/27 14:40:56 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:30:22 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_print_fd_exit(char *cmd)
+static void	ft_print_false_exit(t_data *data, t_exec *exec, char *cmd)
 {
+	ft_close(exec->fd_stdin, exec->fd_stdout, -1);
+	ft_close_all(data, exec, IS_PIPE);
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	ft_putstr_fd("minishell: exit: `", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd("': numeric argument required\n", STDERR_FILENO);
+	ft_free_env(data);
+	g_status = 2;
+	exit (g_status);
 }
 
 static void	check_overflow_exit(t_data *data, char *cmd)
@@ -46,7 +51,7 @@ static void	check_overflow_exit(t_data *data, char *cmd)
 	return ;
 }
 
-static void	is_exit_digit(t_data *data, char *cmd)
+static void	is_exit_digit(t_data *data, char *cmd, t_exec *exec)
 {
 	int	res;
 
@@ -54,6 +59,8 @@ static void	is_exit_digit(t_data *data, char *cmd)
 	res = ft_atoi(cmd);
 	if (res > 255 || res < 0)
 	{
+		ft_close(exec->fd_stdin, exec->fd_stdout, -1);
+		ft_close_all(data, exec, IS_PIPE);
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_free_env(data);
 		g_status = res;
@@ -61,6 +68,8 @@ static void	is_exit_digit(t_data *data, char *cmd)
 	}
 	else
 	{
+		ft_close(exec->fd_stdin, exec->fd_stdout, -1);
+		ft_close_all(data, exec, IS_PIPE);
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_free_env(data);
 		g_status = res % 256;
@@ -68,7 +77,7 @@ static void	is_exit_digit(t_data *data, char *cmd)
 	}
 }
 
-static bool	check_exit_args(t_data *data, char *cmd, t_parser *parser)
+static bool	check_exit_args(t_data *data, char *cmd, t_parser *pars, t_exec *ex)
 {
 	data->i = 0;
 	while (cmd[data->i])
@@ -78,29 +87,26 @@ static bool	check_exit_args(t_data *data, char *cmd, t_parser *parser)
 		if (cmd[data->i] >= 48 && cmd[data->i] <= 57)
 			data->i++;
 		else
-		{
-			ft_print_fd_exit(cmd);
-			ft_free_env(data);
-			g_status = 2;
-			exit (g_status);
-		}
+			ft_print_false_exit(data, ex, cmd);
 	}
-	if (parser->cmd[1] && parser->cmd[2])
+	if (pars->cmd[1] && pars->cmd[2])
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		g_status = 1;
 		return (false);
 	}
-	is_exit_digit(data, cmd);
+	is_exit_digit(data, cmd, ex);
 	return (true);
 }
 
-void	ft_exit(t_data *data, t_parser *parser)
+void	ft_exit(t_data *data, t_parser *parser, t_exec *exec)
 {
 	if (parser->cmd[1])
-		if (check_exit_args(data, parser->cmd[1], parser) == false)
+		if (check_exit_args(data, parser->cmd[1], parser, exec) == false)
 			return ;
+	ft_close(exec->fd_stdin, exec->fd_stdout, -1);
+	ft_close_all(data, exec, IS_PIPE);
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	ft_free_env(data);
 	exit(g_status);

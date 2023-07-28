@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:46:29 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 15:40:32 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:29:46 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ int		ft_dup_fd(t_parser *parser);
 int		ft_cd(t_data *data, char **tab);
 void	get_pwd(t_data *data);
 void	set_env(t_data *data, char **env);
-void	ft_pwd(t_data *data);
-void	ft_exit(t_data *data, t_parser *parser);
+void	ft_pwd(void);
+void	ft_exit(t_data *data, t_parser *parser, t_exec *exec);
 int		ft_unset(t_data *data, t_parser *parser);
 //builtin_export
 bool	is_valid_char(char *name);
@@ -121,7 +121,7 @@ void	print_parser(t_parser **parser);
 void	ft_print_syntax_error(char *word);
 //exec fonction
 char	**get_env_tab(t_data *data);
-int		is_builtin(t_data *data, t_parser *parse);
+int		is_builtin(t_data *data, t_parser *parse, t_exec *exec);
 void	exec_simple_cmd(t_data *data, t_exec *exec);
 void	pipex(t_data *data, t_exec *exec);
 void	ft_std_manager(t_data *data, int STDIN, int STDOUT);

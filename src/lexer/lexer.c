@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:11:26 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 14:28:40 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:54:39 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	skipe_space(int i, char *str, t_data *data)
 	int		j;
 
 	j = i;
-	while (str[j] && str[j] == ' ')
+	while (str[j] && (str[j] == ' ' || (str[j] >= 9 && str[j] <= 13 )))
 	{
 		j++;
 	}
@@ -71,7 +71,8 @@ int	lexer_loop(t_data *data, int *i)
 		*i = get_anti_slash(*i, data->input, data);
 	if (*i == -1)
 		return (-1);
-	if (data->input[*i] == ' ')
+	if (data->input[*i] == ' ' || \
+	(data->input[*i] >= 9 && data->input[*i] <= 13 ))
 		*i = skipe_space(*i, data->input, data);
 	else if (data->input[*i] == 34 || data->input[*i] == 39)
 	{

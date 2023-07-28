@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+         #
+#    By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/13 14:29:15 by nibernar          #+#    #+#              #
-#    Updated: 2023/07/27 16:46:34 by nibernar         ###   ########.fr        #
+#    Updated: 2023/07/28 11:48:18 by acarlott         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,25 +99,33 @@ OBJS = ${SRCS:.c=.o}
 all : lib ${NAME}
 
 ./src/%.o: ./src/%.c ${HEADERS} ${LIBFT_LIB}
-	${CC} ${CFLAGS} -I ${HEADER_PATH} -g -c $< -o $@
+	${CC} ${CFLAGS} -I${HEADER_PATH} -g -c $< -o $@
 
 
 ${NAME} : ${OBJS}
+	echo "\033[1;34m\nCompiling: \033[1;33m minishell..."
 	${CC} ${CFLAGS} ${OBJS} ${LIBFT_LIB} -o ${NAME} -lreadline
+	echo "\033[1;32mSucces !\n"
 	
 force :
 
 lib: force
-	@make -C $(LIBFT_PATH)
+	@make -sC $(LIBFT_PATH)
 
 clean :
+	echo "\033[1;31mDelete *.o"
 	make clean -sC ${LIBFT_PATH}
 	${RM} ${OBJS} 
+	echo "\033[1;32mSucces !\n"
 
 fclean: clean
+	echo "\033[1;31mDelete *.a && executable"
 	make fclean -sC ${LIBFT_PATH}
 	${RM} ${NAME}
+	echo "\033[1;32mSucces !\n"
 
 re : fclean all
+
+.SILENT:
 
 .PHONY: all clean fclean re force

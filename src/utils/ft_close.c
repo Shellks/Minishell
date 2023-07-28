@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:29:26 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/23 18:44:45 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/28 12:29:44 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	ft_close_all(t_data *data, t_exec *exec, int sign)
 	}
 	if (sign == IS_PIPE)
 	{
-		if (exec->pipes[0])
+		if (exec->pipes[0] != -1)
 			close(exec->pipes[0]);
-		if (exec->pipes[1])
+		if (exec->pipes[1] != -1)
 			close(exec->pipes[1]);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:28:24 by acarlott          #+#    #+#             */
-/*   Updated: 2023/07/24 15:02:14 by acarlott         ###   ########lyon.fr   */
+/*   Updated: 2023/07/28 11:58:08 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ void	child_heredoc_expand(t_data *data, t_redir *re, int pipe[2])
 		str = readline("> ");
 		if (!str)
 			break ;
-		if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0)
+		if (ft_strncmp(str, re->redirec, ft_strlen(re->redirec)) == 0 &&
+		ft_strlen(str) == ft_strlen(re->redirec))
 			break ;
 		str = expand_here_doc(data, str);
 		ft_putstr_fd(str, pipe[1]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nibernar <nibernar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acarlott <acarlott@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 13:08:57 by nibernar          #+#    #+#             */
-/*   Updated: 2023/07/27 14:40:44 by nibernar         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:30:51 by acarlott         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ void	ft_exec(t_data *data, t_exec *exec)
 
 void	ft_mini_loop(t_data *data, t_exec *exec)
 {
-	t_lexer	*check_space;
-
-	check_space = data->lexer;
 	if (data->input[0])
 		add_history(data->input);
 	if (lexer(data) == false)
@@ -81,6 +78,8 @@ static bool	init_var(t_data	*data, t_exec *exec, char **env, int argc)
 	data->parser = NULL;
 	exec->flag_in = 0;
 	exec->flag_out = 0;
+	exec->pipes[0] = -1;
+	exec->pipes[1] = -1;
 	ft_get_data(data);
 	set_env(data, env);
 	return (true);
