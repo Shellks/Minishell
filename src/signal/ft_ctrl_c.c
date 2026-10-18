@@ -21,7 +21,6 @@ void	ft_ctrl_c_heredoc(int signum)
 void	ft_ctrl_c_exec(int signum)
 {
 	(void)signum;
-	dprintf(2, "Prout\n");
 	sleep(1);
 }
 
